@@ -247,7 +247,7 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
             <div className="mt-4">
               <p className="text-sm font-medium mb-3 text-slate-500">Previews:</p>
               <div className="flex flex-wrap gap-4">
-                {formData.images.map((imgUrl, idx) => (
+                {formData.images.map((imgUrl: string, idx: number) => (
                   <div key={idx} className="relative group w-24 h-24">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={imgUrl} alt={`Preview ${idx}`} className="w-full h-full object-cover rounded-lg border shadow-sm" />
