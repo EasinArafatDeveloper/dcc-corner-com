@@ -88,7 +88,7 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
   const removeImage = (indexToRemove: number) => {
     setFormData((prev) => ({
       ...prev,
-      images: prev.images.filter((_, index) => index !== indexToRemove)
+      images: prev.images.filter((_: string, index: number) => index !== indexToRemove)
     }));
   };
 
