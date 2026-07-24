@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 DCC Corner - Premium E-Commerce Platform
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/Next.js-15+-black?style=for-the-badge&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
-First, run the development server:
+DCC Corner is a modern, high-performance e-commerce platform built with **Next.js 15+**, **React 19**, and **Tailwind CSS v4**. It features a beautiful, highly responsive storefront and a powerful, comprehensive admin dashboard for full control over your business operations.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🛍️ Storefront
+- **Modern Premium Design:** A highly polished, dynamic, and fully responsive user interface featuring glassmorphism, fluid animations, and a curated color palette.
+- **Product Catalog:** Advanced product grids, sorting, and category-based filtering.
+- **Popup Offers & Hot Deals:** Global popup banners for site-wide announcements and a dedicated system for highlighting discounted products.
+- **Shopping Cart & Checkout:** Seamless, interactive cart drawer and a streamlined multi-step checkout process.
+- **Order Tracking:** Real-time order status lookup for customers.
+- **Dynamic Banners & Sliders:** Eye-catching Hero and Category sliders to highlight the best collections.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### ⚙️ Admin Dashboard
+- **Centralized Command Center:** Manage the entire store from a sleek, intuitive, and secure admin panel (`/dcc-hq`).
+- **Product & Category Management:** Create, edit, and organize products and categories with image uploads.
+- **Order Management & Invoicing:** Track all orders, update statuses, and generate/print professional invoices.
+- **Dynamic Offer System:** Set discounts easily with an auto-calculating offer management tool.
+- **Banner Configuration:** Upload and manage hero carousel banners directly from the dashboard.
+- **Cloudinary Integration:** Built-in seamless image uploading and optimization.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Tech Stack
 
-## Learn More
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS (v4) & Shadcn UI Components
+- **Database:** MongoDB via Mongoose
+- **Icons:** Lucide React
+- **State Management:** Zustand (Client-side)
+- **Image Storage:** Cloudinary
+- **Authentication:** JWT (JSON Web Tokens)
+- **Animations:** Tailwind Animate & Custom Micro-interactions
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Installation & Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/EasinArafatDeveloper/dcc-corner-com.git
+   cd dcc-corner-com
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-## Deploy on Vercel
+3. **Configure Environment Variables:**
+   Create a `.env.local` file in the root directory and add the following variables:
+   ```env
+   # Database
+   MONGODB_URI=your_mongodb_connection_string
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   # Authentication
+   JWT_SECRET=your_jwt_secret
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   # Cloudinary Image Upload
+   CLOUDINARY_CLOUD_NAME=your_cloud_name
+   CLOUDINARY_API_KEY=your_api_key
+   CLOUDINARY_API_SECRET=your_api_secret
+   ```
+
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+## 📜 License
+
+This project is licensed under the MIT License.
