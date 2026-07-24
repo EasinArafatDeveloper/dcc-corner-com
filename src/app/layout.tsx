@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("http://dcccorner.com"),
+  metadataBase: new URL("https://dcccorner.com"),
   title: {
     template: "%s | DCC Corner",
     default: "DCC Corner - Premium Imported Chocolates & Snacks in Bangladesh",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "DCC Corner - Premium Imported Chocolates & Snacks",
     description: "Discover top brands of imported chocolates and snacks in Bangladesh.",
-    url: "http://dcccorner.com",
+    url: "https://dcccorner.com",
     siteName: "DCC Corner",
     images: [
       {

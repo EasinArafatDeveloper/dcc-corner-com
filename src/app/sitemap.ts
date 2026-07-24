@@ -6,7 +6,7 @@ import Category from '@/models/Category';
 export const revalidate = 3600; // revalidate every hour
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://dcccorner.com';
+  const baseUrl = 'https://dcccorner.com';
 
   let products: any[] = [];
   let categories: any[] = [];
