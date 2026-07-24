@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { AdminSidebar } from "./AdminSidebar";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] = useState(false);
 
   return (
     <div id="admin-layout" className="min-h-screen bg-slate-50 flex print:bg-white">
@@ -31,14 +32,18 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
       )}
 
       {/* Sidebar Component */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 ease-in-out md:translate-x-0 print:hidden ${
+      <div className={`fixed inset-y-0 left-0 z-50 ${isDesktopSidebarCollapsed ? 'w-20' : 'w-64'} transform transition-all duration-300 ease-in-out md:translate-x-0 print:hidden ${
         isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
       }`}>
-        <AdminSidebar onClose={() => setIsMobileMenuOpen(false)} />
+        <AdminSidebar 
+          onClose={() => setIsMobileMenuOpen(false)} 
+          isCollapsed={isDesktopSidebarCollapsed}
+          onToggleCollapse={() => setIsDesktopSidebarCollapsed(!isDesktopSidebarCollapsed)}
+        />
       </div>
       
       {/* Main Content Area */}
-      <div className="flex-1 w-full md:ml-64 pt-16 md:pt-0 p-4 sm:p-8 print:ml-0 print:p-0 print:pt-0">
+      <div className={`flex-1 w-full ${isDesktopSidebarCollapsed ? 'md:ml-20' : 'md:ml-64'} pt-16 md:pt-0 p-4 sm:p-8 print:ml-0 print:p-0 print:pt-0 transition-all duration-300`}>
         {children}
       </div>
     </div>

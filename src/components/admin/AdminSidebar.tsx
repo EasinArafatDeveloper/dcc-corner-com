@@ -10,7 +10,9 @@ import {
   ShoppingCart,
   LogOut,
   Target,
-  Percent
+  Percent,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { useRouter } from "next/navigation";
@@ -26,7 +28,15 @@ const navigation = [
   { name: "Popup Offer", href: "/dcc-hq/popup", icon: Target },
 ];
 
-export function AdminSidebar({ onClose }: { onClose?: () => void }) {
+export function AdminSidebar({ 
+  onClose, 
+  isCollapsed = false,
+  onToggleCollapse
+}: { 
+  onClose?: () => void,
+  isCollapsed?: boolean,
+  onToggleCollapse?: () => void
+}) {
   const pathname = usePathname();
   const { logout } = useStore();
   const router = useRouter();
@@ -43,14 +53,19 @@ export function AdminSidebar({ onClose }: { onClose?: () => void }) {
   };
 
   return (
-    <div className="flex flex-col w-64 bg-slate-900 text-white min-h-screen fixed left-0 top-0">
-      <div className="p-6">
-        <Link href="/" className="text-2xl font-bold text-white flex items-center gap-2">
-          <span className="text-primary">DCC</span> Admin
+    <div className={`flex flex-col h-full bg-slate-900 text-white transition-all duration-300 w-full`}>
+      <div className={`flex items-center justify-between p-6 ${isCollapsed ? 'flex-col gap-4 px-2' : ''}`}>
+        <Link href="/" className={`font-bold text-white flex items-center gap-2 ${isCollapsed ? 'text-sm' : 'text-2xl'}`}>
+          <span className="text-primary">DCC</span> {!isCollapsed && "Admin"}
         </Link>
+        {onToggleCollapse && (
+          <button onClick={onToggleCollapse} className="text-slate-400 hover:text-white hidden md:block">
+            {isCollapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
+          </button>
+        )}
       </div>
 
-      <nav className="flex-1 px-4 space-y-1 mt-6">
+      <nav className={`flex-1 space-y-1 mt-6 ${isCollapsed ? 'px-2' : 'px-4'}`}>
         {navigation.map((item) => {
           const isActive = pathname === item.href || (item.href !== '/dcc-hq' && pathname.startsWith(`${item.href}/`));
           return (
@@ -58,26 +73,28 @@ export function AdminSidebar({ onClose }: { onClose?: () => void }) {
               key={item.name}
               href={item.href}
               onClick={onClose}
-              className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors ${
+              className={`flex items-center gap-3 py-3 rounded-lg transition-colors ${isCollapsed ? 'justify-center px-0' : 'px-3'} ${
                 isActive 
                   ? "bg-primary text-primary-foreground font-medium" 
                   : "text-slate-300 hover:bg-slate-800 hover:text-white"
               }`}
+              title={isCollapsed ? item.name : undefined}
             >
-              <item.icon className="w-5 h-5" />
-              {item.name}
+              <item.icon className="w-5 h-5 shrink-0" />
+              {!isCollapsed && <span>{item.name}</span>}
             </Link>
           );
         })}
       </nav>
 
-      <div className="p-4 border-t border-slate-800">
+      <div className={`p-4 border-t border-slate-800 ${isCollapsed ? 'flex justify-center' : ''}`}>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors w-full text-left"
+          className={`flex items-center gap-3 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors text-left ${isCollapsed ? 'justify-center px-0 w-auto' : 'px-3 w-full'}`}
+          title={isCollapsed ? "Logout" : undefined}
         >
-          <LogOut className="w-5 h-5" />
-          Logout
+          <LogOut className="w-5 h-5 shrink-0" />
+          {!isCollapsed && <span>Logout</span>}
         </button>
       </div>
     </div>
