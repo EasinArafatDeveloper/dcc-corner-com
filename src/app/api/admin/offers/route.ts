@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import Product from '@/models/Product';
+import { sendPushNotificationToAll } from '@/lib/push';
 
 // Get all products with an active offer
 export async function GET() {
@@ -49,6 +50,13 @@ export async function PUT(request: Request) {
     product.discountPercent = discountPercent;
     product.discountPrice = discountPrice;
     await product.save();
+
+    // Send push notification in the background
+    sendPushNotificationToAll({
+      title: 'New Offer Available! 🏷️',
+      body: `Get ${discountPercent}% off on ${product.name}! Now only ${discountPrice}`,
+      url: `/products/${product.slug}`
+    });
 
     return NextResponse.json({ message: 'Offer applied successfully', product });
   } catch (error) {

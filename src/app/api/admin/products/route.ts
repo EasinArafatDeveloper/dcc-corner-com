@@ -3,6 +3,7 @@ import connectToDatabase from '@/lib/db';
 import Product from '@/models/Product';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
+import { sendPushNotificationToAll } from '@/lib/push';
 
 const isAdmin = async () => {
   const cookieStore = await cookies();
@@ -36,6 +37,13 @@ export async function POST(req: Request) {
     }
 
     const product = await Product.create(data);
+
+    // Send push notification in the background
+    sendPushNotificationToAll({
+      title: 'New Product Alert! 🎉',
+      body: `Check out our new product: ${product.name}`,
+      url: `/products/${product.slug}`
+    });
 
     return NextResponse.json({ message: 'Product created successfully', product }, { status: 201 });
   } catch (error: any) {

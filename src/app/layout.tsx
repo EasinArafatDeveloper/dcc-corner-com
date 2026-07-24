@@ -42,6 +42,7 @@ export const metadata: Metadata = {
 
 import NextTopLoader from 'nextjs-toploader';
 import SmoothScrollProvider from '@/components/shared/SmoothScrollProvider';
+import PushNotificationManager from '@/components/shared/PushNotificationManager';
 
 export default function RootLayout({
   children,
@@ -69,6 +70,7 @@ export default function RootLayout({
           showAtBottom={false}
         />
         <SmoothScrollProvider>
+          <PushNotificationManager />
           {children}
         </SmoothScrollProvider>
         <Toaster position="top-center" richColors />
