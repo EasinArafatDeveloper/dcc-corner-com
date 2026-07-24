@@ -33,14 +33,17 @@ export function HeroSlider({ banners }: { banners: BannerProps[] }) {
         loop
         className="w-full aspect-[21/9] md:aspect-[3/1] [--swiper-navigation-size:20px] md:[--swiper-navigation-size:44px] [--swiper-navigation-color:#fff]"
       >
-        {banners.map((slide) => (
+        {banners.map((slide, index) => (
           <SwiperSlide key={slide._id}>
             <div className="w-full h-full relative">
-              <Link href={slide.linkUrl}>
-                <img 
+              <Link href={slide.linkUrl} className="block w-full h-full relative">
+                <Image 
                   src={slide.imageUrl} 
                   alt={slide.title} 
-                  className="w-full h-full object-cover"
+                  fill
+                  priority={index === 0}
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 100vw"
                 />
               </Link>
             </div>

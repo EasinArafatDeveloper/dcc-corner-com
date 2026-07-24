@@ -41,6 +41,7 @@ export const metadata: Metadata = {
 };
 
 import NextTopLoader from 'nextjs-toploader';
+import SmoothScrollProvider from '@/components/shared/SmoothScrollProvider';
 
 export default function RootLayout({
   children,
@@ -67,7 +68,9 @@ export default function RootLayout({
           zIndex={1600}
           showAtBottom={false}
         />
-        {children}
+        <SmoothScrollProvider>
+          {children}
+        </SmoothScrollProvider>
         <Toaster position="top-center" richColors />
       </body>
     </html>
