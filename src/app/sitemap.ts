@@ -8,8 +8,8 @@ export const revalidate = 3600; // revalidate every hour
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://dcccorner.com';
 
-  let products = [];
-  let categories = [];
+  let products: any[] = [];
+  let categories: any[] = [];
 
   try {
     await connectToDatabase();
