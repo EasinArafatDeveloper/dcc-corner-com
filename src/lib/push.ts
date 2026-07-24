@@ -1,14 +1,21 @@
 import webpush from 'web-push';
 import PushSubscription from '@/models/PushSubscription';
 
-webpush.setVapidDetails(
-  process.env.VAPID_SUBJECT || 'mailto:admin@dcccorner.com',
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY as string,
-  process.env.VAPID_PRIVATE_KEY as string
-);
-
 export async function sendPushNotificationToAll(payload: any) {
   try {
+    const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+    const privateKey = process.env.VAPID_PRIVATE_KEY;
+
+    if (!publicKey || !privateKey) {
+      console.warn('VAPID keys not configured, skipping push notification');
+      return;
+    }
+
+    webpush.setVapidDetails(
+      process.env.VAPID_SUBJECT || 'mailto:admin@dcccorner.com',
+      publicKey,
+      privateKey
+    );
     const subscriptions = await PushSubscription.find({});
     const notifications = subscriptions.map((sub: any) => {
       const pushSub = {

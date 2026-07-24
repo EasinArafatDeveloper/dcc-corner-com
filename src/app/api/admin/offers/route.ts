@@ -3,6 +3,8 @@ import connectToDatabase from '@/lib/db';
 import Product from '@/models/Product';
 import { sendPushNotificationToAll } from '@/lib/push';
 
+export const dynamic = 'force-dynamic';
+
 // Get all products with an active offer
 export async function GET() {
   try {
