@@ -84,7 +84,7 @@ export function CartDrawer() {
                 </div>
                 <button 
                   onClick={() => removeFromCart(item._id)}
-                  className="absolute top-4 right-4 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-4 right-4 text-muted-foreground hover:text-destructive opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
