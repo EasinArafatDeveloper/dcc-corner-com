@@ -33,15 +33,12 @@ export default function PushNotificationManager() {
     try {
       const registration = await navigator.serviceWorker.register("/sw.js");
 
-      // Check existing permission
       if (Notification.permission === "granted") {
         await subscribeUser(registration);
       } else if (Notification.permission !== "denied") {
-        // Request permission
         const permission = await Notification.requestPermission();
         if (permission === "granted") {
           await subscribeUser(registration);
-          toast.success("Notifications enabled!");
         }
       }
     } catch (error) {
