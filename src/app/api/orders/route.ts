@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     if (token) {
        const decoded = await verifyToken(token);
        if (decoded) {
-         userId = decoded.userId;
+         userId = (decoded as any).userId;
        }
     }
 
