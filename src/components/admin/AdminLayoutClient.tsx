@@ -8,7 +8,7 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex print:bg-white">
+    <div id="admin-layout" className="min-h-screen bg-slate-50 flex print:bg-white">
       {/* Mobile Topbar */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-slate-900 flex items-center justify-between px-4 z-50 print:hidden">
         <div className="text-xl font-bold text-white flex items-center gap-2">

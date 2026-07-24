@@ -148,7 +148,6 @@
   background-color: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(2px);
   z-index: 9998;
-  transform: translate(50%, -50%); /* reverse the spinner transform to cover full screen */
 }
 
 #nprogress .spinner-icon {
@@ -161,4 +160,15 @@
   border-radius: 50%;
   animation: nprogress-spinner 400ms linear infinite;
   z-index: 9999;
+}
+
+@media (min-width: 768px) {
+  body:has(#admin-layout) #nprogress .spinner-backdrop {
+    left: 256px; /* md:ml-64 = 16rem = 256px */
+    width: calc(100vw - 256px);
+  }
+  body:has(#admin-layout) #nprogress .spinner {
+    left: calc(256px + (100vw - 256px) / 2) !important;
+    right: auto !important;
+  }
 }
