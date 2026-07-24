@@ -47,9 +47,9 @@ export function OfferCard({ product }: OfferCardProps) {
     (product.discountPrice > 0 ? Math.round(((product.price - product.discountPrice) / product.price) * 100) : 0);
 
   return (
-    <div 
+    <Link 
+      href={`/product/${product.slug}`}
       className="group relative bg-white rounded-3xl p-1 shadow-md hover:shadow-2xl transition-all duration-300 text-left flex flex-col h-full cursor-pointer overflow-hidden transform hover:-translate-y-1" 
-      onClick={() => router.push(`/product/${product.slug}`)}
     >
       {/* Animated Gradient Border Effect */}
       <div className="absolute inset-0 bg-gradient-to-br from-red-500 via-orange-500 to-yellow-500 opacity-20 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -109,6 +109,6 @@ export function OfferCard({ product }: OfferCardProps) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

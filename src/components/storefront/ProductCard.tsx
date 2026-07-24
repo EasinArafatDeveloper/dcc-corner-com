@@ -44,7 +44,7 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="group bg-background rounded-2xl p-4 shadow-sm border border-border/40 hover:shadow-lg transition-all text-left flex flex-col h-full relative cursor-pointer" onClick={() => router.push(`/product/${product.slug}`)}>
+    <Link href={`/product/${product.slug}`} className="group bg-background rounded-2xl p-4 shadow-sm border border-border/40 hover:shadow-lg transition-all text-left flex flex-col h-full relative cursor-pointer">
       
       {product.discountPrice > 0 && (
         <div className="absolute top-2 right-2 bg-destructive text-white text-xs font-bold px-2 py-1 rounded-full z-10">
@@ -96,6 +96,6 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
