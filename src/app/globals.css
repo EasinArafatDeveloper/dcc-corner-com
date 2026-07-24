@@ -128,3 +128,37 @@
     @apply font-sans;
   }
 }
+
+/* Custom styles for nextjs-toploader (nprogress) to show full screen loading */
+#nprogress .spinner {
+  display: block;
+  position: fixed;
+  z-index: 9999 !important;
+  top: 50% !important;
+  right: 50% !important;
+  transform: translate(50%, -50%);
+}
+
+#nprogress .spinner-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 9998;
+  transform: translate(50%, -50%); /* reverse the spinner transform to cover full screen */
+}
+
+#nprogress .spinner-icon {
+  width: 40px !important;
+  height: 40px !important;
+  box-sizing: border-box;
+  border: solid 4px transparent !important;
+  border-top-color: var(--primary) !important;
+  border-left-color: var(--primary) !important;
+  border-radius: 50%;
+  animation: nprogress-spinner 400ms linear infinite;
+  z-index: 9999;
+}
