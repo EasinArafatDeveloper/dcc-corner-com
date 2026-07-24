@@ -8,7 +8,7 @@ import Category from "@/models/Category";
 import { ProductActions } from "./ProductActions";
 import { notFound } from "next/navigation";
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 async function getProductData(slug: string) {
   await connectToDatabase();

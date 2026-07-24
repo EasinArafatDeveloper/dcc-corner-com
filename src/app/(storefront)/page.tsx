@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   description: 'Welcome to DCC Corner - The best place to buy imported chocolates and snacks in Bangladesh.',
 };
 
-// Disable caching for dynamic data (in a real app, use revalidate)
-export const dynamic = 'force-dynamic';
+// Enable ISR caching for nano-second load times
+export const revalidate = 60;
 
 async function getHomePageData() {
   await connectToDatabase();

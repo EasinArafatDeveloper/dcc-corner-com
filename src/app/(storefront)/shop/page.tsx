@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: 'Browse our extensive collection of premium imported chocolates, snacks, and exclusive products.',
 };
 
-export const dynamic = 'force-dynamic';
+
 
 async function getShopData(searchParams: any) {
   await connectToDatabase();

@@ -7,7 +7,7 @@ import Category from "@/models/Category";
 import { ProductCard } from "@/components/storefront/ProductCard";
 import { notFound } from "next/navigation";
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 async function getCategoryData(slug: string) {
   await connectToDatabase();
