@@ -152,7 +152,7 @@ export default function OffersAdminPage() {
                         <img src={prod.images[0]} alt={prod.name} className="w-10 h-10 rounded-lg object-cover" />
                         <div className="truncate">
                           <p className="text-sm font-medium truncate">{prod.name}</p>
-                          <p className="text-xs text-muted-foreground">${prod.price.toFixed(2)}</p>
+                          <p className="text-xs text-muted-foreground">৳{prod.price.toFixed(2)}</p>
                         </div>
                       </div>
                       <Button size="sm" variant="outline" className="shrink-0" onClick={() => setSelectedProduct(prod)}>
@@ -173,7 +173,7 @@ export default function OffersAdminPage() {
                   
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Current Price:</span>
-                    <span className="font-bold">${selectedProduct.price.toFixed(2)}</span>
+                    <span className="font-bold">৳{selectedProduct.price.toFixed(2)}</span>
                   </div>
 
                   <div>
@@ -196,7 +196,7 @@ export default function OffersAdminPage() {
                     <div className="flex justify-between items-center text-sm bg-white p-3 rounded-lg border">
                       <span className="text-muted-foreground">New Offer Price:</span>
                       <span className="font-bold text-green-600 text-lg">
-                        ${(selectedProduct.price - (selectedProduct.price * (Number(discountPercent)/100))).toFixed(2)}
+                        ৳{(selectedProduct.price - (selectedProduct.price * (Number(discountPercent)/100))).toFixed(2)}
                       </span>
                     </div>
                   )}
@@ -253,7 +253,7 @@ export default function OffersAdminPage() {
                           </div>
                         </td>
                         <td className="px-4 py-4 text-slate-500 line-through whitespace-nowrap">
-                          ${offer.price.toFixed(2)}
+                          ৳{offer.price.toFixed(2)}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap">
                           <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-600 whitespace-nowrap">
@@ -261,7 +261,7 @@ export default function OffersAdminPage() {
                           </span>
                         </td>
                         <td className="px-4 py-4 font-bold text-green-600 text-base whitespace-nowrap">
-                          ${offer.discountPrice.toFixed(2)}
+                          ৳{offer.discountPrice.toFixed(2)}
                         </td>
                         <td className="px-4 py-4 text-right">
                           <div className="flex justify-end gap-2">

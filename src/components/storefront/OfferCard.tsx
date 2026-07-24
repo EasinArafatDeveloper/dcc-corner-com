@@ -93,9 +93,9 @@ export function OfferCard({ product }: OfferCardProps) {
           <div className="mt-auto pt-4 flex flex-col gap-3">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-1">
               <div>
-                <div className="text-xs text-slate-400 line-through font-medium mb-0.5">${product.price.toFixed(2)}</div>
+                <div className="text-xs text-slate-400 line-through font-medium mb-0.5">৳{product.price.toFixed(2)}</div>
                 <div className="text-xl md:text-2xl font-black text-red-600 leading-none">
-                  ${product.discountPrice > 0 ? product.discountPrice.toFixed(2) : product.price.toFixed(2)}
+                  ৳{product.discountPrice > 0 ? product.discountPrice.toFixed(2) : product.price.toFixed(2)}
                 </div>
               </div>
             </div>

@@ -58,7 +58,7 @@ export default function WishlistPage() {
               <h4 className="font-semibold text-sm md:text-base line-clamp-2 group-hover:text-primary transition-colors">Imported Product Title (ID: {id.substring(0,4)})</h4>
             </Link>
             <div className="mt-auto pt-4 space-y-3">
-              <span className="text-lg font-bold text-primary block">$24.99</span>
+              <span className="text-lg font-bold text-primary block">৳24.99</span>
               <Button 
                 size="sm" 
                 className="w-full rounded-full h-9 text-xs"

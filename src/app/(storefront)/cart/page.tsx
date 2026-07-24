@@ -59,7 +59,7 @@ export default function CartPage() {
               
               <div className="flex-1 text-center sm:text-left">
                 <h3 className="font-semibold text-lg line-clamp-1">{item.name}</h3>
-                <p className="text-primary font-bold mt-1">${item.price.toFixed(2)}</p>
+                <p className="text-primary font-bold mt-1">৳{item.price.toFixed(2)}</p>
               </div>
 
               <div className="flex items-center space-x-4">
@@ -73,7 +73,7 @@ export default function CartPage() {
                   </Button>
                 </div>
                 
-                <p className="font-bold w-20 text-right">${(item.price * item.quantity).toFixed(2)}</p>
+                <p className="font-bold w-20 text-right">৳{(item.price * item.quantity).toFixed(2)}</p>
                 
                 <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10 hover:text-destructive shrink-0" onClick={() => removeFromCart(item._id)}>
                   <Trash2 className="w-4 h-4" />
@@ -91,21 +91,21 @@ export default function CartPage() {
             <div className="space-y-4 text-sm mb-6 border-b border-border pb-6">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span className="font-medium">${subtotal.toFixed(2)}</span>
+                <span className="font-medium">৳{subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Shipping</span>
-                <span className="font-medium">{shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}</span>
+                <span className="font-medium">{shipping === 0 ? "Free" : `৳${shipping.toFixed(2)}`}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Estimated Tax (5%)</span>
-                <span className="font-medium">${tax.toFixed(2)}</span>
+                <span className="font-medium">৳{tax.toFixed(2)}</span>
               </div>
             </div>
 
             <div className="flex justify-between items-center mb-8">
               <span className="font-bold text-lg">Total</span>
-              <span className="font-extrabold text-2xl text-primary">${total.toFixed(2)}</span>
+              <span className="font-extrabold text-2xl text-primary">৳{total.toFixed(2)}</span>
             </div>
 
             <Button size="lg" className="w-full rounded-full h-12 text-base" onClick={handleCheckout}>

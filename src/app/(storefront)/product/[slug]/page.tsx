@@ -118,14 +118,14 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
           <div className="flex items-center space-x-4 mb-6">
             {product.discountPrice > 0 ? (
               <div className="flex flex-col">
-                <span className="text-lg text-muted-foreground line-through decoration-red-500/50 font-medium">${product.price.toFixed(2)}</span>
+                <span className="text-lg text-muted-foreground line-through decoration-red-500/50 font-medium">৳{product.price.toFixed(2)}</span>
                 <span className="text-4xl font-black text-red-600 flex items-center gap-2">
-                  ${product.discountPrice.toFixed(2)}
+                  ৳{product.discountPrice.toFixed(2)}
                 </span>
               </div>
             ) : (
               <div className="text-3xl font-extrabold text-primary">
-                ${product.price.toFixed(2)}
+                ৳{product.price.toFixed(2)}
               </div>
             )}
           </div>

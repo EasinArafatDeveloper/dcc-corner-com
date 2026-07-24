@@ -112,10 +112,10 @@ export function HeaderSearch() {
                     <h4 className="text-sm font-medium truncate">{product.name}</h4>
                     <div className="flex items-center gap-2 mt-0.5">
                       <span className="text-sm font-bold text-primary">
-                        ${product.discountPrice > 0 ? product.discountPrice.toFixed(2) : product.price.toFixed(2)}
+                        ৳{product.discountPrice > 0 ? product.discountPrice.toFixed(2) : product.price.toFixed(2)}
                       </span>
                       {product.discountPrice > 0 && (
-                        <span className="text-xs text-muted-foreground line-through">${product.price.toFixed(2)}</span>
+                        <span className="text-xs text-muted-foreground line-through">৳{product.price.toFixed(2)}</span>
                       )}
                     </div>
                   </div>

@@ -62,7 +62,7 @@ export function CartDrawer() {
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
                     <h4 className="font-semibold text-sm line-clamp-2 leading-tight pr-6">{item.name}</h4>
-                    <p className="text-primary font-bold mt-1">${item.price.toFixed(2)}</p>
+                    <p className="text-primary font-bold mt-1">৳{item.price.toFixed(2)}</p>
                   </div>
                   <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center border border-border rounded-full bg-background">
@@ -97,7 +97,7 @@ export function CartDrawer() {
           <div className="p-6 border-t border-border bg-muted/20">
             <div className="flex justify-between items-center mb-6">
               <span className="font-medium text-muted-foreground">Subtotal</span>
-              <span className="text-2xl font-bold text-primary">${subtotal.toFixed(2)}</span>
+              <span className="text-2xl font-bold text-primary">৳{subtotal.toFixed(2)}</span>
             </div>
             <div className="space-y-3">
               <Button asChild className="w-full h-12 rounded-full font-bold text-base shadow-lg shadow-primary/20">

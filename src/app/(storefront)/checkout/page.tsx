@@ -143,7 +143,7 @@ export default function CheckoutPage() {
                     <p className="font-medium line-clamp-1">{item.name}</p>
                     <p className="text-muted-foreground">Qty: {item.quantity}</p>
                   </div>
-                  <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
+                  <span className="font-medium">৳{(item.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
             </div>
@@ -151,21 +151,21 @@ export default function CheckoutPage() {
             <div className="space-y-4 text-sm mb-6 border-b border-border pb-6">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span className="font-medium">${subtotal.toFixed(2)}</span>
+                <span className="font-medium">৳{subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Shipping</span>
-                <span className="font-medium">{shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}</span>
+                <span className="font-medium">{shipping === 0 ? "Free" : `৳${shipping.toFixed(2)}`}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Estimated Tax (5%)</span>
-                <span className="font-medium">${tax.toFixed(2)}</span>
+                <span className="font-medium">৳{tax.toFixed(2)}</span>
               </div>
             </div>
 
             <div className="flex justify-between items-center mb-6">
               <span className="font-bold text-lg">Total</span>
-              <span className="font-extrabold text-2xl text-primary">${total.toFixed(2)}</span>
+              <span className="font-extrabold text-2xl text-primary">৳{total.toFixed(2)}</span>
             </div>
             
             <div className="space-y-3 mb-8">

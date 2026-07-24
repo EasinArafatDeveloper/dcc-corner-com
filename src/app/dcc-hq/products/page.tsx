@@ -66,9 +66,9 @@ export default async function AdminProductsPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="font-medium">${product.price.toFixed(2)}</div>
+                    <div className="font-medium">৳{product.price.toFixed(2)}</div>
                     {product.discountPrice > 0 && (
-                      <div className="text-xs text-green-600 font-medium">Sale: ${product.discountPrice.toFixed(2)}</div>
+                      <div className="text-xs text-green-600 font-medium">Sale: ৳{product.discountPrice.toFixed(2)}</div>
                     )}
                   </td>
                   <td className="px-6 py-4">

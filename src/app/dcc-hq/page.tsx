@@ -17,7 +17,7 @@ export default async function AdminDashboard() {
   ]);
 
   const stats = [
-    { name: 'Total Revenue', value: '$0.00', icon: DollarSign, color: 'text-green-600', bg: 'bg-green-100' },
+    { name: 'Total Revenue', value: '৳0.00', icon: DollarSign, color: 'text-green-600', bg: 'bg-green-100' },
     { name: 'Total Orders', value: '0', icon: ShoppingCart, color: 'text-blue-600', bg: 'bg-blue-100' },
     { name: 'Total Products', value: productCount, icon: Package, color: 'text-purple-600', bg: 'bg-purple-100' },
     { name: 'Total Users', value: userCount, icon: Users, color: 'text-orange-600', bg: 'bg-orange-100' },
