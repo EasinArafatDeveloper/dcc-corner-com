@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight, Star, Globe2, ShieldCheck, Package, ThumbsUp } from "lucide-react";
 import { HeroSlider } from "@/components/storefront/HeroSlider";
 import { ProductCard } from "@/components/storefront/ProductCard";
 import { OfferCard } from "@/components/storefront/OfferCard";
@@ -107,25 +107,50 @@ export default async function HomePage() {
       <HeroSlider banners={data.banners} />
 
       {/* 2. Features/Benefits Bar */}
-      <div className="bg-secondary/10 py-6 border-y">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <h3 className="font-bold text-sm">100% Imported</h3>
-              <p className="text-xs text-muted-foreground mt-1">Authentic brands</p>
+      <div className="bg-secondary/10 py-4 sm:py-6 border-y">
+        <div className="container mx-auto px-2 sm:px-4">
+          <div className="flex flex-row items-center justify-between gap-2 sm:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+            
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 snap-center">
+              <div className="bg-white p-2 rounded-full shadow-sm text-primary">
+                <Globe2 className="w-4 h-4 sm:w-6 sm:h-6" />
+              </div>
+              <div className="text-left">
+                <h3 className="font-bold text-[10px] sm:text-sm whitespace-nowrap">100% Imported</h3>
+                <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 hidden sm:block whitespace-nowrap">Authentic brands</p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-bold text-sm">Premium Quality</h3>
-              <p className="text-xs text-muted-foreground mt-1">Carefully sourced</p>
+
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 snap-center">
+              <div className="bg-white p-2 rounded-full shadow-sm text-primary">
+                <ShieldCheck className="w-4 h-4 sm:w-6 sm:h-6" />
+              </div>
+              <div className="text-left">
+                <h3 className="font-bold text-[10px] sm:text-sm whitespace-nowrap">Premium Quality</h3>
+                <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 hidden sm:block whitespace-nowrap">Carefully sourced</p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-bold text-sm">Wide Variety</h3>
-              <p className="text-xs text-muted-foreground mt-1">From around the globe</p>
+
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 snap-center">
+              <div className="bg-white p-2 rounded-full shadow-sm text-primary">
+                <Package className="w-4 h-4 sm:w-6 sm:h-6" />
+              </div>
+              <div className="text-left">
+                <h3 className="font-bold text-[10px] sm:text-sm whitespace-nowrap">Wide Variety</h3>
+                <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 hidden sm:block whitespace-nowrap">From around the globe</p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-bold text-sm">Trusted Products</h3>
-              <p className="text-xs text-muted-foreground mt-1">Loved by thousands</p>
+
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 snap-center pr-2 sm:pr-0">
+              <div className="bg-white p-2 rounded-full shadow-sm text-primary">
+                <ThumbsUp className="w-4 h-4 sm:w-6 sm:h-6" />
+              </div>
+              <div className="text-left">
+                <h3 className="font-bold text-[10px] sm:text-sm whitespace-nowrap">Trusted Products</h3>
+                <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 hidden sm:block whitespace-nowrap">Loved by thousands</p>
+              </div>
             </div>
+
           </div>
         </div>
       </div>
