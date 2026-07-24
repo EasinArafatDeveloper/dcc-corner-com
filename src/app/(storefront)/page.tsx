@@ -109,45 +109,45 @@ export default async function HomePage() {
       {/* 2. Features/Benefits Bar */}
       <div className="bg-secondary/10 py-4 sm:py-6 border-y">
         <div className="container mx-auto px-2 sm:px-4">
-          <div className="flex flex-row items-center justify-between gap-2 sm:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+          <div className="flex justify-between items-start sm:items-center w-full gap-1 sm:gap-6">
             
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 snap-center">
-              <div className="bg-white p-2 rounded-full shadow-sm text-primary">
+            <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 flex-1">
+              <div className="bg-white p-1.5 sm:p-2 rounded-full shadow-sm text-primary shrink-0">
                 <Globe2 className="w-4 h-4 sm:w-6 sm:h-6" />
               </div>
-              <div className="text-left">
-                <h3 className="font-bold text-[10px] sm:text-sm whitespace-nowrap">100% Imported</h3>
-                <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 hidden sm:block whitespace-nowrap">Authentic brands</p>
+              <div className="text-center sm:text-left">
+                <h3 className="font-bold text-[9px] sm:text-sm leading-tight">100% Imported</h3>
+                <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 hidden lg:block">Authentic brands</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 snap-center">
-              <div className="bg-white p-2 rounded-full shadow-sm text-primary">
+            <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 flex-1">
+              <div className="bg-white p-1.5 sm:p-2 rounded-full shadow-sm text-primary shrink-0">
                 <ShieldCheck className="w-4 h-4 sm:w-6 sm:h-6" />
               </div>
-              <div className="text-left">
-                <h3 className="font-bold text-[10px] sm:text-sm whitespace-nowrap">Premium Quality</h3>
-                <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 hidden sm:block whitespace-nowrap">Carefully sourced</p>
+              <div className="text-center sm:text-left">
+                <h3 className="font-bold text-[9px] sm:text-sm leading-tight">Premium Quality</h3>
+                <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 hidden lg:block">Carefully sourced</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 snap-center">
-              <div className="bg-white p-2 rounded-full shadow-sm text-primary">
+            <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 flex-1">
+              <div className="bg-white p-1.5 sm:p-2 rounded-full shadow-sm text-primary shrink-0">
                 <Package className="w-4 h-4 sm:w-6 sm:h-6" />
               </div>
-              <div className="text-left">
-                <h3 className="font-bold text-[10px] sm:text-sm whitespace-nowrap">Wide Variety</h3>
-                <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 hidden sm:block whitespace-nowrap">From around the globe</p>
+              <div className="text-center sm:text-left">
+                <h3 className="font-bold text-[9px] sm:text-sm leading-tight">Wide Variety</h3>
+                <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 hidden lg:block">From around the globe</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 snap-center pr-2 sm:pr-0">
-              <div className="bg-white p-2 rounded-full shadow-sm text-primary">
+            <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 flex-1">
+              <div className="bg-white p-1.5 sm:p-2 rounded-full shadow-sm text-primary shrink-0">
                 <ThumbsUp className="w-4 h-4 sm:w-6 sm:h-6" />
               </div>
-              <div className="text-left">
-                <h3 className="font-bold text-[10px] sm:text-sm whitespace-nowrap">Trusted Products</h3>
-                <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 hidden sm:block whitespace-nowrap">Loved by thousands</p>
+              <div className="text-center sm:text-left">
+                <h3 className="font-bold text-[9px] sm:text-sm leading-tight">Trusted Products</h3>
+                <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 hidden lg:block">Loved by thousands</p>
               </div>
             </div>
 
