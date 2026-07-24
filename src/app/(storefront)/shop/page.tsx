@@ -6,6 +6,13 @@ import { ShopFilters } from "@/components/storefront/ShopFilters";
 import { ShopSort } from "@/components/storefront/ShopSort";
 import { Button } from "@/components/ui/button";
 
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Shop All Products',
+  description: 'Browse our extensive collection of premium imported chocolates, snacks, and exclusive products.',
+};
+
 export const dynamic = 'force-dynamic';
 
 async function getShopData(searchParams: any) {

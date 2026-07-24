@@ -9,6 +9,12 @@ import connectToDatabase from "@/lib/db";
 import Product from "@/models/Product";
 import Category from "@/models/Category";
 import Banner from "@/models/Banner";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Home',
+  description: 'Welcome to DCC Corner - The best place to buy imported chocolates and snacks in Bangladesh.',
+};
 
 // Disable caching for dynamic data (in a real app, use revalidate)
 export const dynamic = 'force-dynamic';

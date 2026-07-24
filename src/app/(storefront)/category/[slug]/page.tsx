@@ -23,6 +23,28 @@ async function getCategoryData(slug: string) {
   };
 }
 
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const data = await getCategoryData(resolvedParams.slug);
+
+  if (!data || !data.category) {
+    return {
+      title: 'Category Not Found',
+    };
+  }
+
+  return {
+    title: `${data.category.name} Collection`,
+    description: `Shop the best ${data.category.name} at DCC Corner.`,
+    openGraph: {
+      title: `${data.category.name} Collection | DCC Corner`,
+      description: `Shop the best ${data.category.name} at DCC Corner.`,
+    },
+  };
+}
+
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const data = await getCategoryData(resolvedParams.slug);

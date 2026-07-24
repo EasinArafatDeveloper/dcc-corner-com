@@ -6,6 +6,13 @@ import Image from 'next/image';
 
 export const dynamic = 'force-dynamic';
 
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Track Your Order',
+  description: 'Track the status of your DCC Corner order using your Order ID.',
+};
+
 export default async function TrackOrderPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
   const resolvedParams = await searchParams;
   const orderId = resolvedParams.id;

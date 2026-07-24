@@ -16,6 +16,35 @@ async function getProductData(slug: string) {
   return product ? JSON.parse(JSON.stringify(product)) : null;
 }
 
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const product = await getProductData(resolvedParams.slug);
+
+  if (!product) {
+    return {
+      title: 'Product Not Found',
+    };
+  }
+
+  return {
+    title: product.name,
+    description: product.description.substring(0, 160) + '...',
+    openGraph: {
+      title: product.name,
+      description: product.description.substring(0, 160) + '...',
+      images: [
+        {
+          url: product.images[0] || '',
+          width: 800,
+          height: 600,
+          alt: product.name,
+        },
+      ],
+    },
+  };
+}
 export default async function ProductDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const product = await getProductData(resolvedParams.slug);
