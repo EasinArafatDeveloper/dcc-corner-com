@@ -66,6 +66,10 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    discountPercent: {
+      type: Number,
+      default: 0,
+    },
     countInStock: {
       type: Number,
       required: true,

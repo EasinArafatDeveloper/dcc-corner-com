@@ -31,7 +31,7 @@ export function HeroSlider({ banners }: { banners: BannerProps[] }) {
         pagination={{ clickable: true }}
         navigation
         loop
-        className="w-full aspect-[21/9] md:aspect-[3/1]"
+        className="w-full aspect-[21/9] md:aspect-[3/1] [--swiper-navigation-size:20px] md:[--swiper-navigation-size:44px] [--swiper-navigation-color:#fff]"
       >
         {banners.map((slide) => (
           <SwiperSlide key={slide._id}>

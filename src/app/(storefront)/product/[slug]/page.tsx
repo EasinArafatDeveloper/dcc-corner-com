@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Star, ShieldCheck, Truck, PlayCircle } from "lucide-react";
+import { Star, ShieldCheck, Truck, PlayCircle, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import connectToDatabase from "@/lib/db";
 import Product from "@/models/Product";
@@ -60,6 +60,18 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
 
         {/* Product Info */}
         <div className="w-full md:w-1/2 flex flex-col">
+          {product.discountPrice > 0 ? (
+            <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white p-3 rounded-xl mb-4 flex items-center justify-between shadow-lg animate-in slide-in-from-top-2">
+              <div className="flex items-center gap-2">
+                <Flame className="w-5 h-5 animate-pulse" />
+                <span className="font-bold tracking-wider uppercase text-sm">Limited Time Offer</span>
+              </div>
+              <span className="bg-white text-red-600 text-xs font-black px-2 py-1 rounded-lg">
+                {product.discountPercent || Math.round(((product.price - product.discountPrice) / product.price) * 100)}% OFF
+              </span>
+            </div>
+          ) : null}
+
           <p className="text-secondary font-semibold uppercase tracking-wider text-sm mb-2">{product.brand}</p>
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">{product.name}</h1>
           
@@ -75,11 +87,15 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
           </div>
 
           <div className="flex items-center space-x-4 mb-6">
-            <div className="text-3xl font-extrabold text-primary">
-              ${product.discountPrice > 0 ? product.discountPrice.toFixed(2) : product.price.toFixed(2)}
-            </div>
-            {product.discountPrice > 0 && (
-              <div className="text-xl text-muted-foreground line-through">
+            {product.discountPrice > 0 ? (
+              <div className="flex flex-col">
+                <span className="text-lg text-muted-foreground line-through decoration-red-500/50 font-medium">${product.price.toFixed(2)}</span>
+                <span className="text-4xl font-black text-red-600 flex items-center gap-2">
+                  ${product.discountPrice.toFixed(2)}
+                </span>
+              </div>
+            ) : (
+              <div className="text-3xl font-extrabold text-primary">
                 ${product.price.toFixed(2)}
               </div>
             )}

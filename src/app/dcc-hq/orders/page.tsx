@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { OrderTableActions } from '@/components/admin/OrderTableActions';
 
 import { AdminSearch } from '@/components/admin/AdminSearch';
+import { CopyableId } from '@/components/admin/CopyableId';
 import mongoose from 'mongoose';
 
 export const dynamic = 'force-dynamic';
@@ -74,61 +75,71 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
         </div>
         
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left">
-            <thead className="text-xs text-muted-foreground uppercase bg-slate-50 border-b">
-              <tr>
-                <th className="px-6 py-4 font-medium">Order ID</th>
-                <th className="px-6 py-4 font-medium">Customer</th>
-                <th className="px-6 py-4 font-medium">Date</th>
-                <th className="px-6 py-4 font-medium">Total</th>
-                <th className="px-6 py-4 font-medium">Payment</th>
-                <th className="px-6 py-4 font-medium">Status</th>
-                <th className="px-6 py-4 font-medium text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {filteredOrders.map((order: any) => (
-                <tr key={order._id} className="hover:bg-slate-50/50 transition-colors group">
-                  <td className="px-6 py-4 font-mono text-xs text-slate-600">
-                    {order._id.toString().substring(0, 10)}...
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="font-medium text-slate-900">{order.user?.name || 'Guest User'}</div>
-                    <div className="text-xs text-muted-foreground">{order.user?.email || ''}</div>
-                  </td>
-                  <td className="px-6 py-4 text-muted-foreground">
-                    {new Date(order.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4 font-medium">
-                    ৳{order.totalPrice?.toFixed(2)}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-                      order.isPaid ? 'bg-green-100 text-green-800 border-green-200' : 'bg-red-100 text-red-800 border-red-200'
-                    }`}>
-                      {order.isPaid ? 'Paid' : 'Unpaid'}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(order.orderStatus)}`}>
-                      {order.orderStatus}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <OrderTableActions orderId={order._id.toString()} />
-                  </td>
-                </tr>
-              ))}
-              
-              {filteredOrders.length === 0 && (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left">
+              <thead className="text-xs text-slate-500 bg-slate-50 uppercase border-b">
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-muted-foreground">
-                    No orders found.
-                  </td>
+                  <th className="px-6 py-4 font-medium">Order ID</th>
+                  <th className="px-6 py-4 font-medium">Customer</th>
+                  <th className="px-6 py-4 font-medium">Date</th>
+                  <th className="px-6 py-4 font-medium">Total</th>
+                  <th className="px-6 py-4 font-medium">Payment</th>
+                  <th className="px-6 py-4 font-medium">Status</th>
+                  <th className="px-6 py-4 font-medium text-right">Actions</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y">
+                {filteredOrders.map((order: any) => (
+                  <tr key={order._id} className="hover:bg-slate-50/50 transition-colors group">
+                    <td className="px-6 py-4">
+                      <CopyableId id={order._id.toString()} />
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="font-medium text-slate-900">{order.user?.name || 'Guest User'}</div>
+                      <div className="text-muted-foreground mt-0.5">{order.user?.email || order.shippingAddress?.email || 'N/A'}</div>
+                    </td>
+                    <td className="px-6 py-4 text-slate-600">
+                      {new Date(order.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 font-medium text-slate-900 font-mono">
+                      ৳{order.totalPrice.toFixed(2)}
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                        order.isPaid ? 'bg-green-100 text-green-700' : 'bg-rose-100 text-rose-700'
+                      }`}>
+                        {order.isPaid ? 'Paid' : 'Unpaid'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${getStatusColor(order.orderStatus)}`}>
+                        {order.orderStatus}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Button asChild variant="outline" size="sm" className="h-8 shadow-sm">
+                          <Link href={`/dcc-hq/orders/${order._id}`}>
+                            <Eye className="w-4 h-4 mr-1.5" />
+                            View
+                          </Link>
+                        </Button>
+                        <OrderTableActions orderId={order._id.toString()} />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                
+                {filteredOrders.length === 0 && (
+                  <tr>
+                    <td colSpan={7} className="px-6 py-12 text-center text-muted-foreground">
+                      No orders found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

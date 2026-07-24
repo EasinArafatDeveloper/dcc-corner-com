@@ -1,9 +1,10 @@
 "use client"
 import Link from "next/link";
-import { Search, ShoppingCart, User, Heart } from "lucide-react";
+import { Search, ShoppingCart, User, Heart, Package } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { useEffect, useState } from "react";
 import { HeaderSearch } from "./HeaderSearch";
+import { MobileMenu } from "./MobileMenu";
 
 export function Header() {
   const { cart, wishlist, setCartOpen } = useStore();
@@ -18,10 +19,11 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-between gap-4">
 
-          {/* Logo */}
-          <div className="flex-shrink-0">
+          {/* Logo & Mobile Menu */}
+          <div className="flex-shrink-0 flex items-center gap-2">
+            <MobileMenu />
             <Link href="/" className="text-2xl font-bold text-primary tracking-tight">
               DCC <span className="text-secondary">Corner</span>
             </Link>
@@ -34,6 +36,11 @@ export function Header() {
 
           {/* Navigation Actions */}
           <div className="flex items-center space-x-6">
+            <Link href="/track-order" className="hidden sm:flex flex-col items-center justify-center text-muted-foreground hover:text-primary transition-colors">
+              <Package className="w-6 h-6 mb-1" />
+              <span className="text-[10px] font-medium leading-none">Track Order</span>
+            </Link>
+
             <Link href="/wishlist" className="hidden sm:flex flex-col items-center justify-center text-muted-foreground hover:text-primary transition-colors relative group">
               <div className="relative">
                 <Heart className="w-6 h-6 mb-1" />

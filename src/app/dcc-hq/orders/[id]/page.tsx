@@ -4,6 +4,9 @@ import User from '@/models/User'; // Ensure User model is loaded
 import Link from 'next/link';
 import { ArrowLeft, MapPin, CreditCard, User as UserIcon, Calendar, Package, Printer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { AdminSearch } from '@/components/admin/AdminSearch';
+import { CopyableId } from '@/components/admin/CopyableId';
+import mongoose from 'mongoose';
 import { notFound } from 'next/navigation';
 import { OrderStatusUpdater } from '@/components/admin/OrderStatusUpdater';
 
@@ -51,7 +54,9 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                 {order.orderStatus}
               </span>
             </div>
-            <p className="text-muted-foreground text-sm font-mono mt-1">ID: {order._id.toString()}</p>
+            <div className="mt-2">
+              <CopyableId id={order._id.toString()} />
+            </div>
           </div>
         </div>
         

@@ -8,7 +8,9 @@ import {
   Tags, 
   Image as ImageIcon, 
   ShoppingCart,
-  LogOut
+  LogOut,
+  Target,
+  Percent
 } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { useRouter } from "next/navigation";
@@ -20,9 +22,11 @@ const navigation = [
   { name: "Categories", href: "/dcc-hq/categories", icon: Tags },
   { name: "Banners", href: "/dcc-hq/banners", icon: ImageIcon },
   { name: "Orders", href: "/dcc-hq/orders", icon: ShoppingCart },
+  { name: "Manage Offers", href: "/dcc-hq/offers", icon: Percent },
+  { name: "Popup Offer", href: "/dcc-hq/popup", icon: Target },
 ];
 
-export function AdminSidebar() {
+export function AdminSidebar({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
   const { logout } = useStore();
   const router = useRouter();
@@ -53,6 +57,7 @@ export function AdminSidebar() {
             <Link
               key={item.name}
               href={item.href}
+              onClick={onClose}
               className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors ${
                 isActive 
                   ? "bg-primary text-primary-foreground font-medium" 

@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
-import { AdminSidebar } from '@/components/admin/AdminSidebar';
+import { AdminLayoutClient } from '@/components/admin/AdminLayoutClient';
 
 export default async function AdminLayout({
   children,
@@ -26,15 +26,8 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex print:bg-white">
-      {/* Sidebar - Fixed 64 w-64 */}
-      <div className="print:hidden">
-        <AdminSidebar />
-      </div>
-      
-      <div className="flex-1 ml-64 p-8 print:ml-0 print:p-0">
-        {children}
-      </div>
-    </div>
+    <AdminLayoutClient>
+      {children}
+    </AdminLayoutClient>
   );
 }
