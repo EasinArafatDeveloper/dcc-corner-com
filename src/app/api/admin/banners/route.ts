@@ -19,7 +19,8 @@ const isAdmin = async () => {
 export async function GET() {
   try {
     await connectToDatabase();
-    const banners = await Banner.find({}).sort({ order: 1, createdAt: -1 });
+    // Only return Swiper Carousel slider banners (exclude Hero Side Poster & Middle Section Banner)
+    const banners = await Banner.find({ isSideOffer: { $ne: true }, isMiddleBanner: { $ne: true } }).sort({ order: 1, createdAt: -1 });
     return NextResponse.json(banners);
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server Error' }, { status: 500 });
@@ -39,7 +40,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'Title and image URL are required' }, { status: 400 });
     }
 
-    const banner = await Banner.create(data);
+    const banner = await Banner.create({
+      title: data.title,
+      imageUrl: data.imageUrl,
+      linkUrl: data.linkUrl || '/shop',
+      order: Number(data.order) || 0,
+      isActive: data.isActive !== undefined ? Boolean(data.isActive) : true,
+      isSideOffer: Boolean(data.isSideOffer),
+      isMiddleBanner: Boolean(data.isMiddleBanner),
+    });
 
     return NextResponse.json({ message: 'Banner created successfully', banner }, { status: 201 });
   } catch (error: any) {

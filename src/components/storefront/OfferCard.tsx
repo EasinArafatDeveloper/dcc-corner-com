@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Star, ShoppingCart, CreditCard, Flame } from "lucide-react";
+import { ShoppingCart, Flame, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store/useStore";
 import { toast } from "sonner";
@@ -26,7 +26,7 @@ export function OfferCard({ product }: OfferCardProps) {
       image: product.images[0],
       quantity: 1,
     });
-    toast.success(`${product.name} added to cart`);
+    toast.success(`${product.name} added to cart!`);
   };
 
   const handleBuyNow = (e: React.MouseEvent) => {
@@ -43,72 +43,84 @@ export function OfferCard({ product }: OfferCardProps) {
     router.push("/checkout");
   };
 
-  const discountPercent = product.discountPercent || 
-    (product.discountPrice > 0 ? Math.round(((product.price - product.discountPrice) / product.price) * 100) : 0);
+  const hasDiscount = product.discountPrice > 0 && product.discountPrice < product.price;
+  const offerPrice = hasDiscount ? product.discountPrice : product.price;
+  const originalPrice = product.price;
+  const savings = hasDiscount ? Math.round(originalPrice - offerPrice) : 0;
 
   return (
-    <Link 
-      href={`/product/${product.slug}`}
-      className="group relative bg-white rounded-3xl p-1 shadow-md hover:shadow-2xl transition-all duration-300 text-left flex flex-col h-full cursor-pointer overflow-hidden transform hover:-translate-y-1" 
-    >
-      {/* Animated Gradient Border Effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-red-500 via-orange-500 to-yellow-500 opacity-20 group-hover:opacity-100 transition-opacity duration-300"></div>
+    <div className="relative bg-white rounded-2xl border border-[#E8E0D5] p-3.5 sm:p-5 flex items-center gap-3.5 sm:gap-5 shadow-xs hover:shadow-md transition-all duration-300 group overflow-hidden">
       
-      {/* Inner White Card */}
-      <div className="relative bg-white rounded-[1.4rem] p-4 flex flex-col h-full h-full z-10 border border-transparent group-hover:border-white/50">
-        
-        {/* Discount Badge */}
-        {discountPercent > 0 && (
-          <div className="absolute -top-1 -right-1 bg-gradient-to-r from-red-600 to-orange-500 text-white text-xs font-black px-3 py-1.5 rounded-bl-2xl rounded-tr-[1.2rem] z-20 shadow-lg flex items-center gap-1">
-            <Flame className="w-3.5 h-3.5 fill-white animate-pulse" />
-            {discountPercent}% OFF
+      {/* Top Right Best Selling / Hot Deal Badge */}
+      <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 bg-[#EF4444] text-white text-[10px] sm:text-xs font-black px-2.5 py-0.5 rounded-full shadow-xs flex items-center gap-1 z-10">
+        <Flame className="w-3 h-3 fill-white" />
+        <span>Best Selling</span>
+      </div>
+
+      {/* Left Product Image (Clean, Larger, No Surrounding Box/Border) */}
+      <Link href={`/product/${product.slug}`} className="block w-32 h-32 sm:w-44 sm:h-44 shrink-0 relative flex items-center justify-center cursor-pointer">
+        <img 
+          src={product.images[0]} 
+          alt={product.name} 
+          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" 
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=400&auto=format&fit=crop";
+          }}
+        />
+      </Link>
+
+      {/* Right Product Details */}
+      <div className="flex-1 min-w-0 pr-1 sm:pr-2">
+        <Link href={`/product/${product.slug}`} className="block">
+          <h3 className="font-extrabold text-xs sm:text-base text-[#2C2725] line-clamp-2 leading-tight group-hover:text-[#4A2C2A] transition-colors pr-14 sm:pr-20">
+            {product.name}
+          </h3>
+        </Link>
+
+        {/* Pricing Row */}
+        <div className="flex items-baseline gap-2 mt-1.5 sm:mt-2">
+          <span className="font-black text-base sm:text-xl text-[#4A2C2A]">
+            ৳{offerPrice.toFixed(0)}
+          </span>
+          {hasDiscount && (
+            <span className="text-xs sm:text-sm text-slate-400 line-through font-semibold">
+              ৳{originalPrice.toFixed(0)}
+            </span>
+          )}
+        </div>
+
+        {/* Savings Pill Tag */}
+        {savings > 0 && (
+          <div className="mt-1">
+            <span className="inline-block bg-emerald-100 text-emerald-800 text-[10px] sm:text-xs font-extrabold px-2.5 py-0.5 rounded-full">
+              Save ৳{savings}
+            </span>
           </div>
         )}
 
-        <div className="block aspect-square bg-slate-50/50 rounded-2xl mb-4 flex items-center justify-center overflow-hidden relative border border-slate-100/50">
-            <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-            
-            {/* Quick Action Overlay on Hover (Desktop Only) */}
-            <div className="absolute inset-0 bg-black/50 opacity-0 hidden md:flex group-hover:opacity-100 transition-opacity flex-col items-center justify-center gap-3 px-6 backdrop-blur-sm duration-300">
-                <Button size="sm" className="w-full rounded-full shadow-xl bg-primary hover:bg-primary/90 text-white font-semibold" onClick={handleAddToCart}>
-                  <ShoppingCart className="w-4 h-4 mr-2" /> Add to Cart
-                </Button>
-                <Button size="sm" variant="secondary" className="w-full rounded-full shadow-xl font-semibold bg-white text-black hover:bg-slate-100" onClick={handleBuyNow}>
-                  <CreditCard className="w-4 h-4 mr-2" /> Buy Now
-                </Button>
-            </div>
-        </div>
-        
-        <div className="flex-1 flex flex-col pointer-events-none">
-          <p className="text-[10px] sm:text-xs text-orange-600 font-bold uppercase tracking-wider mb-1 truncate flex items-center gap-1">
-             HOT DEAL
-          </p>
-          <h4 className="font-bold text-sm md:text-base line-clamp-2 text-slate-800 leading-tight group-hover:text-primary transition-colors">{product.name}</h4>
-          
-          <div className="flex items-center space-x-1 my-2">
-            <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
-            <span className="text-xs font-medium text-slate-600">{product.rating} <span className="text-slate-400">({product.numReviews})</span></span>
-          </div>
-          
-          <div className="mt-auto pt-4 flex flex-col gap-3">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-1">
-              <div>
-                <div className="text-xs text-slate-400 line-through font-medium mb-0.5">৳{product.price.toFixed(2)}</div>
-                <div className="text-xl md:text-2xl font-black text-red-600 leading-none">
-                  ৳{product.discountPrice > 0 ? product.discountPrice.toFixed(2) : product.price.toFixed(2)}
-                </div>
-              </div>
-            </div>
+        {/* Action Buttons Row */}
+        <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
+          <Button 
+            onClick={handleAddToCart}
+            variant="outline"
+            size="sm"
+            className="rounded-xl border-[#C5A059] text-[#4A2C2A] hover:bg-[#FAF7F2] font-bold text-[11px] sm:text-xs h-8 sm:h-9 px-2.5 sm:px-3.5 flex items-center gap-1.5 shrink-0 cursor-pointer"
+          >
+            <ShoppingCart className="w-3.5 h-3.5 text-[#C5A059]" />
+            <span>Add To Cart</span>
+          </Button>
 
-            {/* Mobile Quick Actions (Mobile Only) */}
-            <div className="flex md:hidden flex-row gap-2 pointer-events-auto">
-              <Button size="sm" className="flex-1 rounded-full shadow-md text-xs px-0 bg-red-600 hover:bg-red-700 text-white" onClick={handleAddToCart}>
-                <ShoppingCart className="w-3.5 h-3.5 mr-1" /> Add
-              </Button>
-            </div>
-          </div>
+          <Button 
+            onClick={handleBuyNow}
+            size="sm"
+            className="rounded-xl bg-[#F97316] hover:bg-[#EA580C] text-white font-bold text-[11px] sm:text-xs h-8 sm:h-9 px-3 sm:px-4 flex items-center gap-1.5 shadow-sm shrink-0 cursor-pointer"
+          >
+            <Zap className="w-3.5 h-3.5 text-white fill-white" />
+            <span>Buy now</span>
+          </Button>
         </div>
       </div>
-    </Link>
+
+    </div>
   );
 }

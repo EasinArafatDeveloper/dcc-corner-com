@@ -18,6 +18,14 @@ const bannerSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isSideOffer: {
+      type: Boolean,
+      default: false,
+    },
+    isMiddleBanner: {
+      type: Boolean,
+      default: false,
+    },
     order: {
       type: Number,
       default: 0,

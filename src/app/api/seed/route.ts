@@ -8,30 +8,30 @@ import bcrypt from 'bcryptjs';
 
 // Fake Data for Seeding
 const categoriesData = [
-  { name: 'Imported Chocolates', slug: 'imported-chocolates', image: 'https://placehold.co/100x100/5E35B1/FFF?text=Choc' },
-  { name: 'Beverages', slug: 'beverages', image: 'https://placehold.co/100x100/5E35B1/FFF?text=Bev' },
-  { name: 'Chips & Snacks', slug: 'chips-snacks', image: 'https://placehold.co/100x100/5E35B1/FFF?text=Chips' },
-  { name: 'Cookies', slug: 'cookies', image: 'https://placehold.co/100x100/5E35B1/FFF?text=Cookies' },
-  { name: 'Candies', slug: 'candies', image: 'https://placehold.co/100x100/5E35B1/FFF?text=Candy' },
-  { name: 'Instant Noodles', slug: 'instant-noodles', image: 'https://placehold.co/100x100/5E35B1/FFF?text=Noodles' },
+  { name: 'Imported Chocolates', slug: 'imported-chocolates', image: 'https://images.unsplash.com/photo-1511381939415-e44015466834?q=80&w=400&auto=format&fit=crop' },
+  { name: 'Coffee & Beverages', slug: 'beverages', image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=400&auto=format&fit=crop' },
+  { name: 'Chips & Snacks', slug: 'chips-snacks', image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?q=80&w=400&auto=format&fit=crop' },
+  { name: 'Biscuits & Cookies', slug: 'cookies', image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=400&auto=format&fit=crop' },
+  { name: 'Candies & Sweets', slug: 'candies', image: 'https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?q=80&w=400&auto=format&fit=crop' },
+  { name: 'Instant Noodles', slug: 'instant-noodles', image: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?q=80&w=400&auto=format&fit=crop' },
 ];
 
 const bannersData = [
   {
-    title: 'Discover Premium Global Snacks',
-    imageUrl: 'https://placehold.co/1920x600/5E35B1/FFFFFF/png?text=DCC+Corner+Premium+Global+Snacks',
+    title: 'Discover Premium Global Snacks & Coffee',
+    imageUrl: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=1600&auto=format&fit=crop',
     linkUrl: '/shop',
     order: 1,
   },
   {
     title: 'Exclusive Imported Chocolates',
-    imageUrl: 'https://placehold.co/1920x600/FF6F00/FFFFFF/png?text=Exclusive+Imported+Chocolates',
+    imageUrl: 'https://images.unsplash.com/photo-1511381939415-e44015466834?q=80&w=1600&auto=format&fit=crop',
     linkUrl: '/category/imported-chocolates',
     order: 2,
   },
   {
-    title: 'Refreshing Global Beverages',
-    imageUrl: 'https://placehold.co/1920x600/222222/FFFFFF/png?text=Refreshing+Global+Beverages',
+    title: 'Refreshing Global Beverages & Matcha',
+    imageUrl: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=1600&auto=format&fit=crop',
     linkUrl: '/category/beverages',
     order: 3,
   }
@@ -178,20 +178,33 @@ export async function GET() {
     });
 
     // Insert new data
-    const createdCategories = await Category.insertMany(categoriesData);
-    await Banner.insertMany(bannersData);
+    const insertedCategories = await Category.insertMany(categoriesData);
     
-    const productsData = getProductsData(createdCategories);
-    const createdProducts = await Product.insertMany(productsData);
+    const productsData = getProductsData(insertedCategories);
+    const insertedProducts = await Product.insertMany(productsData);
+    const insertedBanners = await Banner.insertMany(bannersData);
+    
+    // Seed Middle Promo Poster Banner
+    await Banner.create({
+      title: 'Special Imported Spice & Culinary Collection Offer',
+      imageUrl: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=1600&auto=format&fit=crop',
+      linkUrl: '/shop',
+      isMiddleBanner: true,
+      isSideOffer: false,
+      isActive: true,
+    });
 
-    return NextResponse.json({ 
-      message: 'Database seeded successfully with fake realistic data! Admin user created.',
-      categoriesCount: createdCategories.length,
-      productsCount: createdProducts.length,
-      adminEmail: 'admin@dcccorner.com',
-      adminPassword: 'admin123'
+    return NextResponse.json({
+      message: 'Database seeded successfully!',
+      categoriesCount: insertedCategories.length,
+      productsCount: insertedProducts.length,
+      bannersCount: insertedBanners.length,
+      adminUser: {
+        email: adminUser.email,
+        role: adminUser.role,
+      }
     });
   } catch (error: any) {
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

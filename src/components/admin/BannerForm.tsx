@@ -14,11 +14,14 @@ export function BannerForm({ initialData }: { initialData?: any }) {
     linkUrl: initialData?.linkUrl || "/shop",
     imageUrl: initialData?.imageUrl || "",
     isActive: initialData?.isActive !== undefined ? initialData.isActive : true,
+    isSideOffer: initialData?.isSideOffer || false,
+    isMiddleBanner: initialData?.isMiddleBanner || false,
     order: initialData?.order || 0,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
@@ -87,6 +90,8 @@ export function BannerForm({ initialData }: { initialData?: any }) {
 
     const payload = {
       ...formData,
+      isMiddleBanner: Boolean(formData.isMiddleBanner),
+      isSideOffer: Boolean(formData.isSideOffer),
       order: Number(formData.order) || 0,
     };
 
@@ -150,6 +155,32 @@ export function BannerForm({ initialData }: { initialData?: any }) {
         </div>
         
         <div className="space-y-2">
+          <label className="text-sm font-medium font-bold text-slate-800">Banner Placement / Position *</label>
+          <select 
+            value={
+              formData.isMiddleBanner 
+                ? "MIDDLE_POSTER" 
+                : formData.isSideOffer 
+                ? "HERO_SIDE" 
+                : "HERO_SLIDER"
+            } 
+            onChange={(e) => {
+              const val = e.target.value;
+              setFormData(prev => ({
+                ...prev,
+                isMiddleBanner: val === "MIDDLE_POSTER",
+                isSideOffer: val === "HERO_SIDE"
+              }));
+            }} 
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 bg-white font-medium text-sm text-slate-800"
+          >
+            <option value="HERO_SLIDER">🎠 Hero Carousel Slider Banner</option>
+            <option value="MIDDLE_POSTER">🖼️ Middle Promo Poster (Between Trending & New Arrivals)</option>
+            <option value="HERO_SIDE">📌 Hero Side Offer Poster</option>
+          </select>
+        </div>
+
+        <div className="space-y-2">
           <label className="text-sm font-medium">Link URL *</label>
           <input required type="text" name="linkUrl" value={formData.linkUrl} onChange={handleChange} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="e.g. /shop" />
         </div>
@@ -159,7 +190,7 @@ export function BannerForm({ initialData }: { initialData?: any }) {
           <input type="number" name="order" value={formData.order} onChange={handleChange} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="0" />
         </div>
 
-        <div className="space-y-2 flex items-center gap-2 md:mt-8">
+        <div className="space-y-2 flex items-center gap-2 md:mt-2">
           <input type="checkbox" id="isActive" name="isActive" checked={formData.isActive} onChange={handleChange} className="w-4 h-4 text-primary focus:ring-primary" />
           <label htmlFor="isActive" className="text-sm font-medium cursor-pointer">Set Banner as Active</label>
         </div>
