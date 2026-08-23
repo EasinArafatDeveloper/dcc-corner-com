@@ -3,19 +3,13 @@
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
-import Image from "next/image";
 import Link from "next/link";
 import { 
-  Sparkles, 
   Flame, 
   Truck, 
-  ShieldCheck, 
   ArrowRight, 
   Clock, 
   ChevronRight,
-  Gift,
-  Tag,
-  Star,
   ShoppingBag
 } from "lucide-react";
 
@@ -45,33 +39,21 @@ export function HeroSlider({
   const defaultBanners = [
     {
       _id: "default-1",
-      badge: "✨ 100% European & Swiss Imports",
       title: "Indulge in Genuine Artisan Chocolates & Gourmet Treats",
-      subtext: "Directly imported from Switzerland, Belgium & the UK. Enjoy wholesale rates on your favorite Lindt, Ferrero Rocher & Godiva collections.",
       imageUrl: "https://images.unsplash.com/photo-1511381939415-e44015466834?q=80&w=1600&auto=format&fit=crop",
       linkUrl: "/category/imported-chocolates",
-      primaryCta: "Shop Chocolates",
-      secondaryCta: "View Wholesale Deals",
     },
     {
       _id: "default-2",
-      badge: "☕ Premium Coffee & Pantry",
       title: "Elevate Your Morning with Davidoff & Artisan Roasts",
-      subtext: "Authentic Davidoff Rich Aroma, Nescafe Gold & European pantry delights with fast same-day delivery right to your doorstep.",
       imageUrl: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=1600&auto=format&fit=crop",
       linkUrl: "/category/beverages",
-      primaryCta: "Explore Coffee",
-      secondaryCta: "All Beverages",
     },
     {
       _id: "default-3",
-      badge: "⚡ Bashundhara R/A Priority",
       title: "Wholesale Super-Shop Prices, 2-Hour Express Delivery",
-      subtext: "Save up to 35% compared to local department stores. Genuine packaging, verified batch dates, and pristine cold storage guarantee.",
       imageUrl: "https://images.unsplash.com/photo-1587049352847-4a222e784d38?q=80&w=1600&auto=format&fit=crop",
       linkUrl: "/shop?offers=true",
-      primaryCta: "Explore Wholesale Deals",
-      secondaryCta: "Track My Order",
     }
   ];
 
@@ -98,11 +80,11 @@ export function HeroSlider({
   return (
     <div className="w-full space-y-4 sm:space-y-5">
       
-      {/* ===================== TOP HERO BENTO GRID (Standard 16:9 Fixed Ratio & Balanced Heights) ===================== */}
+      {/* ===================== TOP HERO BENTO GRID ===================== */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 lg:gap-4 items-stretch">
         
-        {/* Left 8 Columns: Fixed Height 16:9 Standard Banner Showcase Slider */}
-        <div className="lg:col-span-8 relative rounded-3xl overflow-hidden shadow-lg border border-[#E5E7EB] bg-slate-100 h-[260px] sm:h-[340px] lg:h-[410px] flex items-center">
+        {/* Left 8 Columns: True 16:9 Aspect Ratio Responsive Showcase Slider */}
+        <div className="lg:col-span-8 relative rounded-3xl overflow-hidden shadow-lg border border-[#E5E7EB] bg-slate-100 w-full aspect-[16/9] lg:aspect-auto lg:h-[410px] flex items-center">
           <Swiper
             modules={[Autoplay, Pagination, Navigation, EffectFade]}
             effect="fade"

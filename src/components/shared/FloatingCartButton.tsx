@@ -19,13 +19,13 @@ export function FloatingCartButton() {
   return (
     <button
       onClick={() => setCartOpen(true)}
-      className="fixed right-0 top-1/2 -translate-y-1/2 bg-primary text-primary-foreground p-3 rounded-l-xl shadow-2xl flex flex-col items-center justify-center gap-1 z-40 hover:pr-4 transition-all group border border-r-0 border-primary-foreground/20"
+      className="fixed right-4 sm:right-6 bottom-6 sm:bottom-8 bg-[#163A32] text-white p-3.5 rounded-full shadow-[0_10px_35px_rgba(22,58,50,0.35)] flex items-center justify-center z-40 hover:scale-110 active:scale-95 transition-all duration-200 group border-2 border-[#D6A84F]/50 cursor-pointer"
       aria-label="Open Cart"
     >
       <div className="relative">
-        <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
+        <ShoppingCart className="w-5 h-5 text-[#D6A84F] group-hover:scale-110 transition-transform" />
         {cartItemsCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-destructive text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+          <span className="absolute -top-2.5 -right-2.5 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-xs border-2 border-white">
             {cartItemsCount}
           </span>
         )}
