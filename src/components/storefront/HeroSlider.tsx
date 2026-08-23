@@ -98,11 +98,11 @@ export function HeroSlider({
   return (
     <div className="w-full space-y-4 sm:space-y-5">
       
-      {/* ===================== TOP HERO BENTO GRID ===================== */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 items-stretch">
+      {/* ===================== TOP HERO BENTO GRID (Standard 16:9 Fixed Ratio & Balanced Heights) ===================== */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 lg:gap-4 items-stretch">
         
-        {/* Left 8 Columns: Clean Banner Showcase Slider (No Text, No Dark Shadow Overlay) */}
-        <div className="lg:col-span-8 relative rounded-3xl overflow-hidden shadow-xl border border-[#E5E7EB] bg-slate-100 min-h-[260px] sm:min-h-[340px] lg:min-h-[440px] flex items-center">
+        {/* Left 8 Columns: Fixed Height 16:9 Standard Banner Showcase Slider */}
+        <div className="lg:col-span-8 relative rounded-3xl overflow-hidden shadow-lg border border-[#E5E7EB] bg-slate-100 h-[260px] sm:h-[340px] lg:h-[410px] flex items-center">
           <Swiper
             modules={[Autoplay, Pagination, Navigation, EffectFade]}
             effect="fade"
@@ -134,24 +134,24 @@ export function HeroSlider({
           </Swiper>
         </div>
 
-        {/* Right 4 Columns: Interactive High-Converting Promo Bento (Deal of the Day + Express Card) */}
-        <div className="lg:col-span-4 flex flex-col sm:grid sm:grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-4">
+        {/* Right 4 Columns: Interactive High-Converting Promo Bento (Aligned to 410px Height) */}
+        <div className="lg:col-span-4 flex flex-col sm:grid sm:grid-cols-2 lg:flex lg:flex-col gap-3 lg:gap-3.5 h-full">
           
           {/* Card 1: Deal of the Day / Flash Wholesale Box */}
-          <div className="flex-1 bg-white rounded-3xl p-4 sm:p-5 border border-[#E5E7EB] shadow-[0_4px_25px_rgba(22,58,50,0.06)] hover:shadow-[0_10px_35px_rgba(22,58,50,0.12)] hover:border-[#163A32]/40 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group">
+          <div className="flex-1 bg-white rounded-3xl p-3.5 sm:p-4 border border-[#E5E7EB] shadow-[0_4px_20px_rgba(22,58,50,0.05)] hover:shadow-[0_8px_30px_rgba(22,58,50,0.1)] hover:border-[#163A32]/40 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group">
             {/* Ambient Warm Gradient Backdrop */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-amber-100/60 to-red-100/30 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -top-10 -right-10 w-36 h-36 bg-gradient-to-br from-amber-100/60 to-red-100/30 rounded-full blur-2xl pointer-events-none" />
 
             <div>
               {/* Header: Dynamic Flash Deal Pill + Monospace Countdown Ticker */}
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-red-600 to-rose-500 text-white text-[11px] font-black shadow-xs shadow-red-500/20">
-                  <Flame className="w-3.5 h-3.5 fill-white animate-pulse" /> Flash Deal
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-red-600 to-rose-500 text-white text-[10px] font-black shadow-xs shadow-red-500/20">
+                  <Flame className="w-3 h-3 fill-white animate-pulse" /> Flash Deal
                 </span>
 
                 {/* Countdown Box with Mini Digit Blocks */}
-                <div className="flex items-center gap-1.5 bg-[#F7F8F5] px-2.5 py-1 rounded-xl border border-[#E5E7EB] text-[11px] font-extrabold text-[#111827]">
-                  <Clock className="w-3.5 h-3.5 text-[#D6A84F]" />
+                <div className="flex items-center gap-1 bg-[#F7F8F5] px-2 py-0.5 rounded-lg border border-[#E5E7EB] text-[10px] font-extrabold text-[#111827]">
+                  <Clock className="w-3 h-3 text-[#D6A84F]" />
                   <span className="font-mono tracking-wider">
                     {String(timeLeft.hours).padStart(2, "0")}h : {String(timeLeft.minutes).padStart(2, "0")}m : {String(timeLeft.seconds).padStart(2, "0")}s
                   </span>
@@ -159,33 +159,33 @@ export function HeroSlider({
               </div>
 
               {/* Product Preview Card */}
-              <div className="flex items-center gap-3.5 p-2 rounded-2xl bg-[#F7F8F5]/80 border border-[#E5E7EB]/60 group-hover:bg-white group-hover:border-[#6B8F71]/30 transition-all">
+              <div className="flex items-center gap-2.5 p-1.5 rounded-xl bg-[#F7F8F5]/80 border border-[#E5E7EB]/60 group-hover:bg-white group-hover:border-[#6B8F71]/30 transition-all">
                 {/* Product Image Thumbnail with Floating Discount Tag */}
-                <div className="relative w-18 h-18 sm:w-20 sm:h-20 rounded-xl bg-white border border-[#E5E7EB] overflow-hidden shrink-0 p-1 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-300">
+                <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-lg bg-white border border-[#E5E7EB] overflow-hidden shrink-0 p-1 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-300">
                   <img 
                     src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=400&auto=format&fit=crop" 
                     alt="Ferrero Rocher Golden Gift Box" 
                     className="w-full h-full object-contain"
                   />
-                  <span className="absolute top-1 right-1 bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-xs">
+                  <span className="absolute top-0.5 right-0.5 bg-red-600 text-white text-[8px] font-black px-1 py-0.2 rounded shadow-xs">
                     -29%
                   </span>
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1">
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-[#6B8F71]">Direct Import</span>
+                    <span className="text-[9px] uppercase font-extrabold tracking-wider text-[#6B8F71]">Direct Import</span>
                   </div>
-                  <h3 className="text-xs sm:text-sm font-extrabold text-[#111827] line-clamp-1 group-hover:text-[#163A32] transition-colors mt-0.5 font-heading">
+                  <h3 className="text-xs font-extrabold text-[#111827] line-clamp-1 group-hover:text-[#163A32] transition-colors mt-0.5 font-heading">
                     Ferrero Rocher Golden Box (16 Pcs)
                   </h3>
                   
                   {/* Price Row */}
-                  <div className="flex items-baseline gap-2 mt-1">
-                    <span className="text-base sm:text-lg font-black text-[#163A32]">৳850</span>
-                    <span className="text-xs text-[#9CA3AF] line-through font-medium">৳1,200</span>
-                    <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/60">
+                  <div className="flex items-baseline gap-1.5 mt-0.5">
+                    <span className="text-sm sm:text-base font-black text-[#163A32]">৳850</span>
+                    <span className="text-[11px] text-[#9CA3AF] line-through font-medium">৳1,200</span>
+                    <span className="text-[9px] font-extrabold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200/60">
                       Save ৳350
                     </span>
                   </div>
@@ -193,14 +193,14 @@ export function HeroSlider({
               </div>
 
               {/* Stock Progress Meter */}
-              <div className="mt-2.5 px-1 space-y-1">
-                <div className="flex items-center justify-between text-[10px] font-bold text-[#4B5563]">
+              <div className="mt-2 px-0.5 space-y-0.5">
+                <div className="flex items-center justify-between text-[9px] font-bold text-[#4B5563]">
                   <span className="text-red-600 flex items-center gap-1">
                     🔥 Selling Fast: 14 left
                   </span>
                   <span className="text-[#9CA3AF]">78% claimed</span>
                 </div>
-                <div className="w-full h-1.5 bg-[#E5E7EB] rounded-full overflow-hidden">
+                <div className="w-full h-1 bg-[#E5E7EB] rounded-full overflow-hidden">
                   <div className="w-[78%] h-full bg-gradient-to-r from-red-500 via-amber-500 to-[#D6A84F] rounded-full" />
                 </div>
               </div>
@@ -209,7 +209,7 @@ export function HeroSlider({
             {/* High-Converting Action Button */}
             <Link
               href="/shop?offers=true"
-              className="mt-3.5 w-full py-2.5 sm:py-3 bg-[#163A32] hover:bg-[#D6A84F] text-white hover:text-[#163A32] rounded-2xl font-black text-xs transition-all duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md cursor-pointer group/btn"
+              className="mt-2.5 w-full py-2 bg-[#163A32] hover:bg-[#D6A84F] text-white hover:text-[#163A32] rounded-xl font-black text-xs transition-all duration-200 flex items-center justify-center gap-1.5 shadow-sm cursor-pointer group/btn"
             >
               <ShoppingBag className="w-3.5 h-3.5 group-hover/btn:scale-110 transition-transform" />
               <span>Claim Limited Deal</span>
@@ -218,50 +218,51 @@ export function HeroSlider({
           </div>
 
           {/* Card 2: Bashundhara Express Delivery Guarantee */}
-          <div className="flex-1 bg-gradient-to-br from-[#163A32] via-[#102B25] to-[#0A1D18] text-white rounded-3xl p-4 sm:p-5 border border-[#163A32] shadow-[0_8px_30px_rgba(22,58,50,0.15)] flex flex-col justify-between relative overflow-hidden group">
+          <div className="flex-1 bg-gradient-to-br from-[#163A32] via-[#102B25] to-[#0A1D18] text-white rounded-3xl p-3.5 sm:p-4 border border-[#163A32] shadow-[0_6px_25px_rgba(22,58,50,0.12)] flex flex-col justify-between relative overflow-hidden group">
             {/* Ambient gold glow & subtle geometric pattern */}
-            <div className="absolute -bottom-8 -right-8 w-36 h-36 bg-[#D6A84F]/25 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
-              <Truck className="w-24 h-24 text-white" />
+            <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-[#D6A84F]/20 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+              <Truck className="w-20 h-20 text-white" />
             </div>
 
             <div>
               {/* Header: Express Pill + Live Pulsing City Indicator */}
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D6A84F]/20 border border-[#D6A84F]/40 text-[#D6A84F] text-[11px] font-black shadow-xs">
-                  <Truck className="w-3.5 h-3.5 text-[#D6A84F]" /> Express 2-Hour
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#D6A84F]/20 border border-[#D6A84F]/40 text-[#D6A84F] text-[10px] font-black shadow-xs">
+                  <Truck className="w-3 h-3 text-[#D6A84F]" /> Express 2-Hour
                 </span>
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-[10px] text-emerald-300 font-bold">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 border border-white/15 text-[9px] text-emerald-300 font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   <span>Bashundhara R/A</span>
                 </div>
               </div>
 
               {/* Title & Description */}
-              <h3 className="text-base sm:text-lg font-black text-white leading-snug mt-1 font-heading tracking-tight">
+              <h3 className="text-sm sm:text-base font-black text-white leading-snug mt-0.5 font-heading tracking-tight">
                 Craving Luxury Treats Right Now?
               </h3>
-              <p className="text-[11px] sm:text-xs text-slate-300 font-medium mt-1.5 leading-relaxed">
-                Order within Bashundhara Block A-N for lightning fast doorstep delivery in insulated protective packs.
+              <p className="text-[10px] sm:text-[11px] text-slate-300 font-medium mt-1 leading-relaxed">
+                Order within Bashundhara Block A-N for lightning fast doorstep delivery in insulated packs.
               </p>
 
               {/* 3 Quick Micro-Pills */}
-              <div className="grid grid-cols-3 gap-1.5 mt-3 pt-2 border-t border-white/10 text-[10px] font-extrabold text-slate-200 text-center">
-                <div className="p-1.5 rounded-xl bg-white/5 border border-white/10">
+              <div className="grid grid-cols-3 gap-1 mt-2 pt-1.5 border-t border-white/10 text-[9px] font-extrabold text-slate-200 text-center">
+                <div className="p-1 rounded-lg bg-white/5 border border-white/10">
                   ⚡ 2-Hr Fast
                 </div>
-                <div className="p-1.5 rounded-xl bg-white/5 border border-white/10">
+                <div className="p-1 rounded-lg bg-white/5 border border-white/10">
                   ❄️ Chill Box
                 </div>
-                <div className="p-1.5 rounded-xl bg-white/5 border border-white/10">
+                <div className="p-1 rounded-lg bg-white/5 border border-white/10">
                   💵 Cash / bKash
                 </div>
               </div>
             </div>
 
+            {/* High-Impact Gold Button */}
             <Link
               href="/checkout"
-              className="mt-3.5 w-full py-2.5 sm:py-3 bg-gradient-to-r from-[#D6A84F] to-[#E5BE6A] hover:brightness-105 active:scale-98 text-[#163A32] rounded-2xl font-black text-xs transition-all shadow-md shadow-[#D6A84F]/20 flex items-center justify-center gap-2 cursor-pointer group/order"
+              className="mt-2.5 w-full py-2 bg-gradient-to-r from-[#D6A84F] to-[#E5BE6A] hover:brightness-105 active:scale-98 text-[#163A32] rounded-xl font-black text-xs transition-all shadow-md shadow-[#D6A84F]/20 flex items-center justify-center gap-1.5 cursor-pointer group/order"
             >
               <span>Order Fast Delivery</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover/order:translate-x-1 transition-transform" />
@@ -275,4 +276,3 @@ export function HeroSlider({
     </div>
   );
 }
-
