@@ -80,7 +80,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           <p className="text-muted-foreground">We are currently out of stock for {category.name}. Check back later!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-6">
           {products.map((product: any) => (
             <ProductCard key={product._id} product={product} />
           ))}
