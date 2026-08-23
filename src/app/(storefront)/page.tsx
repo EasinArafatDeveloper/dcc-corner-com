@@ -137,16 +137,18 @@ export default async function HomePage() {
       </div>
 
       {/* 2. Category Visual Grid */}
-      <section className="py-8">
+      <section className="py-6 sm:py-8">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-5 sm:mb-6">
             <div>
               <h2 className="text-xl sm:text-2xl font-extrabold text-[#111827]">Explore Categories</h2>
               <p className="text-xs text-[#4B5563]">Select a category to view imported deals</p>
             </div>
-            <Link href="/shop" className="text-xs font-bold text-[#6B8F71] hover:text-[#163A32] hover:underline">
-              See All →
-            </Link>
+            {data.categories && data.categories.length > 4 && (
+              <Link href="/shop" className="text-xs font-bold text-[#6B8F71] hover:text-[#163A32] hover:underline">
+                See All →
+              </Link>
+            )}
           </div>
           <CategorySlider categories={data.categories} />
         </div>
