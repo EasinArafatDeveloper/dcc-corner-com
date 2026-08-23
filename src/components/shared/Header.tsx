@@ -179,8 +179,8 @@ export function Header() {
       {/* 1. Top Slim Flash Sale Ticker */}
       <AnnouncementBar />
 
-      {/* 2. Alibaba-Style Master Header (Seamless with page background) */}
-      <header className="sticky top-0 z-40 w-full bg-white border-b border-[#E5E7EB]">
+      {/* 2. Alibaba-Style Master Header (Seamless with page background, zero borders) */}
+      <header className="sticky top-0 z-40 w-full bg-white">
         <div className="w-full bg-white">
           {/* ===================== TOP ROW: Logo, Search Bar Pill, Utility Icons, CTA ===================== */}
           <div className="container mx-auto px-3 sm:px-6 lg:px-8">
