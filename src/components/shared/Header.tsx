@@ -179,15 +179,9 @@ export function Header() {
       {/* 1. Top Slim Flash Sale Ticker */}
       <AnnouncementBar />
 
-      {/* 2. Alibaba-Style Master Header with Dark Green Underlay for Rounded Top Corners */}
-      <header className={`sticky top-0 z-40 w-full transition-colors duration-300 ${isScrolled ? "bg-white" : "bg-[#0E2620]"}`}>
-        <div 
-          className={`w-full bg-white transition-all duration-300 ${
-            isScrolled 
-              ? "rounded-none border-b border-[#E5E7EB] shadow-[0_4px_20px_rgba(22,58,50,0.08)]" 
-              : "rounded-t-[28px] sm:rounded-t-[36px] border-b border-transparent shadow-none"
-          }`}
-        >
+      {/* 2. Alibaba-Style Master Header (Seamless with page background) */}
+      <header className="sticky top-0 z-40 w-full bg-white border-b border-[#E5E7EB]">
+        <div className="w-full bg-white">
           {/* ===================== TOP ROW: Logo, Search Bar Pill, Utility Icons, CTA ===================== */}
           <div className="container mx-auto px-3 sm:px-6 lg:px-8">
             <div className="flex h-14 sm:h-16 lg:h-17 items-center justify-between gap-2 sm:gap-4 lg:gap-6 pt-1 sm:pt-1.5">

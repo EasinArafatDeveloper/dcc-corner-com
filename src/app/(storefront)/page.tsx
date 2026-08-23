@@ -129,12 +129,8 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {/* 1. Hero Section Wrapper with Soft DCC Corner Brand Color Gradient */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-[#F0F5F2] via-[#F7F8F5] to-white pb-6 pt-2 sm:pt-4 border-b border-[#E5E7EB]/60">
-        {/* Ambient Subtle Glows */}
-        <div className="absolute -top-12 left-1/4 w-96 h-96 bg-[#6B8F71]/8 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-10 right-8 w-72 h-72 bg-[#D6A84F]/6 rounded-full blur-3xl pointer-events-none" />
-
+      {/* 1. Hero Section Wrapper (Seamless pure white background) */}
+      <div className="relative bg-white pb-6 pt-2 sm:pt-4 border-b border-[#E5E7EB]/60">
         <div className="container mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
           <HeroSlider banners={data.banners} sideBanner={data.sideBanner} />
         </div>
