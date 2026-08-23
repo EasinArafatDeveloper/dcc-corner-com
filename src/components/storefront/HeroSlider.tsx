@@ -100,87 +100,36 @@ export function HeroSlider({
       {/* ===================== TOP HERO BENTO GRID ===================== */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 items-stretch">
         
-        {/* Left 8 Columns: Dynamic Showcase Slider with Rich Vignette & CTAs */}
-        <div className="lg:col-span-8 relative rounded-3xl overflow-hidden shadow-xl border border-[#E5E7EB] bg-[#0E2620] min-h-[360px] sm:min-h-[400px] lg:min-h-[440px] flex flex-col justify-end">
+        {/* Left 8 Columns: Clean Banner Showcase Slider (No Text, No Dark Shadow Overlay) */}
+        <div className="lg:col-span-8 relative rounded-3xl overflow-hidden shadow-xl border border-[#E5E7EB] bg-slate-100 min-h-[260px] sm:min-h-[340px] lg:min-h-[440px] flex items-center">
           <Swiper
             modules={[Autoplay, Pagination, Navigation, EffectFade]}
             effect="fade"
             spaceBetween={0}
             slidesPerView={1}
-            autoplay={{ delay: 5500, disableOnInteraction: false }}
+            autoplay={{ delay: 5000, disableOnInteraction: false }}
             pagination={{ clickable: true }}
             navigation
             loop
             className="w-full h-full absolute inset-0 [--swiper-navigation-size:18px] md:[--swiper-navigation-size:22px] [--swiper-navigation-color:#FFFFFF] [--swiper-pagination-color:#D6A84F]"
           >
-            {slideData.map((slide: any, idx: number) => {
-              const badge = slide.badge || "✨ 100% Authentic Imported Goods";
-              const title = slide.title || "Premium Imported Treats at Wholesale Rates";
-              const subtext = slide.subtext || "Directly sourced from trusted European suppliers. Fast doorstep delivery in Bashundhara R/A.";
-              const primaryCta = slide.primaryCta || "Shop Now";
-              const secondaryCta = slide.secondaryCta || "Explore Deals";
-
-              return (
-                <SwiperSlide key={slide._id || idx} className="h-full relative">
-                  {/* Background Image with Zoom & Dark Gradient Overlay */}
-                  <div className="absolute inset-0 w-full h-full overflow-hidden">
-                    <img 
-                      src={slide.imageUrl} 
-                      alt={slide.title || "Hero Banner"} 
-                      className="w-full h-full object-cover transform scale-102 transition-transform duration-7000 ease-out" 
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1511381939415-e44015466834?q=80&w=1600&auto=format&fit=crop";
-                      }}
-                    />
-                    {/* Multi-layered cinematic gradient for text contrast */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0E2620]/95 via-[#0E2620]/60 to-[#0E2620]/25" />
-                    <div className="absolute inset-0 bg-radial-at-l from-[#163A32]/50 to-transparent" />
-                  </div>
-
-                  {/* Content Overlay */}
-                  <div className="relative z-10 h-full flex flex-col justify-end p-6 sm:p-8 lg:p-10 max-w-2xl text-left">
-                    
-                    {/* Badge */}
-                    <div className="mb-3">
-                      <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#163A32]/85 backdrop-blur-md border border-[#D6A84F]/40 text-[#D6A84F] text-xs font-black shadow-sm tracking-wide">
-                        <Sparkles className="w-3.5 h-3.5 text-[#D6A84F]" />
-                        {badge}
-                      </span>
-                    </div>
-
-                    {/* Main Headline */}
-                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-[1.18] mb-3 drop-shadow-sm font-heading">
-                      {title}
-                    </h1>
-
-                    {/* Subtext */}
-                    <p className="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed mb-6 line-clamp-2 max-w-lg">
-                      {subtext}
-                    </p>
-
-                    {/* Dual Action Buttons */}
-                    <div className="flex flex-wrap items-center gap-3 mb-2">
-                      <Link
-                        href={slide.linkUrl || "/shop"}
-                        className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#D6A84F] hover:bg-[#E0BC70] text-[#163A32] text-xs sm:text-sm font-black shadow-lg shadow-[#D6A84F]/25 transition-all hover:scale-103 active:scale-98 flex items-center gap-2 cursor-pointer group"
-                      >
-                        <span>{primaryCta}</span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </Link>
-
-                      <Link
-                        href="/shop?offers=true"
-                        className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/30 text-white text-xs sm:text-sm font-bold transition-all hover:scale-102 active:scale-98 flex items-center gap-1.5 cursor-pointer"
-                      >
-                        <Flame className="w-4 h-4 text-[#D6A84F] fill-[#D6A84F]" />
-                        <span>{secondaryCta}</span>
-                      </Link>
-                    </div>
-
-                  </div>
-                </SwiperSlide>
-              );
-            })}
+            {slideData.map((slide: any, idx: number) => (
+              <SwiperSlide key={slide._id || idx} className="h-full relative">
+                <Link 
+                  href={slide.linkUrl || "/shop"}
+                  className="block w-full h-full relative cursor-pointer group"
+                >
+                  <img 
+                    src={slide.imageUrl} 
+                    alt={slide.title || "DCC Corner Banner"} 
+                    className="w-full h-full object-cover" 
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1511381939415-e44015466834?q=80&w=1600&auto=format&fit=crop";
+                    }}
+                  />
+                </Link>
+              </SwiperSlide>
+            ))}
           </Swiper>
         </div>
 
