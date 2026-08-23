@@ -98,25 +98,15 @@ export function OfferCard({ product }: OfferCardProps) {
           </div>
         )}
 
-        {/* Action Buttons Row */}
-        <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
+        {/* Action Button */}
+        <div className="mt-3 sm:mt-4">
           <Button 
             onClick={handleAddToCart}
-            variant="outline"
             size="sm"
-            className="rounded-xl border-[#163A32] text-[#163A32] hover:bg-[#163A32]/5 font-bold text-[11px] sm:text-xs h-8 sm:h-9 px-2.5 sm:px-3.5 flex items-center gap-1.5 shrink-0 cursor-pointer"
+            className="w-full sm:w-auto rounded-xl bg-[#163A32] hover:bg-[#D6A84F] text-white hover:text-[#163A32] font-black text-xs h-9 px-4.5 flex items-center justify-center gap-1.5 shadow-xs hover:shadow-md transition-all cursor-pointer group/btn"
           >
-            <ShoppingCart className="w-3.5 h-3.5 text-[#6B8F71]" />
-            <span>Add To Cart</span>
-          </Button>
-
-          <Button 
-            onClick={handleBuyNow}
-            size="sm"
-            className="rounded-xl bg-[#163A32] hover:bg-[#0E2620] text-white font-bold text-[11px] sm:text-xs h-8 sm:h-9 px-3 sm:px-4 flex items-center gap-1.5 shadow-sm shrink-0 cursor-pointer"
-          >
-            <Zap className="w-3.5 h-3.5 text-[#D6A84F] fill-[#D6A84F]" />
-            <span>Buy now</span>
+            <ShoppingCart className="w-3.5 h-3.5 group-hover/btn:scale-110 transition-transform" />
+            <span>Add to Cart</span>
           </Button>
         </div>
       </div>
