@@ -33,7 +33,7 @@ const getHomePageData = cache(async () => {
     Category.find({}).limit(8).lean(),
     Product.find({}).sort({ numReviews: -1 }).limit(5).lean(),
     Product.find({ isFeatured: true }).limit(5).lean(),
-    Product.find({ discountPrice: { $gt: 0 } }).limit(5).lean(),
+    Product.find({ discountPrice: { $gt: 0 } }).limit(24).lean(),
     Product.find({}).sort({ createdAt: -1 }).limit(5).lean()
   ]);
 
@@ -76,16 +76,19 @@ const ProductGrid = ({ title, subtitle, products, viewAllHref = "/shop" }: { tit
   );
 };
 
-// Reusable Offer Grid Component
+// Reusable Offer Grid Component - Displays strictly 4 offers on homepage with "See More" button if > 4
 const OfferGrid = ({ title, subtitle, products, viewAllHref = "/shop?offers=true" }: { title: string, subtitle?: string, products: any[], viewAllHref?: string }) => {
   if (!products || products.length === 0) return null;
   
+  const displayedOffers = products.slice(0, 4);
+  const hasMore = products.length > 4;
+
   return (
     <section className="py-12 bg-[#F7F8F5] border-y border-[#E5E7EB]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
           <div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#163A32] text-[#D6A84F] border border-[#D6A84F]/30 text-xs font-bold rounded-full mb-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#163A32] text-[#D6A84F] border border-[#D6A84F]/30 text-xs font-bold rounded-full mb-2 shadow-2xs">
               <Flame className="w-3.5 h-3.5 fill-[#D6A84F]" /> DCC Special Deals
             </span>
             <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#163A32]">
@@ -99,10 +102,23 @@ const OfferGrid = ({ title, subtitle, products, viewAllHref = "/shop?offers=true
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
-          {products.slice(0, 4).map((product) => (
+          {displayedOffers.map((product) => (
             <OfferCard key={product._id} product={product} />
           ))}
         </div>
+
+        {/* See More button if there are more than 4 offers */}
+        {hasMore && (
+          <div className="mt-8 sm:mt-10 flex justify-center">
+            <Link
+              href={viewAllHref}
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white border-2 border-[#163A32] text-[#163A32] hover:bg-[#163A32] hover:text-white rounded-2xl font-extrabold text-sm shadow-xs hover:shadow-md transition-all duration-200 group"
+            >
+              <span>See More Deals ({products.length - 4}+ More)</span>
+              <ArrowRight className="w-4 h-4 text-[#D6A84F] group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );
