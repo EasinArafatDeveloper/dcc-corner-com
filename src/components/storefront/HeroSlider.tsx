@@ -83,8 +83,8 @@ export function HeroSlider({
       {/* ===================== TOP HERO BENTO GRID ===================== */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 lg:gap-4 items-stretch">
         
-        {/* Left 8 Columns: True 16:9 Aspect Ratio Responsive Showcase Slider */}
-        <div className="lg:col-span-8 relative rounded-3xl overflow-hidden shadow-lg border border-[#E5E7EB] bg-slate-100 w-full aspect-[16/9] lg:aspect-auto lg:h-[410px] flex items-center">
+        {/* Left: Full Width on Mobile/Tablet, 8 Columns on Desktop (Zero Edge Cropping) */}
+        <div className="w-full lg:col-span-8 relative rounded-3xl overflow-hidden shadow-lg border border-[#E5E7EB] bg-slate-100 aspect-[16/9] lg:aspect-auto lg:h-[410px] flex items-center">
           <Swiper
             modules={[Autoplay, Pagination, Navigation, EffectFade]}
             effect="fade"
@@ -116,8 +116,8 @@ export function HeroSlider({
           </Swiper>
         </div>
 
-        {/* Right 4 Columns: Interactive High-Converting Promo Bento (Aligned to 410px Height) */}
-        <div className="lg:col-span-4 flex flex-col sm:grid sm:grid-cols-2 lg:flex lg:flex-col gap-3 lg:gap-3.5 h-full">
+        {/* Right 4 Columns: Promo Bento (Desktop Only — Hidden on Mobile & Tablet) */}
+        <div className="hidden lg:flex lg:col-span-4 flex-col gap-3 lg:gap-3.5 h-full">
           
           {/* Card 1: Deal of the Day / Flash Wholesale Box */}
           <div className="flex-1 bg-white rounded-3xl p-3.5 sm:p-4 border border-[#E5E7EB] shadow-[0_4px_20px_rgba(22,58,50,0.05)] hover:shadow-[0_8px_30px_rgba(22,58,50,0.1)] hover:border-[#163A32]/40 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group">
