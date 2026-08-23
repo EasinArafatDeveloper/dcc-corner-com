@@ -586,9 +586,9 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile Search Bar Row (When on small screens) */}
-        <div className="sm:hidden px-3 pb-3">
-          <form onSubmit={handleSearchSubmit} className="relative w-full h-10 bg-[#F7F8F5] rounded-full border border-[#E5E7EB] flex items-center pl-3.5 pr-1">
+        {/* Mobile Search Bar & Quick Category Carousel (For Small & Tablet Devices) */}
+        <div className="sm:hidden px-3 pb-2.5 space-y-2">
+          <form onSubmit={handleSearchSubmit} className="relative w-full h-9.5 bg-[#F7F8F5] rounded-full border border-[#E5E7EB] flex items-center pl-3.5 pr-1 shadow-2xs">
             <input
               type="text"
               value={searchQuery}
@@ -598,11 +598,52 @@ export function Header() {
             />
             <button
               type="submit"
-              className="h-7 px-3 bg-[#163A32] text-white rounded-full flex items-center justify-center"
+              aria-label="Search"
+              className="h-7.5 px-3 bg-[#163A32] hover:bg-[#0E2620] text-white rounded-full flex items-center justify-center cursor-pointer transition-colors"
             >
               <Search className="w-3.5 h-3.5" />
             </button>
           </form>
+
+          {/* Quick Category Pills Horizontal Carousel on Mobile */}
+          <div className="flex items-center gap-1.5 overflow-x-auto py-0.5 text-[11px] font-bold scrollbar-none [&::-webkit-scrollbar]:hidden">
+            <Link 
+              href="/shop?offers=true" 
+              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-red-50 text-red-600 border border-red-200 shadow-2xs font-extrabold"
+            >
+              <span>🔥 Deals</span>
+            </Link>
+            <Link 
+              href="/category/imported-chocolates" 
+              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#F7F8F5] text-[#111827] border border-[#E5E7EB] hover:bg-slate-100"
+            >
+              <span>🍫 Chocolates</span>
+            </Link>
+            <Link 
+              href="/category/beverages" 
+              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#F7F8F5] text-[#111827] border border-[#E5E7EB] hover:bg-slate-100"
+            >
+              <span>☕ Coffee</span>
+            </Link>
+            <Link 
+              href="/category/chips-snacks" 
+              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#F7F8F5] text-[#111827] border border-[#E5E7EB] hover:bg-slate-100"
+            >
+              <span>🥨 Snacks</span>
+            </Link>
+            <Link 
+              href="/checkout" 
+              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#163A32] text-[#D6A84F] border border-[#163A32]"
+            >
+              <span>⚡ 2-Hr Express</span>
+            </Link>
+            <Link 
+              href="/track-order" 
+              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#F7F8F5] text-[#4B5563] border border-[#E5E7EB]"
+            >
+              <span>📦 Track</span>
+            </Link>
+          </div>
         </div>
 
         {/* ===================== BOTTOM ROW: 2-Tier Sub-Navigation with Rich Hover Mega-Menus ===================== */}
