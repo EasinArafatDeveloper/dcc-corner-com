@@ -180,12 +180,12 @@ export function Header() {
       <AnnouncementBar />
 
       {/* 2. Alibaba-Style Master Header with Dark Green Underlay for Rounded Top Corners */}
-      <header className="sticky top-0 z-40 w-full bg-[#0E2620]">
+      <header className={`sticky top-0 z-40 w-full transition-colors duration-300 ${isScrolled ? "bg-white" : "bg-[#0E2620]"}`}>
         <div 
-          className={`w-full bg-white rounded-t-[28px] sm:rounded-t-[36px] transition-all duration-300 ${
+          className={`w-full bg-white transition-all duration-300 ${
             isScrolled 
-              ? "border-b border-[#E5E7EB] shadow-[0_4px_20px_rgba(22,58,50,0.06)]" 
-              : "border-b border-transparent shadow-none"
+              ? "rounded-none border-b border-[#E5E7EB] shadow-[0_4px_20px_rgba(22,58,50,0.08)]" 
+              : "rounded-t-[28px] sm:rounded-t-[36px] border-b border-transparent shadow-none"
           }`}
         >
           {/* ===================== TOP ROW: Logo, Search Bar Pill, Utility Icons, CTA ===================== */}
