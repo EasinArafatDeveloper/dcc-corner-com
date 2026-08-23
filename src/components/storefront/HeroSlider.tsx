@@ -2,20 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
+import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import Link from "next/link";
-import { 
-  Flame, 
-  Truck, 
-  ArrowRight, 
-  Clock, 
-  ChevronRight,
-  ShoppingBag
-} from "lucide-react";
 
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 
 interface BannerProps {
@@ -82,15 +73,14 @@ export function HeroSlider({
       {/* ===================== FULL WIDTH HERO BANNER SLIDER ===================== */}
       <div className="w-full relative rounded-t-2xl sm:rounded-t-3xl rounded-b-none overflow-hidden bg-slate-50 aspect-[16/9] sm:aspect-[21/9] lg:aspect-[2.4/1] xl:h-[460px] flex items-center">
         <Swiper
-          modules={[Autoplay, Pagination, Navigation, EffectFade]}
+          modules={[Autoplay, Pagination, EffectFade]}
           effect="fade"
           spaceBetween={0}
           slidesPerView={1}
           autoplay={{ delay: 5000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
-          navigation
           loop
-          className="w-full h-full absolute inset-0 [--swiper-navigation-size:18px] md:[--swiper-navigation-size:24px] [--swiper-navigation-color:#FFFFFF] [--swiper-pagination-color:#D6A84F]"
+          className="w-full h-full absolute inset-0 [--swiper-pagination-color:#D6A84F]"
         >
           {slideData.map((slide: any, idx: number) => (
             <SwiperSlide key={slide._id || idx} className="h-full relative">
