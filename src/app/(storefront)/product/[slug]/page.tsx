@@ -8,13 +8,15 @@ import Category from "@/models/Category";
 import { ProductActions } from "./ProductActions";
 import { notFound } from "next/navigation";
 
+import { cache } from "react";
+
 export const revalidate = 60;
 
-async function getProductData(slug: string) {
+const getProductData = cache(async (slug: string) => {
   await connectToDatabase();
   const product = await Product.findOne({ slug }).populate('category').lean();
   return product ? JSON.parse(JSON.stringify(product)) : null;
-}
+});
 
 import { Metadata } from 'next';
 

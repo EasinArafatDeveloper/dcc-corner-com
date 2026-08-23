@@ -7,9 +7,11 @@ import Category from "@/models/Category";
 import { ProductCard } from "@/components/storefront/ProductCard";
 import { notFound } from "next/navigation";
 
+import { cache } from "react";
+
 export const revalidate = 60;
 
-async function getCategoryData(slug: string) {
+const getCategoryData = cache(async (slug: string) => {
   await connectToDatabase();
   const category = await Category.findOne({ slug }).lean();
   
@@ -21,7 +23,7 @@ async function getCategoryData(slug: string) {
     category: JSON.parse(JSON.stringify(category)),
     products: JSON.parse(JSON.stringify(products)),
   };
-}
+});
 
 import { Metadata } from 'next';
 

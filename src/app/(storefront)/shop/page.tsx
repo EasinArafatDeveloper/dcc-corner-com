@@ -48,21 +48,16 @@ async function getShopData(searchParams: any) {
   else if (searchParams.sort === 'price-desc') sortQuery.price = -1;
   else if (searchParams.sort === 'newest') sortQuery.createdAt = -1;
   else if (searchParams.sort === 'top-selling') sortQuery.numReviews = -1;
-  else sortQuery.createdAt = -1; // Default fallback
-
-  const [products, categories] = await Promise.all([
+  const [products, categories, brands] = await Promise.all([
     Product.find(query).sort(sortQuery).lean(),
-    Category.find({}).lean()
+    Category.find({}).lean(),
+    Product.distinct('brand')
   ]);
-
-  // We fetch all products (without filters) just to get the full list of available brands for the filter sidebar
-  const allProducts = await Product.find({}).select('brand').lean();
-  const brands = Array.from(new Set(allProducts.map(p => (p as any).brand)));
 
   return {
     products: JSON.parse(JSON.stringify(products)),
     categories: JSON.parse(JSON.stringify(categories)),
-    brands
+    brands: (brands || []).filter(Boolean)
   };
 }
 

@@ -18,10 +18,12 @@ export const metadata: Metadata = {
   description: 'Fast delivery in Bashundhara R/A. 100% original imported coffee, chocolates, snacks and specialty pantry items at wholesale rates.',
 };
 
-// Force dynamic rendering for instant admin update reflection
-export const dynamic = 'force-dynamic';
+import { cache } from 'react';
 
-async function getHomePageData() {
+// Revalidate cache every 30 seconds for blazing fast page loads while keeping admin updates fresh
+export const revalidate = 30;
+
+const getHomePageData = cache(async () => {
   await connectToDatabase();
 
   const [banners, sideBanner, middleBanner, categories, topSelling, featured, offers, newArrivals] = await Promise.all([
@@ -45,7 +47,7 @@ async function getHomePageData() {
     offers: JSON.parse(JSON.stringify(offers)),
     newArrivals: JSON.parse(JSON.stringify(newArrivals)),
   };
-}
+});
 
 // Reusable Product Grid Component
 const ProductGrid = ({ title, subtitle, products, viewAllHref = "/shop" }: { title: string, subtitle?: string, products: any[], viewAllHref?: string }) => {
