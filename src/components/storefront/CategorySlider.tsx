@@ -47,9 +47,9 @@ export function CategorySlider({ categories }: { categories: CategoryProps[] }) 
             <SwiperSlide key={cat._id} className="!w-auto">
               <Link 
                 href={`/category/${cat.slug}`} 
-                className="w-24 sm:w-28 md:w-36 lg:w-44 group rounded-2xl overflow-hidden bg-white border border-[#E8E0D5] p-3 sm:p-4 flex flex-col items-center justify-center cursor-pointer hover:shadow-md transition-shadow duration-300"
+                className="w-24 sm:w-28 md:w-36 lg:w-44 group rounded-2xl overflow-hidden bg-white border border-[#E5E7EB] p-3 sm:p-4 flex flex-col items-center justify-center cursor-pointer hover:border-[#6B8F71]/60 hover:shadow-md transition-all duration-300"
               >
-                <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full mb-2 md:mb-3 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform bg-[#FAF7F2] p-1 border border-[#E8E0D5]">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full mb-2 md:mb-3 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform bg-[#F7F8F5] p-1 border border-[#E5E7EB]">
                   <img 
                     src={displayImg} 
                     alt={cat.name} 
@@ -59,7 +59,7 @@ export function CategorySlider({ categories }: { categories: CategoryProps[] }) 
                     }}
                   />
                 </div>
-                <h3 className="font-bold text-xs sm:text-sm text-[#2C2725] text-center leading-tight line-clamp-2 group-hover:text-[#4A2C2A]">
+                <h3 className="font-extrabold text-xs sm:text-sm text-[#111827] text-center leading-tight line-clamp-2 group-hover:text-[#163A32] transition-colors">
                   {cat.name}
                 </h3>
               </Link>

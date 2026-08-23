@@ -56,10 +56,10 @@ const ProductGrid = ({ title, subtitle, products, viewAllHref = "/shop" }: { tit
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#2C2725] tracking-tight">{title}</h2>
-            {subtitle && <p className="text-sm text-[#6B625D] mt-1 font-medium">{subtitle}</p>}
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#111827] tracking-tight">{title}</h2>
+            {subtitle && <p className="text-sm text-[#4B5563] mt-1 font-medium">{subtitle}</p>}
           </div>
-          <Link href={viewAllHref} className="text-[#C5A059] font-bold hover:text-[#4A2C2A] flex items-center mt-3 md:mt-0 text-sm transition-colors">
+          <Link href={viewAllHref} className="text-[#6B8F71] font-bold hover:text-[#163A32] flex items-center mt-3 md:mt-0 text-sm transition-colors">
             View All <ArrowRight className="ml-1 h-4 w-4" />
           </Link>
         </div>
@@ -79,19 +79,19 @@ const OfferGrid = ({ title, subtitle, products, viewAllHref = "/shop?offers=true
   if (!products || products.length === 0) return null;
   
   return (
-    <section className="py-12 bg-[#FAF7F2] border-y border-[#E8E0D5]">
+    <section className="py-12 bg-[#F7F8F5] border-y border-[#E5E7EB]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
           <div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#4A2C2A] text-[#C5A059] text-xs font-bold rounded-full mb-2">
-              <Flame className="w-3.5 h-3.5 fill-[#C5A059]" /> DCC Special Deals
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#163A32] text-[#D6A84F] border border-[#D6A84F]/30 text-xs font-bold rounded-full mb-2">
+              <Flame className="w-3.5 h-3.5 fill-[#D6A84F]" /> DCC Special Deals
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#4A2C2A]">
+            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#163A32]">
               {title}
             </h2>
-            {subtitle && <p className="text-[#6B625D] mt-1 text-sm font-medium">{subtitle}</p>}
+            {subtitle && <p className="text-[#4B5563] mt-1 text-sm font-medium">{subtitle}</p>}
           </div>
-          <Link href={viewAllHref} className="text-[#C5A059] font-bold hover:text-[#4A2C2A] flex items-center mt-3 md:mt-0 text-sm transition-colors">
+          <Link href={viewAllHref} className="text-[#6B8F71] font-bold hover:text-[#163A32] flex items-center mt-3 md:mt-0 text-sm transition-colors">
             View All Offers <ArrowRight className="ml-1 h-4 w-4" />
           </Link>
         </div>
@@ -110,10 +110,16 @@ export default async function HomePage() {
   const data = await getHomePageData();
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FAF7F2]">
-      <div className="container mx-auto px-4 pt-4 sm:pt-6">
-        {/* 1. Hero Section Slider */}
-        <HeroSlider banners={data.banners} sideBanner={data.sideBanner} />
+    <div className="flex flex-col min-h-screen bg-white">
+      {/* 1. Hero Section Wrapper with Soft DCC Corner Brand Color Gradient */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-[#F0F5F2] via-[#F7F8F5] to-white pb-6 pt-2 sm:pt-4 border-b border-[#E5E7EB]/60">
+        {/* Ambient Subtle Glows */}
+        <div className="absolute -top-12 left-1/4 w-96 h-96 bg-[#6B8F71]/8 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-10 right-8 w-72 h-72 bg-[#D6A84F]/6 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="container mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
+          <HeroSlider banners={data.banners} sideBanner={data.sideBanner} />
+        </div>
       </div>
 
       {/* 2. Category Visual Grid */}
@@ -121,10 +127,10 @@ export default async function HomePage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-[#2C2725]">Explore Categories</h2>
-              <p className="text-xs text-[#6B625D]">Select a category to view imported deals</p>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-[#111827]">Explore Categories</h2>
+              <p className="text-xs text-[#4B5563]">Select a category to view imported deals</p>
             </div>
-            <Link href="/shop" className="text-xs font-bold text-[#C5A059] hover:underline">
+            <Link href="/shop" className="text-xs font-bold text-[#6B8F71] hover:text-[#163A32] hover:underline">
               See All →
             </Link>
           </div>
@@ -152,7 +158,7 @@ export default async function HomePage() {
       <MiddlePromoBanner banner={data.middleBanner} />
 
       {/* 6. New Arrivals */}
-      <div className="bg-white border-t border-[#E8E0D5]">
+      <div className="bg-white border-t border-[#E5E7EB]">
         <ProductGrid 
           title="New Arrivals" 
           subtitle="Freshly imported stock just arrived at DCC Corner." 
@@ -162,9 +168,9 @@ export default async function HomePage() {
       </div>
 
       <div className="container mx-auto px-4 pb-16 pt-10 text-center">
-        <Button size="lg" asChild className="rounded-xl px-8 bg-[#4A2C2A] hover:bg-[#3B221E] text-white font-bold shadow-lg">
+        <Button size="lg" asChild className="rounded-xl px-8 bg-[#163A32] hover:bg-[#0E2620] text-white font-bold shadow-lg shadow-[#163A32]/20">
           <Link href="/shop">
-            Shop All Imported Deals <ArrowRight className="w-4 h-4 ml-2 text-[#C5A059]" />
+            Shop All Imported Deals <ArrowRight className="w-4 h-4 ml-2 text-[#D6A84F]" />
           </Link>
         </Button>
       </div>

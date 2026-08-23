@@ -53,54 +53,60 @@ export function ShopFilters({ categories, brands }: ShopFiltersProps) {
   };
 
   return (
-    <aside className="w-full md:w-64 shrink-0 space-y-8">
-      <div className="space-y-4">
-        <h3 className="font-semibold text-lg flex items-center"><Filter className="w-4 h-4 mr-2" /> Filters</h3>
+    <aside className="w-full md:w-64 shrink-0 space-y-6">
+      <div className="space-y-4 bg-white p-5 rounded-2xl border border-[#E5E7EB] shadow-2xs">
+        <h3 className="font-extrabold text-base text-[#111827] flex items-center">
+          <Filter className="w-4 h-4 mr-2 text-[#163A32]" /> Filters
+        </h3>
         <form onSubmit={handleSearchSubmit} className="relative">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#9CA3AF]" />
           <Input 
             type="search" 
             placeholder="Search products..." 
-            className="pl-8" 
+            className="pl-9 rounded-xl border-[#E5E7EB] focus:ring-[#163A32] text-xs bg-[#F7F8F5]" 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
         </form>
-      </div>
 
-      <div className="space-y-4 border-t pt-4">
-        <h4 className="font-medium">Categories</h4>
-        <div className="space-y-2">
-          {categories.map((category: any) => (
-            <div key={category._id} className="flex items-center space-x-2">
-              <input 
-                type="checkbox" 
-                id={`cat-${category.slug}`} 
-                className="rounded border-gray-300 text-primary focus:ring-primary" 
-                checked={selectedCategory === category.slug}
-                onChange={() => handleCategoryChange(category.slug)}
-              />
-              <Label htmlFor={`cat-${category.slug}`} className="text-sm font-normal cursor-pointer">{category.name}</Label>
-            </div>
-          ))}
+        <div className="space-y-3 border-t border-[#E5E7EB] pt-4">
+          <h4 className="font-bold text-xs text-[#111827] uppercase tracking-wider">Categories</h4>
+          <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+            {categories.map((category: any) => (
+              <div key={category._id} className="flex items-center space-x-2">
+                <input 
+                  type="checkbox" 
+                  id={`cat-${category.slug}`} 
+                  className="rounded border-[#E5E7EB] text-[#163A32] focus:ring-[#163A32] accent-[#163A32]" 
+                  checked={selectedCategory === category.slug}
+                  onChange={() => handleCategoryChange(category.slug)}
+                />
+                <Label htmlFor={`cat-${category.slug}`} className="text-xs font-medium text-[#4B5563] cursor-pointer hover:text-[#163A32]">
+                  {category.name}
+                </Label>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="space-y-4 border-t pt-4">
-        <h4 className="font-medium">Brands</h4>
-        <div className="space-y-2">
-          {brands.map((brand: any) => (
-            <div key={brand} className="flex items-center space-x-2">
-              <input 
-                type="checkbox" 
-                id={`brand-${brand}`} 
-                className="rounded border-gray-300 text-primary focus:ring-primary" 
-                checked={selectedBrand === brand}
-                onChange={() => handleBrandChange(brand)}
-              />
-              <Label htmlFor={`brand-${brand}`} className="text-sm font-normal cursor-pointer">{brand}</Label>
-            </div>
-          ))}
+        <div className="space-y-3 border-t border-[#E5E7EB] pt-4">
+          <h4 className="font-bold text-xs text-[#111827] uppercase tracking-wider">Brands</h4>
+          <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+            {brands.map((brand: any) => (
+              <div key={brand} className="flex items-center space-x-2">
+                <input 
+                  type="checkbox" 
+                  id={`brand-${brand}`} 
+                  className="rounded border-[#E5E7EB] text-[#163A32] focus:ring-[#163A32] accent-[#163A32]" 
+                  checked={selectedBrand === brand}
+                  onChange={() => handleBrandChange(brand)}
+                />
+                <Label htmlFor={`brand-${brand}`} className="text-xs font-medium text-[#4B5563] cursor-pointer hover:text-[#163A32]">
+                  {brand}
+                </Label>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </aside>

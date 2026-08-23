@@ -74,8 +74,8 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
     <div className="container mx-auto px-4 py-8">
       {/* Breadcrumb & Title */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold tracking-tight">Shop All Products</h1>
-        <p className="text-muted-foreground mt-2">Discover our full range of premium imported snacks and confectionery.</p>
+        <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-[#111827]">Shop All Products</h1>
+        <p className="text-[#4B5563] mt-2 text-sm">Discover our full range of premium imported snacks, chocolates, coffee, and gourmet treats.</p>
       </div>
 
       <div className="flex flex-col md:flex-row gap-8">
@@ -84,24 +84,24 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
         {/* Product Grid */}
         <main className="flex-1">
           {/* Toolbar */}
-          <div className="flex justify-between items-center mb-6 bg-muted/30 p-4 rounded-lg">
-            <p className="text-sm text-muted-foreground">Showing {products.length} products</p>
+          <div className="flex justify-between items-center mb-6 bg-[#F7F8F5] border border-[#E5E7EB] p-4 rounded-2xl">
+            <p className="text-xs sm:text-sm font-semibold text-[#4B5563]">Showing <span className="text-[#111827] font-bold">{products.length}</span> products</p>
             <ShopSort />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
             {products.map((product: any) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>
           
-          {/* Pagination Placeholder */}
+          {/* Pagination */}
           <div className="mt-12 flex justify-center space-x-2">
-            <Button variant="outline" size="sm" disabled>Previous</Button>
-            <Button variant="default" size="sm">1</Button>
-            <Button variant="outline" size="sm">2</Button>
-            <Button variant="outline" size="sm">3</Button>
-            <Button variant="outline" size="sm">Next</Button>
+            <Button variant="outline" size="sm" className="rounded-xl border-[#E5E7EB] text-[#4B5563]" disabled>Previous</Button>
+            <Button variant="default" size="sm" className="rounded-xl bg-[#163A32] text-white font-bold">1</Button>
+            <Button variant="outline" size="sm" className="rounded-xl border-[#E5E7EB] text-[#4B5563] hover:text-[#163A32]">2</Button>
+            <Button variant="outline" size="sm" className="rounded-xl border-[#E5E7EB] text-[#4B5563] hover:text-[#163A32]">3</Button>
+            <Button variant="outline" size="sm" className="rounded-xl border-[#E5E7EB] text-[#4B5563] hover:text-[#163A32]">Next</Button>
           </div>
         </main>
       </div>

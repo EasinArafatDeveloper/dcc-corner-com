@@ -243,13 +243,13 @@ export default function OffersAdminPage() {
         <div className="lg:col-span-1 space-y-4">
           
           {/* 2 Tab Switcher Buttons */}
-          <div className="bg-[#FAF7F2] p-1.5 rounded-2xl border border-[#E8E0D5] flex gap-1 shadow-xs">
+          <div className="bg-slate-100/80 p-1.5 rounded-2xl border border-[#E5E7EB] flex gap-1 shadow-xs">
             <button
               onClick={() => setActiveTab("product_offer")}
               className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5 ${
                 activeTab === "product_offer"
-                  ? "bg-[#4A2C2A] text-white shadow-sm"
-                  : "text-[#6B625D] hover:text-[#2C2725] hover:bg-white/60"
+                  ? "bg-[#163A32] text-white shadow-sm"
+                  : "text-[#4B5563] hover:text-[#111827] hover:bg-white/60"
               }`}
             >
               <Percent className="w-3.5 h-3.5" />
@@ -260,11 +260,11 @@ export default function OffersAdminPage() {
               onClick={() => setActiveTab("side_poster")}
               className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5 relative ${
                 activeTab === "side_poster"
-                  ? "bg-[#4A2C2A] text-white shadow-sm"
-                  : "text-[#6B625D] hover:text-[#2C2725] hover:bg-white/60"
+                  ? "bg-[#163A32] text-white shadow-sm"
+                  : "text-[#4B5563] hover:text-[#111827] hover:bg-white/60"
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#D6A84F]" />
               <span>Hero Side Poster</span>
               {hasSavedPoster && (
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse absolute top-1.5 right-1.5" />
@@ -274,8 +274,8 @@ export default function OffersAdminPage() {
 
           {/* Tab 1 Content: Apply Product Offer */}
           {activeTab === "product_offer" && (
-            <div className="bg-white p-6 rounded-2xl shadow-sm border animate-in fade-in duration-300">
-              <h2 className="text-base font-extrabold text-[#2C2725] mb-4">Apply Product Discount</h2>
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#E5E7EB] animate-in fade-in duration-300">
+              <h2 className="text-base font-extrabold text-[#111827] mb-4">Apply Product Discount</h2>
               
               <div className="space-y-4">
                 <div className="flex gap-2">
@@ -287,10 +287,10 @@ export default function OffersAdminPage() {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                      className="w-full pl-9 pr-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#4A2C2A]/20 text-xs"
+                      className="w-full pl-9 pr-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#163A32]/20 text-xs"
                     />
                   </div>
-                  <Button onClick={handleSearch} disabled={searching} className="rounded-xl px-4 bg-[#4A2C2A] text-white text-xs font-bold">
+                  <Button onClick={handleSearch} disabled={searching} className="rounded-xl px-4 bg-[#163A32] hover:bg-[#0E2620] text-white text-xs font-bold">
                     {searching ? <Loader2 className="w-4 h-4 animate-spin" /> : "Search"}
                   </Button>
                 </div>
@@ -317,19 +317,19 @@ export default function OffersAdminPage() {
 
                 {/* Selected Product Form */}
                 {selectedProduct && (
-                  <div className="bg-[#FAF7F2] p-4 rounded-xl border border-[#E8E0D5] space-y-4 animate-in fade-in slide-in-from-top-2">
+                  <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4 animate-in fade-in slide-in-from-top-2">
                     <div className="flex justify-between items-start">
-                      <h3 className="font-bold text-xs text-[#2C2725] line-clamp-2 pr-4">{selectedProduct.name}</h3>
+                      <h3 className="font-bold text-xs text-[#111827] line-clamp-2 pr-4">{selectedProduct.name}</h3>
                       <button onClick={() => setSelectedProduct(null)} className="text-muted-foreground hover:text-slate-900 font-bold">&times;</button>
                     </div>
                     
                     <div className="flex justify-between text-xs">
-                      <span className="text-[#6B625D]">Regular Price:</span>
-                      <span className="font-bold text-[#2C2725]">৳{selectedProduct.price.toFixed(2)}</span>
+                      <span className="text-[#4B5563]">Regular Price:</span>
+                      <span className="font-bold text-[#111827]">৳{selectedProduct.price.toFixed(2)}</span>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-[#2C2725] mb-1">Discount Percentage (%)</label>
+                      <label className="block text-xs font-bold text-[#111827] mb-1">Discount Percentage (%)</label>
                       <div className="relative">
                         <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                         <input 
@@ -339,22 +339,22 @@ export default function OffersAdminPage() {
                           placeholder="e.g. 20"
                           value={discountPercent}
                           onChange={(e) => setDiscountPercent(Number(e.target.value) || "")}
-                          className="w-full pl-9 pr-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#4A2C2A]/20 text-xs"
+                          className="w-full pl-9 pr-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#163A32]/20 text-xs"
                         />
                       </div>
                     </div>
 
                     {discountPercent && Number(discountPercent) > 0 && (
-                      <div className="flex justify-between items-center text-xs bg-white p-3 rounded-lg border border-[#E8E0D5]">
-                        <span className="text-[#6B625D]">New Offer Price:</span>
-                        <span className="font-extrabold text-[#4A2C2A] text-base">
+                      <div className="flex justify-between items-center text-xs bg-white p-3 rounded-lg border border-slate-200">
+                        <span className="text-[#4B5563]">New Offer Price:</span>
+                        <span className="font-extrabold text-[#163A32] text-base">
                           ৳{(selectedProduct.price - (selectedProduct.price * (Number(discountPercent)/100))).toFixed(2)}
                         </span>
                       </div>
                     )}
 
-                    <Button className="w-full rounded-xl bg-[#4A2C2A] hover:bg-[#3B221E] text-white font-bold text-xs" onClick={handleApplyOffer} disabled={applying || !discountPercent}>
-                      {applying ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <PlusCircle className="w-4 h-4 mr-2 text-[#C5A059]" />}
+                    <Button className="w-full rounded-xl bg-[#163A32] hover:bg-[#0E2620] text-white font-bold text-xs" onClick={handleApplyOffer} disabled={applying || !discountPercent}>
+                      {applying ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <PlusCircle className="w-4 h-4 mr-2 text-[#D6A84F]" />}
                       Apply Offer
                     </Button>
                   </div>
@@ -365,10 +365,10 @@ export default function OffersAdminPage() {
 
           {/* Tab 2 Content: Hero Side Poster Upload Form */}
           {activeTab === "side_poster" && (
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-amber-200/80 bg-gradient-to-b from-amber-50/40 to-white animate-in fade-in duration-300">
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#E5E7EB] bg-gradient-to-b from-amber-50/40 to-white animate-in fade-in duration-300">
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-base font-extrabold text-[#4A2C2A] flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-[#C5A059]" /> Hero Side Poster
+                <h2 className="text-base font-extrabold text-[#163A32] flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-[#D6A84F]" /> Hero Side Poster
                 </h2>
                 {hasSavedPoster ? (
                   <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300 flex items-center gap-1">
@@ -390,7 +390,7 @@ export default function OffersAdminPage() {
                   </div>
 
                   {/* Active Poster Preview */}
-                  <div className="relative aspect-square w-full rounded-xl overflow-hidden border border-[#E8E0D5] shadow-xs">
+                  <div className="relative aspect-square w-full rounded-xl overflow-hidden border border-slate-200 shadow-xs">
                     <img src={sidePosterImage} alt="Active Hero Side Poster" className="w-full h-full object-cover" />
                   </div>
 
@@ -404,7 +404,7 @@ export default function OffersAdminPage() {
                     <Button 
                       onClick={() => setIsEditingPoster(true)} 
                       variant="outline" 
-                      className="flex-1 rounded-xl text-xs font-bold border-[#4A2C2A] text-[#4A2C2A] hover:bg-[#4A2C2A]/5"
+                      className="flex-1 rounded-xl text-xs font-bold border-[#163A32] text-[#163A32] hover:bg-[#163A32]/5"
                     >
                       <RefreshCw className="w-3.5 h-3.5 mr-1.5" /> Replace Poster
                     </Button>
@@ -496,9 +496,9 @@ export default function OffersAdminPage() {
                     <Button 
                       onClick={handleSaveSidePoster} 
                       disabled={savingPoster || uploadingPoster || !sidePosterImage} 
-                      className="flex-1 rounded-xl bg-[#4A2C2A] hover:bg-[#3B221E] text-white font-bold text-xs h-10 shadow-md"
+                      className="flex-1 rounded-xl bg-[#163A32] hover:bg-[#0E2620] text-white font-bold text-xs h-10 shadow-md"
                     >
-                      {savingPoster ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Upload className="w-4 h-4 mr-2 text-[#C5A059]" />}
+                      {savingPoster ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Upload className="w-4 h-4 mr-2 text-[#D6A84F]" />}
                       Save & Publish Poster
                     </Button>
                   </div>
