@@ -586,8 +586,8 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile Search Bar & Quick Category Carousel (For Small & Tablet Devices) */}
-        <div className="sm:hidden px-3 pb-2.5 space-y-2">
+        {/* Mobile Search Bar (Clean Single Row on Small Screens) */}
+        <div className="sm:hidden px-3 pb-2.5">
           <form onSubmit={handleSearchSubmit} className="relative w-full h-9.5 bg-[#F7F8F5] rounded-full border border-[#E5E7EB] flex items-center pl-3.5 pr-1 shadow-2xs">
             <input
               type="text"
@@ -604,46 +604,6 @@ export function Header() {
               <Search className="w-3.5 h-3.5" />
             </button>
           </form>
-
-          {/* Quick Category Pills Horizontal Carousel on Mobile */}
-          <div className="flex items-center gap-1.5 overflow-x-auto py-0.5 text-[11px] font-bold scrollbar-none [&::-webkit-scrollbar]:hidden">
-            <Link 
-              href="/shop?offers=true" 
-              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-red-50 text-red-600 border border-red-200 shadow-2xs font-extrabold"
-            >
-              <span>🔥 Deals</span>
-            </Link>
-            <Link 
-              href="/category/imported-chocolates" 
-              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#F7F8F5] text-[#111827] border border-[#E5E7EB] hover:bg-slate-100"
-            >
-              <span>🍫 Chocolates</span>
-            </Link>
-            <Link 
-              href="/category/beverages" 
-              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#F7F8F5] text-[#111827] border border-[#E5E7EB] hover:bg-slate-100"
-            >
-              <span>☕ Coffee</span>
-            </Link>
-            <Link 
-              href="/category/chips-snacks" 
-              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#F7F8F5] text-[#111827] border border-[#E5E7EB] hover:bg-slate-100"
-            >
-              <span>🥨 Snacks</span>
-            </Link>
-            <Link 
-              href="/checkout" 
-              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#163A32] text-[#D6A84F] border border-[#163A32]"
-            >
-              <span>⚡ 2-Hr Express</span>
-            </Link>
-            <Link 
-              href="/track-order" 
-              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#F7F8F5] text-[#4B5563] border border-[#E5E7EB]"
-            >
-              <span>📦 Track</span>
-            </Link>
-          </div>
         </div>
 
         {/* ===================== BOTTOM ROW: 2-Tier Sub-Navigation with Rich Hover Mega-Menus ===================== */}
@@ -1403,43 +1363,70 @@ export function Header() {
 
         </div>
 
-        {/* Mobile Horizontal Quick Category Pills */}
-        <div className="lg:hidden border-t border-[#E5E7EB] bg-[#F7F8F5] py-2 px-3 overflow-x-auto no-scrollbar flex items-center gap-2 text-xs font-bold text-[#111827]">
+        {/* Single Mobile Smooth Horizontal Category Slider (1 Clean Row Only) */}
+        <div className="lg:hidden border-t border-[#E5E7EB] bg-[#F7F8F5] py-2 px-3 overflow-x-auto flex items-center gap-2 text-xs font-bold text-[#111827] scrollbar-none [&::-webkit-scrollbar]:hidden">
           <Link
             href="/shop"
-            className="px-3 py-1 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32] flex items-center gap-1 text-[#163A32]"
+            className="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32] flex items-center gap-1 text-[#163A32] shadow-2xs font-extrabold"
           >
-            <Menu className="w-3 h-3" /> All
+            <Menu className="w-3.5 h-3.5" />
+            <span>All</span>
           </Link>
           <Link
             href="/shop?offers=true"
-            className="px-3 py-1 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32] flex items-center gap-1 text-[#DC2626]"
+            className="px-3 py-1.5 bg-gradient-to-r from-red-50 to-rose-50 border border-red-200 text-red-600 rounded-full shrink-0 flex items-center gap-1.5 shadow-2xs font-black"
           >
-            <Flame className="w-3 h-3 fill-[#DC2626]" /> Deals
+            <Flame className="w-3.5 h-3.5 fill-red-600 text-red-600 animate-pulse" />
+            <span>Hot Deals</span>
           </Link>
           <Link
             href="/category/imported-chocolates"
-            className="px-3 py-1 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32]"
+            className="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32] shadow-2xs flex items-center gap-1.5"
           >
-            🍫 Chocolates
+            <span>🍫</span>
+            <span>Chocolates</span>
           </Link>
           <Link
             href="/category/beverages"
-            className="px-3 py-1 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32]"
+            className="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32] shadow-2xs flex items-center gap-1.5"
           >
-            ☕ Coffee
+            <span>☕</span>
+            <span>Coffee</span>
           </Link>
           <Link
             href="/category/chips-snacks"
-            className="px-3 py-1 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32]"
+            className="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32] shadow-2xs flex items-center gap-1.5"
           >
-            🥨 Snacks
+            <span>🥨</span>
+            <span>Snacks</span>
+          </Link>
+          <Link
+            href="/category/cookies"
+            className="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32] shadow-2xs flex items-center gap-1.5"
+          >
+            <span>🍪</span>
+            <span>Cookies</span>
+          </Link>
+          <Link
+            href="/category/instant-noodles"
+            className="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32] shadow-2xs flex items-center gap-1.5"
+          >
+            <span>🍜</span>
+            <span>Ramen</span>
+          </Link>
+          <Link
+            href="/checkout"
+            className="px-3 py-1.5 bg-[#163A32] text-[#D6A84F] border border-[#163A32] rounded-full shrink-0 flex items-center gap-1.5 shadow-2xs font-extrabold"
+          >
+            <Truck className="w-3.5 h-3.5" />
+            <span>2-Hr Express</span>
           </Link>
           <Link
             href="/track-order"
-            className="px-3 py-1 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32] text-[#6B8F71]"
+            className="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-full shrink-0 hover:border-[#163A32] text-[#4B5563] shadow-2xs flex items-center gap-1.5"
           >
-            📦 Track
+            <Package className="w-3.5 h-3.5 text-[#6B8F71]" />
+            <span>Track</span>
           </Link>
         </div>
 
