@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Heart, ShoppingBag, ArrowUpRight } from "lucide-react";
+import { Heart, ShoppingBag, Plus } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { toast } from "sonner";
 
@@ -34,6 +34,21 @@ export function ProductCard({ product }: ProductCardProps) {
 
   const badge = getBadge();
 
+  // Strip raw HTML tags (e.g. <p>, &nbsp;) from description
+  const stripHtml = (html?: string) => {
+    if (!html) return "";
+    return html
+      .replace(/<[^>]*>?/gm, "")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/\s+/g, " ")
+      .trim();
+  };
+
+  const cleanDescription = stripHtml(product.shortDescription || product.description) || "Authentic imported luxury treat guaranteed fresh in original packing.";
+
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -45,7 +60,7 @@ export function ProductCard({ product }: ProductCardProps) {
       image: product.images?.[0] || "",
       quantity: 1,
     });
-    toast.success(`${product.name} added to cart`);
+    toast.success(`${product.name} added to cart!`);
   };
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
@@ -106,7 +121,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </div>
 
-      {/* 2. Middle Content Area: Title, Subtitle, Highlights */}
+      {/* 2. Middle Content Area: Title, Subtitle, Clean Highlights */}
       <div className="flex-1 flex flex-col justify-between min-w-0">
         <div>
           {/* Product Title */}
@@ -121,13 +136,13 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.category?.name || product.brand || "Authentic Direct Import"}
           </p>
 
-          {/* Short Description */}
+          {/* Clean Short Description without HTML entities */}
           <p className="text-[11px] sm:text-xs text-[#6B7280] line-clamp-2 mt-1 leading-relaxed font-normal">
-            {product.shortDescription || product.description || "Authentic imported luxury treat guaranteed fresh in original packing."}
+            {cleanDescription}
           </p>
         </div>
 
-        {/* 3. Bottom Row: Price Pill on Left & Buy Now Pill Button on Right */}
+        {/* 3. Bottom Row: Price Pill on Left & Add to Cart Pill Button on Right */}
         <div className="flex items-center justify-between gap-1.5 sm:gap-2 mt-3.5 pt-1">
           {/* Price Pill */}
           <div className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-[#F3F4F6] border border-slate-200/60 flex items-baseline gap-1 sm:gap-1.5 shrink-0">
@@ -141,15 +156,15 @@ export function ProductCard({ product }: ProductCardProps) {
             )}
           </div>
 
-          {/* Buy Now Pill CTA Button */}
+          {/* Add to Cart Pill CTA Button */}
           <button
             type="button"
             onClick={handleAddToCart}
             className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#163A32] hover:bg-[#D6A84F] active:scale-95 text-white hover:text-[#163A32] font-black text-[11px] sm:text-xs transition-all duration-200 flex items-center gap-1 sm:gap-1.5 shadow-sm hover:shadow-md cursor-pointer shrink-0 group/btn"
           >
             <ShoppingBag className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover/btn:scale-110 transition-transform" />
-            <span>Buy Now</span>
-            <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+            <span>Add to Cart</span>
+            <Plus className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover/btn:rotate-90 transition-transform" />
           </button>
         </div>
 
