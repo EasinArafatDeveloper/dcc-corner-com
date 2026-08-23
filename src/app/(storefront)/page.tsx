@@ -129,9 +129,9 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {/* 1. Hero Section Wrapper (Seamless pure white background) */}
-      <div className="relative bg-white pb-6 pt-2 sm:pt-4 border-b border-[#E5E7EB]/60">
-        <div className="container mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
+      {/* 1. Hero Section Wrapper (Edge-to-Edge 100% Full Width) */}
+      <div className="relative bg-white pb-6">
+        <div className="w-full relative z-10">
           <HeroSlider banners={data.banners} sideBanner={data.sideBanner} />
         </div>
       </div>
