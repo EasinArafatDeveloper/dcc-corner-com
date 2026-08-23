@@ -84,7 +84,7 @@ const OfferGrid = ({ title, subtitle, products, viewAllHref = "/shop?offers=true
   const hasMore = products.length > 4;
 
   return (
-    <section className="py-12 bg-[#F7F8F5] border-y border-[#E5E7EB]">
+    <section className="py-10 sm:py-14 bg-[#F7F8F5] rounded-t-[32px] sm:rounded-t-[44px] border-t border-[#E5E7EB] shadow-xs relative z-10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
           <div>
