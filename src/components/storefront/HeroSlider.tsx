@@ -4,6 +4,14 @@ import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import Link from "next/link";
+import { 
+  Flame, 
+  Truck, 
+  ArrowRight, 
+  Clock, 
+  ChevronRight,
+  ShoppingBag
+} from "lucide-react";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -71,7 +79,7 @@ export function HeroSlider({
   return (
     <div className="w-full">
       {/* ===================== FULL WIDTH HERO BANNER SLIDER ===================== */}
-      <div className="w-full relative rounded-t-2xl sm:rounded-t-3xl rounded-b-none overflow-hidden bg-slate-50 aspect-[16/9] sm:aspect-[21/9] lg:aspect-[2.4/1] xl:h-[460px] flex items-center">
+      <div className="w-full relative rounded-t-2xl sm:rounded-t-3xl rounded-b-none overflow-hidden shadow-sm border border-[#E5E7EB] bg-slate-50 aspect-[16/9] sm:aspect-[21/9] lg:aspect-[2.4/1] xl:h-[460px] flex items-center">
         <Swiper
           modules={[Autoplay, Pagination, EffectFade]}
           effect="fade"
