@@ -15,7 +15,8 @@ import {
   ChevronRight, 
   HelpCircle, 
   PhoneCall,
-  LayoutDashboard
+  LayoutDashboard,
+  Heart
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useStore } from "@/store/useStore";
@@ -33,7 +34,7 @@ export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
-  const { user, logout } = useStore();
+  const { user, logout, wishlist } = useStore();
 
   useEffect(() => {
     setMounted(true);
@@ -187,6 +188,23 @@ export function MobileMenu() {
                     >
                       <ShieldCheck className="w-4 h-4 text-[#6B8F71]" />
                       <span>Verified Direct Imports</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/wishlist"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center justify-between px-3.5 py-2 rounded-xl text-xs font-bold text-[#374151] hover:bg-[#F7F8F5]"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Heart className="w-4 h-4 text-red-500 fill-red-500" />
+                        <span>My Saved Wishlist</span>
+                      </div>
+                      {mounted && wishlist.length > 0 && (
+                        <span className="text-[10px] bg-[#163A32] text-white px-2 py-0.5 rounded-full font-black">
+                          {wishlist.length}
+                        </span>
+                      )}
                     </Link>
                   </li>
                   <li>

@@ -25,7 +25,7 @@ export function AnnouncementBar() {
   const current = announcements[index];
 
   return (
-    <div className="bg-[#0E2620] text-white text-[11px] sm:text-xs md:text-[13px] py-1.5 sm:py-2 px-2.5 sm:px-4 border-b border-[#163A32]/80 select-none overflow-hidden h-8 sm:h-9 md:h-10 flex items-center justify-center">
+    <div className="bg-[#0E2620] text-white text-[11px] sm:text-xs md:text-[13px] py-1.5 sm:py-2 px-2.5 sm:px-4 border-b-0 select-none overflow-hidden h-8 sm:h-9 md:h-10 flex items-center justify-center">
       <div className="container mx-auto flex items-center justify-center w-full">
         <AnimatePresence mode="wait">
           <motion.div

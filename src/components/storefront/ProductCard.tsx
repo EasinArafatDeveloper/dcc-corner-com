@@ -71,14 +71,14 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="group bg-white rounded-[26px] sm:rounded-[30px] p-3 sm:p-4 border border-[#E5E7EB] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(22,58,50,0.09)] hover:border-[#163A32]/30 transition-all duration-300 flex flex-col justify-between relative text-left h-full">
+    <div className="group bg-white rounded-[22px] sm:rounded-[30px] p-2.5 sm:p-4 border border-[#E5E7EB] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(22,58,50,0.09)] hover:border-[#163A32]/30 transition-all duration-300 flex flex-col justify-between relative text-left h-full overflow-hidden">
       
       {/* 1. Top Rounded Image Container with Badges & Wishlist */}
-      <div className="relative w-full aspect-square bg-[#F7F8F5] rounded-[20px] sm:rounded-[22px] overflow-hidden mb-3 border border-slate-100/90 flex items-center justify-center">
+      <div className="relative w-full aspect-square bg-[#F7F8F5] rounded-[18px] sm:rounded-[22px] overflow-hidden mb-2.5 sm:mb-3 border border-slate-100/90 flex items-center justify-center">
         
         {/* Top-Left Status Badge (Floating Glassmorphic Pill) */}
-        <div className="absolute top-2.5 left-2.5 z-10">
-          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-tight shadow-xs border ${
+        <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 z-10">
+          <span className={`inline-flex items-center gap-1 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[8.5px] sm:text-[10px] font-black uppercase tracking-tight shadow-xs border ${
             badge.isSale 
               ? "bg-red-500/90 text-white border-red-400/50" 
               : "bg-white/90 backdrop-blur-md text-[#163A32] border-white/60"
@@ -92,10 +92,10 @@ export function ProductCard({ product }: ProductCardProps) {
           type="button"
           onClick={handleToggleWishlist}
           aria-label="Wishlist"
-          className="absolute top-2.5 right-2.5 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 backdrop-blur-md shadow-xs border border-white/60 flex items-center justify-center transition-transform hover:scale-110 active:scale-90 cursor-pointer"
+          className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 z-10 w-6.5 h-6.5 sm:w-8 sm:h-8 rounded-full bg-white/90 backdrop-blur-md shadow-xs border border-white/60 flex items-center justify-center transition-transform hover:scale-110 active:scale-90 cursor-pointer"
         >
           <Heart 
-            className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-colors ${
+            className={`w-3 h-3 sm:w-4 sm:h-4 transition-colors ${
               isWishlisted ? "fill-red-500 text-red-500" : "text-[#6B7280] hover:text-red-500"
             }`} 
           />
@@ -106,7 +106,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <img 
             src={product.images?.[0] || "https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=400&auto=format&fit=crop"} 
             alt={product.name} 
-            className="w-full h-full object-contain p-3 sm:p-4 group-hover:scale-108 transition-transform duration-500 ease-out drop-shadow-xs" 
+            className="w-full h-full object-contain p-2.5 sm:p-4 group-hover:scale-108 transition-transform duration-500 ease-out drop-shadow-xs" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=400&auto=format&fit=crop";
             }}
@@ -126,45 +126,53 @@ export function ProductCard({ product }: ProductCardProps) {
         <div>
           {/* Product Title */}
           <Link href={`/product/${product.slug}`} className="block">
-            <h3 className="font-extrabold text-sm sm:text-base text-[#111827] line-clamp-1 leading-snug group-hover:text-[#163A32] transition-colors font-heading">
+            <h3 className="font-extrabold text-xs sm:text-base text-[#111827] line-clamp-1 sm:line-clamp-2 leading-snug group-hover:text-[#163A32] transition-colors font-heading">
               {product.name}
             </h3>
           </Link>
 
           {/* Subtitle / Category Tagline */}
-          <p className="text-[11px] sm:text-xs font-bold text-[#6B8F71] mt-0.5 line-clamp-1 font-heading">
+          <p className="text-[10px] sm:text-xs font-bold text-[#6B8F71] mt-0.5 line-clamp-1 font-heading">
             {product.category?.name || product.brand || "Authentic Direct Import"}
           </p>
 
-          {/* Clean Short Description without HTML entities */}
-          <p className="text-[11px] sm:text-xs text-[#6B7280] line-clamp-2 mt-1 leading-relaxed font-normal">
+          {/* Clean Short Description */}
+          <p className="text-[10px] sm:text-xs text-[#6B7280] line-clamp-1 sm:line-clamp-2 mt-0.5 sm:mt-1 leading-relaxed font-normal">
             {cleanDescription}
           </p>
         </div>
 
-        {/* 3. Bottom Row: Price Pill on Left & Add to Cart Pill Button on Right */}
-        <div className="flex items-center justify-between gap-1.5 sm:gap-2 mt-3.5 pt-1">
-          {/* Price Pill */}
-          <div className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-[#F3F4F6] border border-slate-200/60 flex items-baseline gap-1 sm:gap-1.5 shrink-0">
-            <span className="text-xs sm:text-sm md:text-base font-black text-[#163A32] font-heading">
-              ৳{currentPrice.toLocaleString()}
-            </span>
+        {/* 3. Bottom Area: Price & Action CTA */}
+        <div className="mt-3 pt-2 border-t border-slate-100/80 flex flex-col gap-2">
+          {/* Price Row */}
+          <div className="flex items-baseline justify-between gap-1 flex-wrap">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-base sm:text-lg font-black text-[#163A32] font-heading leading-none">
+                ৳{currentPrice.toLocaleString()}
+              </span>
+              {hasDiscount && (
+                <span className="text-[11px] sm:text-xs text-[#9CA3AF] line-through font-semibold leading-none">
+                  ৳{regularPrice.toLocaleString()}
+                </span>
+              )}
+            </div>
             {hasDiscount && (
-              <span className="text-[10px] sm:text-[11px] text-[#9CA3AF] line-through font-medium">
-                ৳{regularPrice.toLocaleString()}
+              <span className="text-[9px] sm:text-[10px] font-black text-red-600 bg-red-50 border border-red-200/60 px-1.5 py-0.5 rounded-md shrink-0">
+                Save ৳{(regularPrice - currentPrice).toLocaleString()}
               </span>
             )}
           </div>
 
-          {/* Add to Cart Pill CTA Button */}
+          {/* Add to Cart Button */}
           <button
             type="button"
             onClick={handleAddToCart}
-            className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#163A32] hover:bg-[#D6A84F] active:scale-95 text-white hover:text-[#163A32] font-black text-[11px] sm:text-xs transition-all duration-200 flex items-center gap-1 sm:gap-1.5 shadow-sm hover:shadow-md cursor-pointer shrink-0 group/btn"
+            aria-label={`Add ${product.name} to cart`}
+            className="w-full h-8.5 sm:h-9 px-3 rounded-xl sm:rounded-2xl bg-[#163A32] hover:bg-[#D6A84F] active:scale-[0.98] text-white hover:text-[#163A32] font-bold text-xs transition-all duration-200 flex items-center justify-center gap-1.5 shadow-2xs hover:shadow-md cursor-pointer group/btn"
           >
-            <ShoppingBag className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover/btn:scale-110 transition-transform" />
+            <ShoppingBag className="w-3.5 h-3.5 group-hover/btn:scale-110 transition-transform shrink-0" />
             <span>Add to Cart</span>
-            <Plus className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover/btn:rotate-90 transition-transform" />
+            <Plus className="w-3.5 h-3.5 opacity-60 group-hover/btn:rotate-90 group-hover/btn:opacity-100 transition-all shrink-0 ml-auto sm:ml-0" />
           </button>
         </div>
 

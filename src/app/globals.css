@@ -249,3 +249,14 @@ body:has(#admin-layout) #nprogress .spinner-backdrop {
     width: calc(100vw - 256px) !important;
   }
 }
+
+/* Swiper Hero Pagination & Bullets */
+.swiper-pagination-bullet {
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.55));
+  transition: all 0.25s ease-in-out !important;
+}
+
+.swiper-pagination-bullet-active {
+  width: 22px !important;
+  border-radius: 9999px !important;
+}

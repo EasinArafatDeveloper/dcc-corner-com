@@ -32,6 +32,8 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { MobileMenu } from "./MobileMenu";
 import { AnnouncementBar } from "./AnnouncementBar";
+import { WishlistHoverPreview } from "./WishlistHoverPreview";
+import { SearchAutocomplete } from "./SearchAutocomplete";
 
 // Static categories for the "All categories" mega dropdown
 const defaultCategories = [
@@ -54,13 +56,6 @@ const deliveryLocations = [
 export function Header() {
   const { cart, wishlist, setCartOpen, user, logout } = useStore();
   const [mounted, setMounted] = useState(false);
-  
-  // Search state
-  const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
   
   // Dropdown states
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -87,12 +82,10 @@ export function Header() {
   const [selectedLang, setSelectedLang] = useState<"EN" | "BN">("EN");
   const [selectedCurrency, setSelectedCurrency] = useState<"BDT" | "USD">("BDT");
 
-  const searchBoxRef = useRef<HTMLDivElement>(null);
   const categoryRef = useRef<HTMLDivElement>(null);
   const locationRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
   
   const router = useRouter();
 
@@ -108,44 +101,10 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Debounce search query
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(searchQuery);
-    }, 250);
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
-
-  // Fetch search results
-  useEffect(() => {
-    async function fetchSearch() {
-      if (debouncedQuery.trim().length < 2) {
-        setSearchResults([]);
-        return;
-      }
-      setIsSearching(true);
-      try {
-        const res = await fetch(`/api/products/search?q=${encodeURIComponent(debouncedQuery)}`);
-        if (res.ok) {
-          const data = await res.json();
-          setSearchResults(data);
-        }
-      } catch (err) {
-        console.error("Search error", err);
-      } finally {
-        setIsSearching(false);
-      }
-    }
-    fetchSearch();
-  }, [debouncedQuery]);
-
   // Global click outside listener
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       const target = event.target as Node;
-      if (searchBoxRef.current && !searchBoxRef.current.contains(target)) {
-        setIsSearchFocused(false);
-      }
       if (categoryRef.current && !categoryRef.current.contains(target)) {
         setIsCategoryOpen(false);
       }
@@ -163,14 +122,6 @@ export function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      setIsSearchFocused(false);
-      router.push(`/shop?q=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
-
   const cartItemsCount = mounted ? cart.reduce((acc, item) => acc + item.quantity, 0) : 0;
   const wishlistCount = mounted ? wishlist.length : 0;
 
@@ -179,13 +130,13 @@ export function Header() {
       {/* 1. Top Slim Flash Sale Ticker */}
       <AnnouncementBar />
 
-      {/* 2. Alibaba-Style Master Header with Rounded Top Corners */}
+      {/* 2. Master Header with Rounded Top Corners */}
       <header className={`sticky top-0 z-40 w-full transition-colors duration-200 ${isScrolled ? "bg-white" : "bg-[#0E2620]"}`}>
         <div 
           className={`w-full bg-white transition-all duration-200 ${
             isScrolled 
-              ? "rounded-none" 
-              : "rounded-t-[28px] sm:rounded-t-[36px]"
+              ? "rounded-none shadow-md border-b border-[#E5E7EB]" 
+              : "rounded-t-[24px] sm:rounded-t-[32px] border-b border-[#E5E7EB]/70"
           }`}
         >
           {/* ===================== TOP ROW: Logo, Search Bar Pill, Utility Icons, CTA ===================== */}
@@ -227,131 +178,16 @@ export function Header() {
               </Link>
             </div>
 
-            {/* Middle: Alibaba-Style Long Pill Search Box */}
-            <div className="flex-1 max-w-3xl mx-2 sm:mx-4 relative hidden sm:block" ref={searchBoxRef}>
-              <form 
-                onSubmit={handleSearchSubmit} 
-                className={`relative w-full h-11 lg:h-12 bg-white rounded-full border-2 transition-all flex items-center pl-4 pr-1.5 shadow-2xs ${
-                  isSearchFocused 
-                    ? "border-[#163A32] ring-3 ring-[#163A32]/10" 
-                    : "border-[#163A32] hover:border-[#163A32]/90"
-                }`}
-              >
-                {/* Search Input */}
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setIsSearchFocused(true)}
-                  placeholder="What are you looking for?"
-                  className="flex-1 bg-transparent text-xs sm:text-sm font-medium text-[#111827] placeholder:text-[#9CA3AF] outline-none"
-                />
-
-                {/* Clear button if typed */}
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSearchQuery("");
-                      searchInputRef.current?.focus();
-                    }}
-                    className="p-1 mr-1.5 text-slate-400 hover:text-[#111827] transition-colors"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
-
-                {/* Search CTA Pill Button (Alibaba style with text + icon) */}
-                <button
-                  type="submit"
-                  className="h-8 lg:h-9 px-4 sm:px-6 bg-[#163A32] hover:bg-[#0E2620] text-white font-bold text-xs sm:text-sm rounded-full flex items-center gap-1.5 shadow-sm shadow-[#163A32]/25 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                >
-                  {isSearching ? (
-                    <Loader2 className="w-4 h-4 animate-spin text-[#D6A84F]" />
-                  ) : (
-                    <Search className="w-4 h-4 text-white stroke-[2.2]" />
-                  )}
-                  <span className="hidden md:inline">Search</span>
-                </button>
-              </form>
-
-              {/* Live Search Autocomplete Popup */}
-              {isSearchFocused && debouncedQuery.trim().length >= 2 && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#E5E7EB] rounded-2xl shadow-2xl z-50 overflow-hidden max-h-96 divide-y divide-[#E5E7EB] animate-in fade-in zoom-in-98 duration-150">
-                  <div className="px-4 py-2 bg-[#F7F8F5] text-[11px] font-bold uppercase tracking-wider text-[#4B5563] flex justify-between items-center">
-                    <span>Products Found ({searchResults.length})</span>
-                    <span className="text-[10px] text-[#6B8F71] font-semibold">Press Enter to view all</span>
-                  </div>
-
-                  {searchResults.length > 0 ? (
-                    <div className="max-h-72 overflow-y-auto divide-y divide-slate-100">
-                      {searchResults.map((product) => (
-                        <Link
-                          key={product._id}
-                          href={`/product/${product.slug}`}
-                          onClick={() => setIsSearchFocused(false)}
-                          className="flex items-center gap-3.5 p-3 hover:bg-[#F7F8F5] transition-colors group"
-                        >
-                          <div className="w-12 h-12 rounded-xl bg-[#F7F8F5] border border-[#E5E7EB] overflow-hidden shrink-0 flex items-center justify-center p-1">
-                            <img
-                              src={product.images[0]}
-                              alt={product.name}
-                              className="w-full h-full object-contain group-hover:scale-105 transition-transform"
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-xs font-bold text-[#111827] line-clamp-1 group-hover:text-[#163A32] transition-colors">
-                              {product.name}
-                            </p>
-                            <p className="text-[11px] text-[#6B8F71] font-semibold mt-0.5">{product.brand || "Imported Goods"}</p>
-                          </div>
-                          <div className="text-right shrink-0">
-                            <p className="text-sm font-black text-[#163A32]">
-                              ৳{product.discountPrice > 0 ? product.discountPrice.toFixed(0) : product.price.toFixed(0)}
-                            </p>
-                            {product.discountPrice > 0 && (
-                              <p className="text-[10px] text-[#9CA3AF] line-through font-semibold">৳{product.price.toFixed(0)}</p>
-                            )}
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="p-6 text-center text-xs text-[#4B5563]">
-                      No products found matching &ldquo;{debouncedQuery}&rdquo;. Try another keyword.
-                    </div>
-                  )}
-
-                  <div className="p-2.5 text-center bg-[#F7F8F5]">
-                    <button
-                      type="button"
-                      onClick={handleSearchSubmit}
-                      className="text-xs font-extrabold text-[#163A32] hover:underline"
-                    >
-                      View all search results for &ldquo;{searchQuery}&rdquo; →
-                    </button>
-                  </div>
-                </div>
-              )}
+            {/* Middle: Smart Autocomplete Search Box (Desktop) */}
+            <div className="flex-1 max-w-3xl mx-2 sm:mx-4 hidden sm:block">
+              <SearchAutocomplete variant="desktop" />
             </div>
 
             {/* Right: Wishlist, Cart, User, and "Create account" Button */}
             <div className="flex items-center space-x-1 sm:space-x-2.5 shrink-0">
               
-              {/* 1. Wishlist Icon ❤️ (Desktop & Mobile) */}
-              <Link
-                href="/wishlist"
-                aria-label="Wishlist"
-                className="p-2 text-[#111827] hover:text-[#163A32] hover:bg-[#F7F8F5] rounded-full transition-colors cursor-pointer relative"
-              >
-                <Heart className="w-5 h-5 sm:w-5.5 sm:h-5.5 stroke-[1.8]" />
-                {wishlistCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 bg-[#163A32] text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-xs">
-                    {wishlistCount}
-                  </span>
-                )}
-              </Link>
+              {/* 1. Wishlist Icon ❤️ with Desktop Hover Preview & Responsive Navigation */}
+              <WishlistHoverPreview />
 
               {/* 4. Cart Icon 🛒 (Alibaba Style) */}
               <button
@@ -469,24 +305,9 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile Search Bar (Clean Single Row on Small Screens) */}
+        {/* Mobile Smart Autocomplete Search Bar */}
         <div className="sm:hidden px-3 pb-2.5">
-          <form onSubmit={handleSearchSubmit} className="relative w-full h-9.5 bg-[#F7F8F5] rounded-full border border-[#E5E7EB] flex items-center pl-3.5 pr-1 shadow-2xs">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search chocolates, coffee, snacks..."
-              className="flex-1 bg-transparent text-xs font-medium text-[#111827] placeholder:text-[#9CA3AF] outline-none"
-            />
-            <button
-              type="submit"
-              aria-label="Search"
-              className="h-7.5 px-3 bg-[#163A32] hover:bg-[#0E2620] text-white rounded-full flex items-center justify-center cursor-pointer transition-colors"
-            >
-              <Search className="w-3.5 h-3.5" />
-            </button>
-          </form>
+          <SearchAutocomplete variant="mobile" />
         </div>
 
         {/* ===================== BOTTOM ROW: 2-Tier Sub-Navigation with Rich Hover Mega-Menus ===================== */}

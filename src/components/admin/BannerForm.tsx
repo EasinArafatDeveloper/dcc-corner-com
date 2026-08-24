@@ -222,6 +222,9 @@ export function BannerForm({ initialData }: { initialData?: any }) {
               />
             </div>
           </div>
+          <p className="text-[11px] text-muted-foreground mt-1">
+            Recommended resolution: 1920×750px or 1200×500px (Wide landscape banner ratio ~2.4:1).
+          </p>
           
           {isUploadingImage && <p className="text-sm text-primary animate-pulse">Uploading image...</p>}
           {formData.imageUrl && !isUploadingImage && (

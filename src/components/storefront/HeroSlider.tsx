@@ -4,14 +4,6 @@ import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import Link from "next/link";
-import { 
-  Flame, 
-  Truck, 
-  ArrowRight, 
-  Clock, 
-  ChevronRight,
-  ShoppingBag
-} from "lucide-react";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -32,7 +24,6 @@ export function HeroSlider({
   sideBanner?: BannerProps;
 }) {
   const [mounted, setMounted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState({ hours: 5, minutes: 42, seconds: 18 });
 
   // Curated fallback slides with rich e-commerce content
   const defaultBanners = [
@@ -62,33 +53,23 @@ export function HeroSlider({
 
   const slideData = validBanners.length > 0 ? validBanners : defaultBanners;
 
-  // Live countdown ticker for Deal of the Day
   useEffect(() => {
     setMounted(true);
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
-        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        return { hours: 6, minutes: 0, seconds: 0 };
-      });
-    }, 1000);
-    return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="w-full">
       {/* ===================== FULL WIDTH HERO BANNER SLIDER ===================== */}
-      <div className="w-full relative rounded-t-2xl sm:rounded-t-3xl rounded-b-none overflow-hidden shadow-sm border border-[#E5E7EB] bg-slate-50 aspect-[16/9] sm:aspect-[21/9] lg:aspect-[2.4/1] xl:h-[460px] flex items-center">
+      <div className="w-full relative rounded-t-2xl sm:rounded-t-3xl rounded-b-none overflow-hidden shadow-sm border border-[#E5E7EB] bg-slate-50 aspect-[21/9] sm:aspect-[2.35/1] md:aspect-[2.5/1] lg:aspect-[2.7/1] xl:aspect-[3/1] max-h-[460px] flex items-center">
         <Swiper
           modules={[Autoplay, Pagination, EffectFade]}
           effect="fade"
           spaceBetween={0}
           slidesPerView={1}
           autoplay={{ delay: 5000, disableOnInteraction: false }}
-          pagination={{ clickable: true }}
+          pagination={{ clickable: true, dynamicBullets: true }}
           loop
-          className="w-full h-full absolute inset-0 [--swiper-pagination-color:#D6A84F]"
+          className="w-full h-full absolute inset-0 [--swiper-pagination-color:#D6A84F] [--swiper-pagination-bullet-inactive-color:#FFFFFF] [--swiper-pagination-bullet-inactive-opacity:0.8] [--swiper-pagination-bottom:6px] sm:[--swiper-pagination-bottom:12px]"
         >
           {slideData.map((slide: any, idx: number) => (
             <SwiperSlide key={slide._id || idx} className="h-full relative">
@@ -99,7 +80,7 @@ export function HeroSlider({
                 <img 
                   src={slide.imageUrl} 
                   alt={slide.title || "DCC Corner Banner"} 
-                  className="w-full h-full object-cover" 
+                  className="w-full h-full object-cover object-center" 
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1511381939415-e44015466834?q=80&w=1600&auto=format&fit=crop";
                   }}
