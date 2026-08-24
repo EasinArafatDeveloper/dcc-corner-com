@@ -103,7 +103,7 @@ export function MobileMenu() {
             </div>
 
             {/* Scrollable Navigation Body */}
-            <div className="flex-1 overflow-y-auto py-3 divide-y divide-slate-100">
+            <div className="flex-1 overflow-y-auto py-3 divide-y divide-slate-100" data-lenis-prevent="true">
               
               {/* Highlight Badges */}
               <div className="px-3 pb-3 space-y-1">

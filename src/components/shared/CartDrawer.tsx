@@ -46,7 +46,7 @@ export function CartDrawer() {
           </Button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-5 space-y-4">
+        <div className="flex-1 overflow-y-auto p-5 space-y-4" data-lenis-prevent="true">
           {cart.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-[#4B5563] space-y-4">
               <div className="w-16 h-16 rounded-full bg-[#F7F8F5] flex items-center justify-center text-[#6B8F71]">
