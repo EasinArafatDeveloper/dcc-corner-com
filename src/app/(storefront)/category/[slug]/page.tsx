@@ -33,16 +33,46 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!data || !data.category) {
     return {
-      title: 'Category Not Found',
+      title: 'Category Not Found | DCC Corner',
     };
   }
 
+  const categoryName = data.category.name;
+
   return {
-    title: `${data.category.name} Collection`,
-    description: `Shop the best ${data.category.name} at DCC Corner.`,
+    title: `${categoryName} — Imported Collection | DCC Corner`,
+    description: `Shop authentic imported ${categoryName} at DCC Corner. Discover top global brands with 2-Hour Express Delivery in Bashundhara R/A, Dhaka.`,
+    keywords: [
+      categoryName,
+      `Imported ${categoryName} Bangladesh`,
+      `Buy ${categoryName} Dhaka`,
+      'DCC Corner',
+      'DCC Corner Bashundhara',
+      'Bashundhara express delivery'
+    ],
+    alternates: {
+      canonical: `https://dcccorner.com/category/${data.category.slug}`,
+    },
     openGraph: {
-      title: `${data.category.name} Collection | DCC Corner`,
-      description: `Shop the best ${data.category.name} at DCC Corner.`,
+      title: `${categoryName} — Imported Collection | DCC Corner`,
+      description: `Shop authentic imported ${categoryName} at DCC Corner with 2-Hour Express Delivery.`,
+      url: `https://dcccorner.com/category/${data.category.slug}`,
+      siteName: 'DCC Corner',
+      images: [
+        {
+          url: data.category.image || '/og-image.jpg',
+          width: 800,
+          height: 600,
+          alt: categoryName,
+        },
+      ],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${categoryName} | DCC Corner`,
+      description: `Shop authentic imported ${categoryName} at DCC Corner.`,
+      images: [data.category.image || '/og-image.jpg'],
     },
   };
 }
@@ -57,8 +87,49 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
   const { category, products } = data;
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://dcccorner.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Shop",
+        "item": "https://dcccorner.com/shop"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": category.name,
+        "item": `https://dcccorner.com/category/${category.slug}`
+      }
+    ]
+  };
+
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": `${category.name} Collection`,
+    "description": `Browse authentic imported ${category.name} products at DCC Corner.`,
+    "url": `https://dcccorner.com/category/${category.slug}`
+  };
+
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       <div className="mb-8">
         <Link href="/shop" className="text-sm text-muted-foreground hover:text-primary flex items-center mb-4">
           <ArrowLeft className="w-4 h-4 mr-1" /> Back to Shop

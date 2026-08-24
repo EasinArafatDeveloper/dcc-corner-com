@@ -25,16 +25,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const productUrls = products.map((product: any) => ({
     url: `${baseUrl}/product/${product.slug}`,
-    lastModified: product.updatedAt || new Date(),
+    lastModified: product.updatedAt ? new Date(product.updatedAt) : new Date(),
     changeFrequency: 'weekly' as const,
-    priority: 0.8,
+    priority: 0.85,
   }));
 
   const categoryUrls = categories.map((category: any) => ({
     url: `${baseUrl}/category/${category.slug}`,
-    lastModified: category.updatedAt || new Date(),
+    lastModified: category.updatedAt ? new Date(category.updatedAt) : new Date(),
     changeFrequency: 'weekly' as const,
-    priority: 0.7,
+    priority: 0.9,
   }));
 
   const staticUrls = [
@@ -48,31 +48,49 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/shop`,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
-      priority: 0.9,
+      priority: 0.95,
     },
     {
-      url: `${baseUrl}/cart`,
+      url: `${baseUrl}/about`,
       lastModified: new Date(),
-      changeFrequency: 'always' as const,
-      priority: 0.5,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
     },
     {
-      url: `${baseUrl}/checkout`,
+      url: `${baseUrl}/faq`,
       lastModified: new Date(),
-      changeFrequency: 'always' as const,
-      priority: 0.5,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/shipping-policy`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.75,
+    },
+    {
+      url: `${baseUrl}/refund-policy`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/privacy-policy`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/track-order`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
-      priority: 0.5,
+      priority: 0.6,
     },
     {
       url: `${baseUrl}/wishlist`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
-      priority: 0.4,
+      priority: 0.5,
     }
   ];
 

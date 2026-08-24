@@ -14,8 +14,35 @@ import { Metadata } from 'next';
 import { cache } from 'react';
 
 export const metadata: Metadata = {
-  title: 'DCC Corner - Premium Imported Goods Marketplace in Bashundhara R/A',
-  description: 'Fast delivery in Bashundhara R/A. 100% original imported coffee, chocolates, snacks and specialty pantry items at wholesale rates.',
+  title: 'DCC Corner — Premium Imported Chocolates & Snacks in Bashundhara, Dhaka',
+  description: 'Shop 100% genuine imported chocolates, Korean ramen, international beverages, and gourmet chips at DCC Corner Bashundhara. 2-Hour Express Delivery across Dhaka.',
+  keywords: [
+    'DCC Corner',
+    'DCC Corner Bashundhara',
+    'DCC Corner Dhaka',
+    'DCC Corner BD',
+    'Imported chocolates Bangladesh',
+    'Imported snacks Dhaka',
+    'Bashundhara express delivery',
+    'Wholesale chocolates BD'
+  ],
+  alternates: {
+    canonical: 'https://dcccorner.com',
+  },
+  openGraph: {
+    title: 'DCC Corner — Premium Imported Chocolates & Snacks in Bashundhara',
+    description: '100% genuine imported chocolates, confectionery, and snacks with 2-Hour Express Delivery in Bashundhara R/A.',
+    url: 'https://dcccorner.com',
+    siteName: 'DCC Corner',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'DCC Corner Homepage',
+      },
+    ],
+  },
 };
 
 // Revalidate cache every 30 seconds for blazing fast page loads while keeping admin updates fresh

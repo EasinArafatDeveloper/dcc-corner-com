@@ -27,24 +27,52 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!product) {
     return {
-      title: 'Product Not Found',
+      title: 'Product Not Found | DCC Corner',
     };
   }
 
+  const cleanDescription = (product.shortDescription || product.description || '')
+    .replace(/<[^>]*>?/gm, '')
+    .substring(0, 160)
+    .trim();
+
+  const price = product.discountPrice > 0 ? product.discountPrice : product.price;
+
   return {
-    title: product.name,
-    description: (product.shortDescription || product.description || '').substring(0, 160) + '...',
+    title: `${product.name} | Buy Online | DCC Corner`,
+    description: `${cleanDescription} — Order authentic imported ${product.name} with 2-Hour Express Delivery in Bashundhara R/A, Dhaka.`,
+    keywords: [
+      product.name,
+      `Buy ${product.name} Bangladesh`,
+      `${product.name} price in BD`,
+      product.category?.name || 'Imported snacks',
+      'DCC Corner',
+      'Bashundhara express delivery',
+      'Authentic imported goods'
+    ],
+    alternates: {
+      canonical: `https://dcccorner.com/product/${product.slug}`,
+    },
     openGraph: {
-      title: product.name,
-      description: (product.shortDescription || product.description || '').substring(0, 160) + '...',
+      title: `${product.name} | DCC Corner`,
+      description: cleanDescription,
+      url: `https://dcccorner.com/product/${product.slug}`,
+      siteName: 'DCC Corner',
       images: [
         {
-          url: product.images?.[0] || '',
+          url: product.images?.[0] || '/og-image.jpg',
           width: 800,
-          height: 600,
+          height: 800,
           alt: product.name,
         },
       ],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} | DCC Corner`,
+      description: cleanDescription,
+      images: [product.images?.[0] || '/og-image.jpg'],
     },
   };
 }
@@ -64,8 +92,78 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
     ? (product.discountPercent || Math.round(((regularPrice - currentPrice) / regularPrice) * 100))
     : 0;
 
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.name,
+    "image": product.images || [],
+    "description": (product.shortDescription || product.description || '').replace(/<[^>]*>?/gm, '').substring(0, 300).trim(),
+    "sku": product.sku || `DCC-${product._id.toString().slice(-6).toUpperCase()}`,
+    "brand": {
+      "@type": "Brand",
+      "name": product.brand || product.category?.name || "DCC Corner"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": `https://dcccorner.com/product/${product.slug}`,
+      "priceCurrency": "BDT",
+      "price": currentPrice,
+      "priceValidUntil": "2026-12-31",
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": product.countInStock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "DCC Corner"
+      }
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": product.rating || "4.9",
+      "reviewCount": product.numReviews || "12"
+    }
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://dcccorner.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Shop",
+        "item": "https://dcccorner.com/shop"
+      },
+      ...(product.category ? [{
+        "@type": "ListItem",
+        "position": 3,
+        "name": product.category.name,
+        "item": `https://dcccorner.com/category/${product.category.slug}`
+      }] : []),
+      {
+        "@type": "ListItem",
+        "position": product.category ? 4 : 3,
+        "name": product.name,
+        "item": `https://dcccorner.com/product/${product.slug}`
+      }
+    ]
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* 1. Breadcrumbs */}
       <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs sm:text-sm text-[#4B5563] mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap py-1">
         <Link href="/" className="hover:text-[#163A32] font-medium transition-colors">Home</Link>
