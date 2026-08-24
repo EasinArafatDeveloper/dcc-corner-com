@@ -57,7 +57,7 @@ export async function PUT(request: Request) {
     sendPushNotificationToAll({
       title: 'New Offer Available! 🏷️',
       body: `Get ${discountPercent}% off on ${product.name}! Now only ${discountPrice}`,
-      url: `/products/${product.slug}`
+      url: `/product/${product.slug}`
     });
 
     return NextResponse.json({ message: 'Offer applied successfully', product });

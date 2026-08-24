@@ -17,14 +17,12 @@ export async function POST(req: Request) {
     
     let userId = null;
     if (token) {
-       const decoded = await verifyToken(token);
-       if (decoded) {
-         userId = (decoded as any).userId;
-       }
+      const decoded = verifyToken(token);
+      if (decoded) {
+        userId = (decoded as any).id || (decoded as any).userId || (decoded as any)._id;
+      }
     }
 
-    // For now, if no user is logged in, we will use a dummy ID for guest checkout
-    // In a real production app, you might require login or create a guest user
     const finalUserId = userId || '000000000000000000000000';
 
     if (orderItems && orderItems.length === 0) {

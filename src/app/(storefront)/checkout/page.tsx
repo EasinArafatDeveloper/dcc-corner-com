@@ -17,6 +17,8 @@ export default function CheckoutPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [deliveryType, setDeliveryType] = useState<"bashundhara_express" | "standard">("bashundhara_express");
 
+  const [createdOrderId, setCreatedOrderId] = useState<string | null>(null);
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -82,6 +84,8 @@ export default function CheckoutPage() {
         throw new Error("Failed to place order");
       }
 
+      const orderData = await res.json();
+      setCreatedOrderId(orderData._id);
       clearCart();
       setIsSuccess(true);
       toast.success("Order placed successfully!");
@@ -94,17 +98,31 @@ export default function CheckoutPage() {
 
   if (isSuccess) {
     return (
-      <div className="container mx-auto px-4 py-20 flex flex-col items-center justify-center text-center">
-        <div className="p-4 bg-[#163A32]/10 rounded-full mb-6 text-[#163A32]">
-          <CheckCircle2 className="w-16 h-16 text-[#163A32]" />
+      <div className="container mx-auto px-4 py-16 sm:py-24 flex flex-col items-center justify-center text-center max-w-lg min-h-[70vh]">
+        <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mb-6 text-[#163A32] ring-8 ring-emerald-50/50">
+          <CheckCircle2 className="w-10 h-10 text-emerald-600" />
         </div>
-        <h1 className="text-3xl font-black text-[#111827] mb-3">Order Received Successfully!</h1>
-        <p className="text-[#4B5563] mb-6 max-w-md text-sm">
-          Thank you for shopping at DCC Corner. Your imported items will be delivered swiftly to your Bashundhara R/A address.
+        <span className="text-xs font-bold text-[#6B8F71] uppercase tracking-wider mb-1">Order Confirmed</span>
+        <h1 className="text-2xl sm:text-3xl font-black text-[#111827] mb-2 font-heading">Order Received!</h1>
+        {createdOrderId && (
+          <div className="bg-[#F7F8F5] border border-[#E5E7EB] rounded-2xl px-4 py-2 mb-4">
+            <span className="text-xs text-[#4B5563]">Order ID: </span>
+            <span className="font-mono font-bold text-xs text-[#163A32]">{createdOrderId}</span>
+          </div>
+        )}
+        <p className="text-sm text-[#4B5563] mb-8 leading-relaxed">
+          Thank you for shopping at DCC Corner. Your imported items are being packed and prepared for express delivery.
         </p>
-        <Button size="lg" onClick={() => router.push("/")} className="rounded-xl px-8 bg-[#163A32] hover:bg-[#0E2620] text-white font-bold shadow-md shadow-[#163A32]/20">
-          Back to Shopping
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          {createdOrderId && (
+            <Button size="lg" onClick={() => router.push(`/track-order?id=${createdOrderId}`)} className="rounded-2xl bg-[#163A32] hover:bg-[#0E2620] text-white font-black text-sm px-6 py-3.5 shadow-md shadow-[#163A32]/20 cursor-pointer">
+              Track Delivery 📦
+            </Button>
+          )}
+          <Button size="lg" variant="outline" onClick={() => router.push("/")} className="rounded-2xl border-[#E5E7EB] font-bold text-sm px-6 py-3.5 cursor-pointer">
+            Back to Home
+          </Button>
+        </div>
       </div>
     );
   }

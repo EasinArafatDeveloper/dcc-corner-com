@@ -42,7 +42,7 @@ export async function POST(req: Request) {
     sendPushNotificationToAll({
       title: 'New Product Alert! 🎉',
       body: `Check out our new product: ${product.name}`,
-      url: `/products/${product.slug}`
+      url: `/product/${product.slug}`
     });
 
     return NextResponse.json({ message: 'Product created successfully', product }, { status: 201 });
