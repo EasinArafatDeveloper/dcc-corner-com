@@ -1,9 +1,24 @@
 import type { Metadata, Viewport } from "next";
+import { Plus_Jakarta_Sans, Outfit } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from 'nextjs-toploader';
 import SmoothScrollProvider from '@/components/shared/SmoothScrollProvider';
 import PushNotificationManager from '@/components/shared/PushNotificationManager';
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-sans",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  variable: "--font-heading",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   themeColor: "#163A32",
@@ -153,14 +168,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
+    <html
+      lang="en"
+      className={`${plusJakartaSans.variable} ${outfit.variable} h-full antialiased`}
+    >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
         <meta name="geo.region" content="BD-13" />
         <meta name="geo.placename" content="Bashundhara R/A, Dhaka" />
         <meta name="geo.position" content="23.8151;90.4255" />
