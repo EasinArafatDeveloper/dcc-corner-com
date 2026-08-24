@@ -3,6 +3,7 @@ import { Footer } from "@/components/shared/Footer";
 import { CartDrawer } from "@/components/shared/CartDrawer";
 import { FloatingCartButton } from "@/components/shared/FloatingCartButton";
 import { PopupOffer } from "@/components/storefront/PopupOffer";
+import { AuthModal } from "@/components/shared/AuthModal";
 
 export default function StorefrontLayout({
   children,
@@ -19,6 +20,7 @@ export default function StorefrontLayout({
       <FloatingCartButton />
       <CartDrawer />
       <PopupOffer />
+      <AuthModal />
     </div>
   );
 }

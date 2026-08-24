@@ -5,6 +5,7 @@ type User = {
   _id: string;
   name: string;
   email: string;
+  phone?: string;
   role: string;
 } | null;
 
@@ -21,6 +22,11 @@ interface StoreState {
   setUser: (user: User) => void;
   logout: () => void;
   
+  isAuthModalOpen: boolean;
+  authModalMode: 'signup' | 'login';
+  openAuthModal: (mode?: 'signup' | 'login') => void;
+  closeAuthModal: () => void;
+
   cart: CartItem[];
   isCartOpen: boolean;
   setCartOpen: (isOpen: boolean) => void;
@@ -40,6 +46,11 @@ export const useStore = create<StoreState>()(
       setUser: (user) => set({ user }),
       logout: () => set({ user: null }),
       
+      isAuthModalOpen: false,
+      authModalMode: 'signup',
+      openAuthModal: (mode = 'signup') => set({ isAuthModalOpen: true, authModalMode: mode }),
+      closeAuthModal: () => set({ isAuthModalOpen: false }),
+
       cart: [],
       isCartOpen: false,
       setCartOpen: (isOpen) => set({ isCartOpen: isOpen }),

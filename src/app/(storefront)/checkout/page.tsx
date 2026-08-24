@@ -220,34 +220,67 @@ export default function CheckoutPage() {
         {/* Order Summary & Payment */}
         <div className="w-full lg:w-96 shrink-0">
           <div className="bg-white p-6 rounded-2xl border border-[#E5E7EB] shadow-sm sticky top-24">
-            <h2 className="text-lg font-extrabold text-[#111827] mb-4">Order Summary</h2>
+            <h2 className="text-lg font-extrabold text-[#111827] mb-4 font-heading flex items-center justify-between">
+              <span>Order Summary</span>
+              <span className="text-xs font-black bg-[#163A32] text-white px-2 py-0.5 rounded-full">
+                {cart.reduce((sum, item) => sum + item.quantity, 0)} {cart.reduce((sum, item) => sum + item.quantity, 0) === 1 ? 'item' : 'items'}
+              </span>
+            </h2>
             
-            <div className="space-y-3 mb-4 border-b border-[#E5E7EB] pb-4 max-h-48 overflow-y-auto pr-1">
-              {cart.map(item => (
-                <div key={item._id} className="flex justify-between items-center text-xs">
-                  <div className="flex-1 pr-3">
-                    <p className="font-bold text-[#111827] line-clamp-1">{item.name}</p>
-                    <p className="text-[#4B5563]">Qty: {item.quantity}</p>
+            {/* Products List with Images */}
+            <div className="space-y-3 mb-4 border-b border-[#E5E7EB] pb-4 max-h-64 overflow-y-auto pr-1 divide-y divide-slate-100">
+              {cart.map((item) => (
+                <div key={item._id} className="flex items-center gap-3 pt-3 first:pt-0">
+                  {/* Product Image Thumbnail */}
+                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 bg-[#F7F8F5] border border-[#E5E7EB] rounded-xl overflow-hidden shrink-0 flex items-center justify-center p-1">
+                    <img 
+                      src={item.image || "https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=200&auto=format&fit=crop"} 
+                      alt={item.name} 
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=200&auto=format&fit=crop";
+                      }}
+                    />
+                    <span className="absolute -top-1 -right-1 bg-[#163A32] text-white text-[9.5px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-2xs">
+                      {item.quantity}
+                    </span>
                   </div>
-                  <span className="font-bold text-[#163A32]">৳{(item.price * item.quantity).toFixed(0)}</span>
+
+                  {/* Product Details */}
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-xs text-[#111827] line-clamp-2 leading-tight">
+                      {item.name}
+                    </p>
+                    <p className="text-[11px] text-[#6B7280] mt-0.5 font-medium">
+                      ৳{item.price.toLocaleString()} × {item.quantity}
+                    </p>
+                  </div>
+
+                  {/* Total Price */}
+                  <div className="text-right shrink-0">
+                    <span className="font-black text-xs sm:text-sm text-[#163A32] font-heading">
+                      ৳{(item.price * item.quantity).toLocaleString()}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
 
+            {/* Calculations */}
             <div className="space-y-2 text-xs mb-4 border-b border-[#E5E7EB] pb-4">
               <div className="flex justify-between text-[#4B5563]">
                 <span>Subtotal</span>
-                <span className="font-bold text-[#111827]">৳{subtotal.toFixed(0)}</span>
+                <span className="font-bold text-[#111827]">৳{subtotal.toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-[#4B5563]">
                 <span>Delivery Charge</span>
-                <span className="font-bold text-[#111827]">৳{shipping.toFixed(0)}</span>
+                <span className="font-bold text-[#111827]">৳{shipping.toLocaleString()}</span>
               </div>
             </div>
 
             <div className="flex justify-between items-center mb-6">
               <span className="font-extrabold text-base text-[#111827]">Total Amount</span>
-              <span className="font-black text-2xl text-[#163A32]">৳{total.toFixed(0)}</span>
+              <span className="font-black text-2xl text-[#163A32] font-heading">৳{total.toLocaleString()}</span>
             </div>
             
             <div className="space-y-2 mb-6">
@@ -261,7 +294,7 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <Button type="submit" form="checkout-form" size="lg" className="w-full rounded-xl h-12 text-sm font-bold bg-[#163A32] hover:bg-[#0E2620] text-white shadow-md shadow-[#163A32]/20" disabled={isSubmitting}>
+            <Button type="submit" form="checkout-form" size="lg" className="w-full rounded-xl h-12 text-sm font-bold bg-[#163A32] hover:bg-[#0E2620] text-white shadow-md shadow-[#163A32]/20 cursor-pointer" disabled={isSubmitting}>
               {isSubmitting ? "Placing Order..." : "Confirm & Place Order"}
             </Button>
           </div>

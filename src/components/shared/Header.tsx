@@ -54,7 +54,7 @@ const deliveryLocations = [
 ];
 
 export function Header() {
-  const { cart, wishlist, setCartOpen, user, logout } = useStore();
+  const { cart, wishlist, setCartOpen, user, logout, openAuthModal } = useStore();
   const [mounted, setMounted] = useState(false);
   
   // Dropdown states
@@ -261,27 +261,33 @@ export function Header() {
                     ) : (
                       <div className="p-2 space-y-2 text-center">
                         <p className="text-xs text-[#4B5563] font-medium">Welcome to DCC Corner</p>
-                        <Link
-                          href="/login"
-                          onClick={() => setIsUserMenuOpen(false)}
-                          className="block w-full py-2 bg-[#163A32] text-white rounded-xl font-bold text-xs shadow-xs hover:bg-[#0E2620]"
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsUserMenuOpen(false);
+                            openAuthModal("login");
+                          }}
+                          className="block w-full py-2 bg-[#163A32] text-white rounded-xl font-bold text-xs shadow-xs hover:bg-[#0E2620] cursor-pointer"
                         >
                           Sign In
-                        </Link>
-                        <Link
-                          href="/register"
-                          onClick={() => setIsUserMenuOpen(false)}
-                          className="block w-full py-1.5 text-[#163A32] hover:bg-[#F7F8F5] rounded-xl font-bold text-xs"
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsUserMenuOpen(false);
+                            openAuthModal("signup");
+                          }}
+                          className="block w-full py-1.5 text-[#163A32] hover:bg-[#F7F8F5] rounded-xl font-bold text-xs cursor-pointer"
                         >
                           Create Account
-                        </Link>
+                        </button>
                       </div>
                     )}
                   </div>
                 )}
               </div>
 
-              {/* 6. Primary Pill CTA Button ("Create account" / "Sign In") */}
+              {/* 6. Primary Pill CTA Button ("Create account" / "My Account") */}
               <div className="hidden sm:block">
                 {user ? (
                   <Link
@@ -291,12 +297,13 @@ export function Header() {
                     <span>{user.role === "ADMIN" ? "Admin HQ" : "My Account"}</span>
                   </Link>
                 ) : (
-                  <Link
-                    href="/register"
+                  <button
+                    type="button"
+                    onClick={() => openAuthModal("signup")}
                     className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-[#163A32] hover:bg-[#0E2620] text-white text-xs font-bold shadow-xs shadow-[#163A32]/20 transition-all hover:scale-102 cursor-pointer"
                   >
                     <span>Create account</span>
-                  </Link>
+                  </button>
                 )}
               </div>
 

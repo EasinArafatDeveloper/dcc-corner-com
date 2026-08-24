@@ -13,9 +13,14 @@ interface MiddlePromoBannerProps {
 }
 
 export function MiddlePromoBanner({ banner }: MiddlePromoBannerProps) {
-  if (!banner || !banner.imageUrl || banner.isActive === false) return null;
+  const defaultBanner = {
+    title: "Exclusive Imported Treats & Direct Wholesale Deals",
+    imageUrl: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=1600&auto=format&fit=crop",
+    linkUrl: "/shop?offers=true",
+  };
 
-  const targetLink = banner.linkUrl || "/shop";
+  const activeBanner = (banner && banner.imageUrl && banner.isActive !== false) ? banner : defaultBanner;
+  const targetLink = activeBanner.linkUrl || "/shop";
 
   return (
     <section className="py-6 sm:py-10 bg-transparent">
@@ -29,9 +34,12 @@ export function MiddlePromoBanner({ banner }: MiddlePromoBannerProps) {
             {/* Poster Image */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={banner.imageUrl}
-              alt={banner.title || "Special Offer Promo Banner"}
+              src={activeBanner.imageUrl}
+              alt={activeBanner.title || "Special Offer Promo Banner"}
               className="w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-[1.015]"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=1600&auto=format&fit=crop";
+              }}
             />
           </div>
         </Link>

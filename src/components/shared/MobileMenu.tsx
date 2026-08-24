@@ -34,7 +34,7 @@ export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
-  const { user, logout, wishlist } = useStore();
+  const { user, logout, wishlist, openAuthModal } = useStore();
 
   useEffect(() => {
     setMounted(true);
@@ -275,20 +275,26 @@ export function MobileMenu() {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Link
-                    href="/login"
-                    onClick={() => setIsOpen(false)}
-                    className="flex-1 py-2.5 bg-[#163A32] text-white rounded-xl text-xs font-bold text-center shadow-xs"
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false);
+                      openAuthModal("login");
+                    }}
+                    className="flex-1 py-2.5 bg-[#163A32] text-white rounded-xl text-xs font-bold text-center shadow-xs cursor-pointer"
                   >
                     Sign In
-                  </Link>
-                  <Link
-                    href="/register"
-                    onClick={() => setIsOpen(false)}
-                    className="flex-1 py-2.5 bg-white border border-[#E5E7EB] text-[#163A32] rounded-xl text-xs font-bold text-center"
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false);
+                      openAuthModal("signup");
+                    }}
+                    className="flex-1 py-2.5 bg-white border border-[#E5E7EB] text-[#163A32] rounded-xl text-xs font-bold text-center cursor-pointer"
                   >
                     Register
-                  </Link>
+                  </button>
                 </div>
               )}
             </div>
