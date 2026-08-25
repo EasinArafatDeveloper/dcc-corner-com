@@ -68,33 +68,33 @@ function CategoryItemCard({ cat, idx }: { cat: CategoryProps; idx: number }) {
   return (
     <Link
       href={`/category/${cat.slug}`}
-      className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-black/5 p-3.5 sm:p-4.5 flex items-center justify-between transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer bg-gradient-to-r ${theme.gradient} h-24 sm:h-28 md:h-32 shadow-2xs`}
+      className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-black/5 p-3 sm:p-4 md:p-4.5 flex items-center justify-between transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer bg-gradient-to-r ${theme.gradient} min-h-[92px] sm:min-h-[110px] md:h-32 shadow-2xs`}
     >
       {/* Left Side: Category Title & Explore Link */}
-      <div className="relative z-10 flex-1 pr-2 min-w-0">
-        <h3 className={`font-extrabold text-xs sm:text-base md:text-lg leading-tight font-heading ${theme.textClass} line-clamp-2`}>
+      <div className="relative z-10 flex-1 pr-1.5 sm:pr-2.5 min-w-0 flex flex-col justify-center">
+        <h3 className={`font-extrabold text-[12px] xs:text-[13px] sm:text-base md:text-lg leading-tight font-heading ${theme.textClass} line-clamp-2`}>
           {cat.name}
         </h3>
-        <span className={`inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold mt-1 sm:mt-1.5 opacity-80 group-hover:opacity-100 transition-opacity ${theme.subClass}`}>
+        <span className={`inline-flex items-center gap-1 text-[9px] sm:text-xs font-bold mt-1 sm:mt-1.5 opacity-85 group-hover:opacity-100 transition-opacity ${theme.subClass}`}>
           <span>Explore</span>
           <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 group-hover:translate-x-1 transition-transform" />
         </span>
       </div>
 
-      {/* Right Side: Curved Background Wedge + Database Category Image */}
-      <div className="relative shrink-0 w-20 h-20 sm:w-26 sm:h-26 md:w-28 md:h-28 -mr-2 sm:-mr-3 flex items-center justify-center">
+      {/* Right Side: Curved Background Wedge + Compact Category Image on Mobile */}
+      <div className="relative shrink-0 w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 -mr-1 sm:-mr-2 flex items-center justify-center">
         {/* Soft White Curved Backdrop Wedge */}
-        <div className="absolute inset-0 bg-white/50 rounded-full scale-105 blur-[0.5px] pointer-events-none group-hover:bg-white/70 transition-colors" />
+        <div className="absolute inset-0 bg-white/50 rounded-full scale-100 sm:scale-105 blur-[0.5px] pointer-events-none group-hover:bg-white/70 transition-colors" />
         
         {hasValidImage ? (
           <img
             src={cat.image}
             alt={cat.name}
-            className="relative z-10 w-full h-full object-contain p-1 sm:p-1.5 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300 ease-out drop-shadow-md"
+            className="relative z-10 w-full h-full object-contain p-0.5 sm:p-1 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300 ease-out drop-shadow-sm"
             onError={() => setImageError(true)}
           />
         ) : (
-          <div className="relative z-10 w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-white/70 backdrop-blur-xs flex items-center justify-center font-heading font-black text-lg sm:text-2xl text-[#163A32] shadow-xs group-hover:scale-110 transition-transform">
+          <div className="relative z-10 w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-xl sm:rounded-2xl bg-white/70 backdrop-blur-xs flex items-center justify-center font-heading font-black text-sm sm:text-xl md:text-2xl text-[#163A32] shadow-xs group-hover:scale-110 transition-transform">
             {cat.name?.charAt(0) || "•"}
           </div>
         )}
