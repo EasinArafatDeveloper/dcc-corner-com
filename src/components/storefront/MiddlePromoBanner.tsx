@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 interface MiddlePromoBannerProps {
   banner?: {
@@ -20,6 +21,9 @@ interface MiddlePromoBannerProps {
 }
 
 export function MiddlePromoBanner({ banner }: MiddlePromoBannerProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const defaultBanner = {
     title: "100% Authentic Imported Deals",
     subtitle: "Direct wholesale rates on chocolates, beverages, coffee & gourmet treats from global brands.",
@@ -39,28 +43,61 @@ export function MiddlePromoBanner({ banner }: MiddlePromoBannerProps) {
   const targetLink = activeBanner.linkUrl || "/shop";
   const isVideo = activeBanner.mediaType === "video" && Boolean(activeBanner.videoUrl);
   const opacityVal = typeof activeBanner.overlayOpacity === "number" ? activeBanner.overlayOpacity / 100 : 0.45;
-
   const hasOverlayText = Boolean(activeBanner.title || activeBanner.subtitle || activeBanner.badgeText || activeBanner.buttonText);
 
+  // Performance Optimization: Pause video when off-screen to save 100% GPU/CPU decoding power
+  useEffect(() => {
+    if (!isVideo || !containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!videoRef.current) return;
+          if (entry.isIntersecting) {
+            videoRef.current.play().catch(() => {
+              // Ignore browser autoplay policy rejections
+            });
+          } else {
+            videoRef.current.pause();
+          }
+        });
+      },
+      { rootMargin: "150px 0px", threshold: 0.1 }
+    );
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [isVideo, activeBanner.videoUrl]);
+
   return (
-    <section className="py-6 sm:py-10 bg-transparent">
+    <section className="py-6 sm:py-10 bg-transparent" style={{ contain: "paint" }}>
       <div className="container mx-auto px-3 sm:px-6 lg:px-8">
-        <div className="group relative block w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-black/10 shadow-xl bg-slate-950">
+        <div 
+          ref={containerRef}
+          className="group relative block w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-black/10 shadow-xl bg-slate-950"
+          style={{ transform: "translate3d(0, 0, 0)", backfaceVisibility: "hidden" }}
+        >
           
           {/* Main Media Banner Container with responsive cinematic aspect ratio */}
           <div className="relative w-full min-h-[220px] sm:min-h-[280px] md:min-h-[340px] lg:min-h-[380px] max-h-[480px] overflow-hidden flex items-center">
             
-            {/* 1. Background Video or Image */}
+            {/* 1. Background Video or Image with dedicated GPU layer */}
             {isVideo ? (
               <video
+                ref={videoRef}
                 key={activeBanner.videoUrl}
                 autoPlay
                 loop
                 muted
                 playsInline
-                preload="auto"
+                preload="metadata"
                 poster={activeBanner.imageUrl || undefined}
-                className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none transform transition-transform duration-700 ease-out group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+                style={{
+                  transform: "translate3d(0, 0, 0)",
+                  willChange: "transform",
+                  backfaceVisibility: "hidden",
+                }}
               >
                 <source src={activeBanner.videoUrl} type="video/mp4" />
                 <source src={activeBanner.videoUrl} type="video/webm" />
@@ -71,7 +108,8 @@ export function MiddlePromoBanner({ banner }: MiddlePromoBannerProps) {
               <img
                 src={activeBanner.imageUrl || "https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=1600&auto=format&fit=crop"}
                 alt={activeBanner.title || "Special Offer Promo Banner"}
-                className="absolute inset-0 w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-cover object-center"
+                style={{ transform: "translate3d(0, 0, 0)", willChange: "transform" }}
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=1600&auto=format&fit=crop";
                 }}
@@ -80,10 +118,11 @@ export function MiddlePromoBanner({ banner }: MiddlePromoBannerProps) {
 
             {/* 2. Soft Dark Overlay with custom opacity so text is crystal clear */}
             <div 
-              className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+              className="absolute inset-0 pointer-events-none"
               style={{
                 backgroundColor: `rgba(0, 0, 0, ${opacityVal})`,
-                backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.5) 100%)'
+                backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.5) 100%)',
+                transform: "translate3d(0, 0, 0)",
               }}
             />
 
