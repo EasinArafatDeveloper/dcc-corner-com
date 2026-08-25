@@ -31,16 +31,6 @@ import { AnnouncementBar } from "./AnnouncementBar";
 import { WishlistHoverPreview } from "./WishlistHoverPreview";
 import { SearchAutocomplete } from "./SearchAutocomplete";
 
-// Static categories for the "All categories" mega dropdown
-const defaultCategories = [
-  { name: "Imported Chocolates", slug: "imported-chocolates", icon: "🍫", desc: "Swiss, Belgian & Artisan Bars" },
-  { name: "Coffee & Beverages", slug: "beverages", icon: "☕", desc: "Davidoff, Nescafe & Gourmet Drinks" },
-  { name: "Chips & Snacks", slug: "chips-snacks", icon: "🥨", desc: "Pringles, Doritos & Pretzels" },
-  { name: "Biscuits & Cookies", slug: "cookies", icon: "🍪", desc: "Lotus Biscoff, Nutella Biscuits" },
-  { name: "Candies & Sweets", slug: "candies", icon: "🍬", desc: "Gummies, Toffees & Marshmallows" },
-  { name: "Instant Noodles", slug: "instant-noodles", icon: "🍜", desc: "Samyang Buldak, Nongshim Ramen" },
-];
-
 const deliveryLocations = [
   { label: "Bashundhara R/A (Block A - N)", flag: "🇧🇩", code: "BD", sub: "⚡ Express 2-Hour Delivery" },
   { label: "Gulshan & Banani, Dhaka", flag: "🇧🇩", code: "BD", sub: "Same-Day Delivery" },
@@ -53,6 +43,7 @@ export function Header() {
   const { cart, wishlist, setCartOpen, user, openAuthModal } = useStore();
   const [mounted, setMounted] = useState(false);
   const [categories, setCategories] = useState<any[]>([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   
   // Dropdown states
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -110,19 +101,21 @@ export function Header() {
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     // Fetch dynamic categories from database
+    setIsLoadingCategories(true);
     fetch('/api/categories')
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(data)) {
           setCategories(data);
         }
       })
-      .catch(err => console.error("Failed to load categories:", err));
+      .catch(err => console.error("Failed to load categories:", err))
+      .finally(() => {
+        setIsLoadingCategories(false);
+      });
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const displayCategories = categories.length > 0 ? categories : defaultCategories;
 
   // Global click outside listener
   useEffect(() => {
@@ -303,37 +296,53 @@ export function Header() {
                           <span className="text-[10px] text-[#6B8F71] font-bold">100% Imported</span>
                         </div>
                         
-                        <div className="py-1 space-y-0.5">
-                          {displayCategories.map((cat) => (
-                            <Link
-                              key={cat._id || cat.slug}
-                              href={`/category/${cat.slug}`}
-                              onClick={() => {
-                                setIsCategoryOpen(false);
-                                if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
-                              }}
-                              className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#F7F8F5] hover:text-[#163A32] transition-colors group cursor-pointer"
-                            >
-                              {cat.image ? (
-                                <div className="w-8 h-8 rounded-lg bg-[#F7F8F5] overflow-hidden shrink-0 border border-slate-100 flex items-center justify-center group-hover:scale-105 transition-transform">
-                                  <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                        {isLoadingCategories ? (
+                          <div className="py-2 space-y-2 px-1">
+                            {[1, 2, 3, 4, 5].map((i) => (
+                              <div key={i} className="flex items-center gap-3 px-3 py-2 animate-pulse rounded-xl bg-slate-50/80">
+                                <div className="w-8 h-8 rounded-lg bg-slate-200 shrink-0" />
+                                <div className="flex-1 space-y-1.5 min-w-0">
+                                  <div className="h-3.5 bg-slate-200 rounded-md w-3/4" />
+                                  <div className="h-2.5 bg-slate-100 rounded-md w-1/2" />
                                 </div>
-                              ) : cat.icon ? (
-                                <span className="text-xl group-hover:scale-110 transition-transform">{cat.icon}</span>
-                              ) : (
-                                <div className="w-8 h-8 rounded-lg bg-[#163A32]/10 text-[#163A32] font-black text-sm flex items-center justify-center shrink-0 border border-[#163A32]/15 group-hover:bg-[#163A32] group-hover:text-white transition-colors">
-                                  {cat.name?.charAt(0) || '•'}
-                                </div>
-                              )}
-                              <div className="flex-1 min-w-0">
-                                <p className="font-bold text-xs text-[#111827] group-hover:text-[#163A32] truncate">{cat.name}</p>
-                                <p className="text-[10px] text-[#4B5563] font-normal truncate">
-                                  {cat.productCount !== undefined ? `${cat.productCount} ${cat.productCount === 1 ? 'Product' : 'Products'}` : (cat.desc || 'Direct Imported')}
-                                </p>
                               </div>
-                            </Link>
-                          ))}
-                        </div>
+                            ))}
+                          </div>
+                        ) : categories.length > 0 ? (
+                          <div className="py-1 space-y-0.5">
+                            {categories.map((cat) => (
+                              <Link
+                                key={cat._id || cat.slug}
+                                href={`/category/${cat.slug}`}
+                                onClick={() => {
+                                  setIsCategoryOpen(false);
+                                  if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
+                                }}
+                                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#F7F8F5] hover:text-[#163A32] transition-colors group cursor-pointer"
+                              >
+                                {cat.image ? (
+                                  <div className="w-8 h-8 rounded-lg bg-[#F7F8F5] overflow-hidden shrink-0 border border-slate-100 flex items-center justify-center group-hover:scale-105 transition-transform">
+                                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                                  </div>
+                                ) : (
+                                  <div className="w-8 h-8 rounded-lg bg-[#163A32]/10 text-[#163A32] font-black text-sm flex items-center justify-center shrink-0 border border-[#163A32]/15 group-hover:bg-[#163A32] group-hover:text-white transition-colors font-heading">
+                                    {cat.name?.charAt(0) || '•'}
+                                  </div>
+                                )}
+                                <div className="flex-1 min-w-0">
+                                  <p className="font-bold text-xs text-[#111827] group-hover:text-[#163A32] truncate">{cat.name}</p>
+                                  <p className="text-[10px] text-[#4B5563] font-normal truncate">
+                                    {cat.productCount !== undefined ? `${cat.productCount} ${cat.productCount === 1 ? 'Product' : 'Products'}` : 'Direct Imported'}
+                                  </p>
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="py-6 text-center px-4">
+                            <p className="text-xs font-semibold text-[#6B7280]">No categories found</p>
+                          </div>
+                        )}
 
                         <div className="pt-2">
                           <Link
@@ -539,30 +548,45 @@ export function Header() {
                     <p className="text-[11px] font-black tracking-wider text-[#9CA3AF] uppercase">
                       Shop By Category
                     </p>
-                    <ul className="space-y-2 text-xs font-semibold text-[#4B5563]">
-                      {displayCategories.slice(0, 8).map((cat) => (
-                        <li key={cat._id || cat.slug}>
-                          <Link 
-                            href={`/category/${cat.slug}`} 
-                            onClick={() => setActiveNavMenu(null)} 
-                            className="flex items-center gap-2 hover:text-[#163A32] hover:translate-x-1 transition-all group"
-                          >
-                            {cat.image ? (
-                              <img src={cat.image} alt={cat.name} className="w-4 h-4 rounded-xs object-cover" />
-                            ) : (
-                              <span>{cat.icon || '🏷️'}</span>
-                            )}
-                            <span className="truncate">{cat.name}</span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
+                    {isLoadingCategories ? (
+                      <div className="space-y-2 py-1">
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                          <div key={i} className="flex items-center gap-2 animate-pulse">
+                            <div className="w-4 h-4 rounded-xs bg-slate-200" />
+                            <div className="h-3 bg-slate-200 rounded-md w-28" />
+                          </div>
+                        ))}
+                      </div>
+                    ) : categories.length > 0 ? (
+                      <ul className="space-y-2 text-xs font-semibold text-[#4B5563]">
+                        {categories.slice(0, 8).map((cat) => (
+                          <li key={cat._id || cat.slug}>
+                            <Link 
+                              href={`/category/${cat.slug}`} 
+                              onClick={() => setActiveNavMenu(null)} 
+                              className="flex items-center gap-2 hover:text-[#163A32] hover:translate-x-1 transition-all group"
+                            >
+                              {cat.image ? (
+                                <img src={cat.image} alt={cat.name} className="w-4 h-4 rounded-xs object-cover" />
+                              ) : (
+                                <span className="w-4 h-4 rounded-xs bg-[#163A32]/10 text-[#163A32] text-[10px] font-bold flex items-center justify-center">
+                                  {cat.name?.charAt(0) || '🏷️'}
+                                </span>
+                              )}
+                              <span className="truncate">{cat.name}</span>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-xs text-slate-400">No categories found</p>
+                    )}
                     <Link 
                       href="/shop" 
                       onClick={() => setActiveNavMenu(null)} 
                       className="inline-flex items-center gap-1 text-xs font-black text-[#163A32] hover:text-[#6B8F71] transition-colors pt-1"
                     >
-                      View All Categories ({displayCategories.length}) →
+                      View All Categories {categories.length > 0 ? `(${categories.length})` : ''} →
                     </Link>
                   </div>
 
