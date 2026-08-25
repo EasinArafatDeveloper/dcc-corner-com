@@ -12,25 +12,29 @@ export async function POST(req: NextRequest) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const mimeType = file.type || "image/jpeg";
-    const base64Data = buffer.toString("base64");
-    const dataUrl = `data:${mimeType};base64,${base64Data}`;
-
-    // Optionally write local backup if filesystem is writable (localhost)
+    const mimeType = file.type || "application/octet-stream";
+    const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
+    
+    // Save directly to public/uploads for direct HTTP stream & static serving
     try {
-      const filename = `${Date.now()}-${file.name.replace(/\s+/g, "-")}`;
       const uploadsDir = join(process.cwd(), "public", "uploads");
       await mkdir(uploadsDir, { recursive: true });
-      const path = join(uploadsDir, filename);
-      await writeFile(path, buffer);
-    } catch (fsErr) {
-      // Ignored in serverless/Vercel environments where filesystem is read-only
-    }
+      const filePath = join(uploadsDir, filename);
+      await writeFile(filePath, buffer);
 
-    // Return the universal data URL so images load 100% on both Vercel and localhost
-    return NextResponse.json({ url: dataUrl, message: "Upload success" });
-  } catch (error) {
+      const publicUrl = `/uploads/${filename}`;
+      return NextResponse.json({ url: publicUrl, message: "Upload success" });
+    } catch (fsErr: any) {
+      // Fallback for readonly serverless environments (images only)
+      if (!mimeType.startsWith("video/")) {
+        const base64Data = buffer.toString("base64");
+        const dataUrl = `data:${mimeType};base64,${base64Data}`;
+        return NextResponse.json({ url: dataUrl, message: "Upload success" });
+      }
+      throw new Error("Unable to save video file to server storage: " + fsErr.message);
+    }
+  } catch (error: any) {
     console.error("Error uploading file:", error);
-    return NextResponse.json({ error: "Failed to upload file." }, { status: 500 });
+    return NextResponse.json({ error: error.message || "Failed to upload file." }, { status: 500 });
   }
 }

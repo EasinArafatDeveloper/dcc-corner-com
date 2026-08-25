@@ -29,11 +29,26 @@ export async function POST(req: Request) {
     await connectToDatabase();
     const data = await req.json();
 
-    if (!data.imageUrl) {
-      return NextResponse.json({ message: 'Image URL is required' }, { status: 400 });
+    const mediaType = data.mediaType === 'video' ? 'video' : 'image';
+    const videoUrl = mediaType === 'video' ? (data.videoUrl || '') : '';
+    // For video mode, provide a valid fallback image url so any strict schema validator passes effortlessly
+    const imageUrl = mediaType === 'image' 
+      ? (data.imageUrl || '') 
+      : (data.imageUrl || data.videoUrl || 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=1600&auto=format&fit=crop');
+
+    if (mediaType === 'video' && !videoUrl) {
+      return NextResponse.json({ message: 'Please upload or provide a video URL' }, { status: 400 });
+    }
+
+    if (mediaType === 'image' && !imageUrl) {
+      return NextResponse.json({ message: 'Please upload or provide an image URL' }, { status: 400 });
     }
 
     const title = data.title || 'Middle Section Promo Banner';
+    const subtitle = data.subtitle || '';
+    const badgeText = data.badgeText || '';
+    const buttonText = data.buttonText || 'Shop Wholesale Deals';
+    const overlayOpacity = typeof data.overlayOpacity === 'number' ? data.overlayOpacity : 40;
     const linkUrl = data.linkUrl || '/shop';
     const isActive = data.isActive !== undefined ? Boolean(data.isActive) : true;
 
@@ -45,7 +60,13 @@ export async function POST(req: Request) {
 
     if (middleBanner) {
       middleBanner.title = title;
-      middleBanner.imageUrl = data.imageUrl;
+      middleBanner.subtitle = subtitle;
+      middleBanner.badgeText = badgeText;
+      middleBanner.buttonText = buttonText;
+      middleBanner.overlayOpacity = overlayOpacity;
+      middleBanner.mediaType = mediaType;
+      middleBanner.imageUrl = imageUrl;
+      middleBanner.videoUrl = videoUrl;
       middleBanner.linkUrl = linkUrl;
       middleBanner.isActive = isActive;
       middleBanner.isMiddleBanner = true;
@@ -54,7 +75,13 @@ export async function POST(req: Request) {
     } else {
       middleBanner = await Banner.create({
         title,
-        imageUrl: data.imageUrl,
+        subtitle,
+        badgeText,
+        buttonText,
+        overlayOpacity,
+        mediaType,
+        imageUrl,
+        videoUrl,
         linkUrl,
         isMiddleBanner: true,
         isSideOffer: false,
@@ -62,7 +89,7 @@ export async function POST(req: Request) {
       });
     }
 
-    return NextResponse.json({ message: 'Middle section poster banner updated successfully', middleBanner }, { status: 200 });
+    return NextResponse.json({ message: 'Middle section banner updated successfully', middleBanner }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ message: error.message || 'Server Error' }, { status: 500 });
   }

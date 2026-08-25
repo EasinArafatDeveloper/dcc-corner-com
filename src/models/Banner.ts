@@ -8,7 +8,33 @@ const bannerSchema = new mongoose.Schema(
     },
     imageUrl: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
+    },
+    mediaType: {
+      type: String,
+      enum: ['image', 'video'],
+      default: 'image',
+    },
+    videoUrl: {
+      type: String,
+      default: '',
+    },
+    subtitle: {
+      type: String,
+      default: '',
+    },
+    badgeText: {
+      type: String,
+      default: '',
+    },
+    buttonText: {
+      type: String,
+      default: 'Shop Wholesale Deals',
+    },
+    overlayOpacity: {
+      type: Number,
+      default: 40,
     },
     linkUrl: {
       type: String,
@@ -36,6 +62,11 @@ const bannerSchema = new mongoose.Schema(
   }
 );
 
-const Banner = mongoose.models.Banner || mongoose.model('Banner', bannerSchema);
+// Clear cached model in development so schema changes (like optional imageUrl) apply immediately
+if (mongoose.models.Banner) {
+  delete (mongoose.models as any).Banner;
+}
+
+const Banner = mongoose.model('Banner', bannerSchema);
 
 export default Banner;
