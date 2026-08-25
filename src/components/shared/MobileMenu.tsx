@@ -33,11 +33,20 @@ const mobileCategories = [
 export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
   const pathname = usePathname();
   const { user, logout, wishlist, openAuthModal } = useStore();
 
   useEffect(() => {
     setMounted(true);
+    fetch('/api/categories')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setCategories(data);
+        }
+      })
+      .catch(err => console.error("Failed to load categories in MobileMenu:", err));
   }, []);
 
   // Prevent background scrolling when mobile menu is open
@@ -88,7 +97,7 @@ export function MobileMenu() {
                     DCC<span className="text-[#6B8F71] ml-0.5">Corner</span>
                   </p>
                   <p className="text-[9px] text-[#6B7280] font-semibold tracking-wider uppercase mt-0.5">
-                    Imported Wholesale
+                    Imported Products Wholesale Rate
                   </p>
                 </div>
               </Link>
@@ -136,31 +145,52 @@ export function MobileMenu() {
 
               {/* Browse Categories */}
               <div className="py-3 px-3">
-                <p className="px-3 text-[10px] font-black uppercase tracking-wider text-[#9CA3AF] mb-2">
-                  Browse Categories
-                </p>
+                <div className="flex items-center justify-between px-3 mb-2">
+                  <p className="text-[10px] font-black uppercase tracking-wider text-[#9CA3AF]">
+                    Browse Categories
+                  </p>
+                  <Link 
+                    href="/shop" 
+                    onClick={() => setIsOpen(false)}
+                    className="text-[10px] font-bold text-[#6B8F71] hover:text-[#163A32]"
+                  >
+                    View All
+                  </Link>
+                </div>
                 <ul className="space-y-1">
-                  {mobileCategories.map((cat) => (
-                    <li key={cat.name}>
-                      <Link
-                        href={cat.href}
-                        onClick={() => setIsOpen(false)}
-                        className={`flex items-center justify-between px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${
-                          pathname === cat.href 
-                            ? "text-[#163A32] bg-[#163A32]/10" 
-                            : "text-[#374151] hover:bg-[#F7F8F5] hover:text-[#163A32]"
-                        }`}
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <span className="text-base">{cat.icon}</span>
-                          <span>{cat.name}</span>
-                        </div>
-                        <span className="text-[9px] text-[#6B8F71] font-semibold">
-                          {cat.badge}
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
+                  {(categories.length > 0 ? categories : mobileCategories).map((cat: any) => {
+                    const href = cat.href || `/category/${cat.slug}`;
+                    const isSelected = pathname === href;
+                    return (
+                      <li key={cat._id || cat.slug || cat.name}>
+                        <Link
+                          href={href}
+                          onClick={() => setIsOpen(false)}
+                          className={`flex items-center justify-between px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${
+                            isSelected
+                              ? "text-[#163A32] bg-[#163A32]/10" 
+                              : "text-[#374151] hover:bg-[#F7F8F5] hover:text-[#163A32]"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            {cat.image ? (
+                              <img src={cat.image} alt={cat.name} className="w-5 h-5 rounded-md object-cover shrink-0" />
+                            ) : cat.icon ? (
+                              <span className="text-base shrink-0">{cat.icon}</span>
+                            ) : (
+                              <div className="w-5 h-5 rounded-md bg-[#163A32]/10 text-[#163A32] font-black text-[10px] flex items-center justify-center shrink-0">
+                                {cat.name?.charAt(0) || '•'}
+                              </div>
+                            )}
+                            <span className="truncate">{cat.name}</span>
+                          </div>
+                          <span className="text-[9px] text-[#6B8F71] font-semibold shrink-0 ml-2">
+                            {cat.productCount !== undefined ? `${cat.productCount} items` : (cat.badge || 'Direct')}
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
 

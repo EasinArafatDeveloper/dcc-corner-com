@@ -4,7 +4,6 @@ import Link from "next/link";
 import { 
   Search, 
   ShoppingCart, 
-  User, 
   Heart, 
   Globe, 
   ChevronDown, 
@@ -19,9 +18,6 @@ import {
   Check, 
   Package, 
   Sparkles,
-  LayoutDashboard,
-  LogOut,
-  ShoppingBag,
   Tag,
   Star,
   Gift,
@@ -54,21 +50,36 @@ const deliveryLocations = [
 ];
 
 export function Header() {
-  const { cart, wishlist, setCartOpen, user, logout, openAuthModal } = useStore();
+  const { cart, wishlist, setCartOpen, user, openAuthModal } = useStore();
   const [mounted, setMounted] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
   
   // Dropdown states
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [activeNavMenu, setActiveNavMenu] = useState<string | null>(null);
   const navTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const categoryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleCategoryEnter = () => {
+    if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
+    if (navTimeoutRef.current) clearTimeout(navTimeoutRef.current);
+    setActiveNavMenu(null);
+    setIsCategoryOpen(true);
+  };
+
+  const handleCategoryLeave = () => {
+    categoryTimeoutRef.current = setTimeout(() => {
+      setIsCategoryOpen(false);
+    }, 200);
+  };
 
   const handleNavEnter = (menu: string) => {
     if (navTimeoutRef.current) clearTimeout(navTimeoutRef.current);
-    setActiveNavMenu(menu);
+    if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
     setIsCategoryOpen(false);
+    setActiveNavMenu(menu);
   };
 
   const handleNavLeave = () => {
@@ -85,7 +96,6 @@ export function Header() {
   const categoryRef = useRef<HTMLDivElement>(null);
   const locationRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
-  const userMenuRef = useRef<HTMLDivElement>(null);
   
   const router = useRouter();
 
@@ -98,8 +108,21 @@ export function Header() {
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Fetch dynamic categories from database
+    fetch('/api/categories')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setCategories(data);
+        }
+      })
+      .catch(err => console.error("Failed to load categories:", err));
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const displayCategories = categories.length > 0 ? categories : defaultCategories;
 
   // Global click outside listener
   useEffect(() => {
@@ -113,9 +136,6 @@ export function Header() {
       }
       if (langRef.current && !langRef.current.contains(target)) {
         setIsLangOpen(false);
-      }
-      if (userMenuRef.current && !userMenuRef.current.contains(target)) {
-        setIsUserMenuOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -172,7 +192,7 @@ export function Header() {
                     DCC<span className="font-bold text-[#6B8F71] ml-0.5 sm:ml-1">Corner</span>
                   </span>
                   <span className="text-[9px] sm:text-[10px] text-[#4B5563] font-semibold tracking-wider uppercase mt-0.5 hidden sm:block">
-                    Imported Wholesale Deals
+                    Imported Products Wholesale Rate
                   </span>
                 </div>
               </Link>
@@ -204,90 +224,7 @@ export function Header() {
                 )}
               </button>
 
-              {/* 5. User Icon 👤 (Profile / Account Dropdown) */}
-              <div className="relative" ref={userMenuRef}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsUserMenuOpen(!isUserMenuOpen);
-                    setIsLocationOpen(false);
-                    setIsLangOpen(false);
-                  }}
-                  aria-label="Account"
-                  className="p-2 text-[#111827] hover:text-[#163A32] hover:bg-[#F7F8F5] rounded-full transition-colors cursor-pointer"
-                >
-                  <User className="w-5 h-5 sm:w-5.5 sm:h-5.5 stroke-[1.8]" />
-                </button>
-
-                {/* Account Menu Dropdown */}
-                {isUserMenuOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-52 bg-white border border-[#E5E7EB] rounded-2xl shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
-                    {user ? (
-                      <>
-                        <div className="px-3 py-2 border-b border-[#E5E7EB]">
-                          <p className="text-[11px] text-[#4B5563]">Signed in as</p>
-                          <p className="text-xs font-black text-[#111827] truncate">{user.name || user.email}</p>
-                        </div>
-                        {user.role === "ADMIN" && (
-                          <Link
-                            href="/dcc-hq"
-                            onClick={() => setIsUserMenuOpen(false)}
-                            className="flex items-center gap-2 px-3 py-2 text-xs text-[#163A32] font-bold hover:bg-[#F7F8F5] rounded-lg mt-1"
-                          >
-                            <LayoutDashboard className="w-4 h-4 text-[#163A32]" />
-                            <span>Admin Portal (HQ)</span>
-                          </Link>
-                        )}
-                        <Link
-                          href="/dashboard"
-                          onClick={() => setIsUserMenuOpen(false)}
-                          className="flex items-center gap-2 px-3 py-2 text-xs text-[#4B5563] font-semibold hover:bg-[#F7F8F5] hover:text-[#163A32] rounded-lg"
-                        >
-                          <ShoppingBag className="w-4 h-4 text-[#6B8F71]" />
-                          <span>My Orders</span>
-                        </Link>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            logout();
-                            setIsUserMenuOpen(false);
-                          }}
-                          className="w-full flex items-center gap-2 px-3 py-2 text-xs text-[#DC2626] font-medium hover:bg-red-50 rounded-lg border-t border-slate-100 mt-1"
-                        >
-                          <LogOut className="w-4 h-4 text-[#DC2626]" />
-                          <span>Sign Out</span>
-                        </button>
-                      </>
-                    ) : (
-                      <div className="p-2 space-y-2 text-center">
-                        <p className="text-xs text-[#4B5563] font-medium">Welcome to DCC Corner</p>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setIsUserMenuOpen(false);
-                            openAuthModal("login");
-                          }}
-                          className="block w-full py-2 bg-[#163A32] text-white rounded-xl font-bold text-xs shadow-xs hover:bg-[#0E2620] cursor-pointer"
-                        >
-                          Sign In
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setIsUserMenuOpen(false);
-                            openAuthModal("signup");
-                          }}
-                          className="block w-full py-1.5 text-[#163A32] hover:bg-[#F7F8F5] rounded-xl font-bold text-xs cursor-pointer"
-                        >
-                          Create Account
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* 6. Primary Pill CTA Button ("Create account" / "My Account") */}
+              {/* Primary Pill CTA Button ("Create account" / "My Account") */}
               <div className="hidden sm:block">
                 {user ? (
                   <Link
@@ -329,16 +266,20 @@ export function Header() {
               <div className="flex items-center space-x-6">
                 
                 {/* ≡ All categories Dropdown Trigger Button */}
-                <div className="relative" ref={categoryRef}>
+                <div 
+                  className="relative py-1" 
+                  ref={categoryRef}
+                  onMouseEnter={handleCategoryEnter}
+                  onMouseLeave={handleCategoryLeave}
+                >
                   <button
                     type="button"
                     onClick={() => {
-                      setIsCategoryOpen(!isCategoryOpen);
-                      setActiveNavMenu(null);
-                    }}
-                    onMouseEnter={() => {
-                      if (navTimeoutRef.current) clearTimeout(navTimeoutRef.current);
-                      setActiveNavMenu(null);
+                      if (isCategoryOpen) {
+                        setIsCategoryOpen(false);
+                      } else {
+                        handleCategoryEnter();
+                      }
                     }}
                     className={`flex items-center gap-2 py-1.5 px-3 rounded-lg transition-colors cursor-pointer group ${
                       isCategoryOpen ? "bg-[#163A32] text-white" : "hover:bg-[#F7F8F5] text-[#111827]"
@@ -349,39 +290,63 @@ export function Header() {
                     <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isCategoryOpen ? "rotate-180 text-white" : "text-[#4B5563]"}`} />
                   </button>
 
-                  {/* Mega Dropdown Panel for All Categories */}
+                  {/* Mega Dropdown Panel for All Categories with Seamless Hover Bridge (pt-1.5) */}
                   {isCategoryOpen && (
-                    <div className="absolute top-full left-0 mt-2 w-80 bg-white border border-[#E5E7EB] rounded-2xl shadow-2xl p-3 z-50 animate-in fade-in zoom-in-95 duration-150 divide-y divide-slate-100">
-                      <div className="px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-[#163A32] bg-[#F7F8F5] rounded-xl mb-1 flex items-center justify-between">
-                        <span>Browse Categories</span>
-                        <span className="text-[10px] text-[#6B8F71] font-bold">100% Imported</span>
-                      </div>
-                      
-                      <div className="py-1 space-y-0.5">
-                        {defaultCategories.map((cat) => (
-                          <Link
-                            key={cat.slug}
-                            href={`/category/${cat.slug}`}
-                            onClick={() => setIsCategoryOpen(false)}
-                            className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#F7F8F5] hover:text-[#163A32] transition-colors group"
-                          >
-                            <span className="text-xl group-hover:scale-110 transition-transform">{cat.icon}</span>
-                            <div>
-                              <p className="font-bold text-xs text-[#111827] group-hover:text-[#163A32]">{cat.name}</p>
-                              <p className="text-[10px] text-[#4B5563] font-normal">{cat.desc}</p>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
+                    <div 
+                      className="absolute top-full left-0 pt-1.5 z-50 animate-in fade-in zoom-in-98 duration-150"
+                      onMouseEnter={handleCategoryEnter}
+                      onMouseLeave={handleCategoryLeave}
+                    >
+                      <div className="w-80 bg-white border border-[#E5E7EB] rounded-2xl shadow-2xl p-3 divide-y divide-slate-100 max-h-[480px] overflow-y-auto">
+                        <div className="px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-[#163A32] bg-[#F7F8F5] rounded-xl mb-1 flex items-center justify-between">
+                          <span>Browse Categories</span>
+                          <span className="text-[10px] text-[#6B8F71] font-bold">100% Imported</span>
+                        </div>
+                        
+                        <div className="py-1 space-y-0.5">
+                          {displayCategories.map((cat) => (
+                            <Link
+                              key={cat._id || cat.slug}
+                              href={`/category/${cat.slug}`}
+                              onClick={() => {
+                                setIsCategoryOpen(false);
+                                if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
+                              }}
+                              className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#F7F8F5] hover:text-[#163A32] transition-colors group cursor-pointer"
+                            >
+                              {cat.image ? (
+                                <div className="w-8 h-8 rounded-lg bg-[#F7F8F5] overflow-hidden shrink-0 border border-slate-100 flex items-center justify-center group-hover:scale-105 transition-transform">
+                                  <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                                </div>
+                              ) : cat.icon ? (
+                                <span className="text-xl group-hover:scale-110 transition-transform">{cat.icon}</span>
+                              ) : (
+                                <div className="w-8 h-8 rounded-lg bg-[#163A32]/10 text-[#163A32] font-black text-sm flex items-center justify-center shrink-0 border border-[#163A32]/15 group-hover:bg-[#163A32] group-hover:text-white transition-colors">
+                                  {cat.name?.charAt(0) || '•'}
+                                </div>
+                              )}
+                              <div className="flex-1 min-w-0">
+                                <p className="font-bold text-xs text-[#111827] group-hover:text-[#163A32] truncate">{cat.name}</p>
+                                <p className="text-[10px] text-[#4B5563] font-normal truncate">
+                                  {cat.productCount !== undefined ? `${cat.productCount} ${cat.productCount === 1 ? 'Product' : 'Products'}` : (cat.desc || 'Direct Imported')}
+                                </p>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
 
-                      <div className="pt-2">
-                        <Link
-                          href="/shop"
-                          onClick={() => setIsCategoryOpen(false)}
-                          className="flex items-center justify-center w-full py-2 bg-[#F7F8F5] hover:bg-[#163A32]/10 text-[#163A32] rounded-xl font-extrabold text-xs transition-colors"
-                        >
-                          View All Imported Products →
-                        </Link>
+                        <div className="pt-2">
+                          <Link
+                            href="/shop"
+                            onClick={() => {
+                              setIsCategoryOpen(false);
+                              if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
+                            }}
+                            className="flex items-center justify-center w-full py-2 bg-[#F7F8F5] hover:bg-[#163A32]/10 text-[#163A32] rounded-xl font-extrabold text-xs transition-colors cursor-pointer"
+                          >
+                            View All Imported Products →
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -575,53 +540,29 @@ export function Header() {
                       Shop By Category
                     </p>
                     <ul className="space-y-2 text-xs font-semibold text-[#4B5563]">
-                      <li>
-                        <Link href="/category/imported-chocolates" onClick={() => setActiveNavMenu(null)} className="flex items-center gap-2 hover:text-[#163A32] hover:translate-x-1 transition-all">
-                          <span>🍫</span> Chocolates & Confectionery
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/category/chips-snacks" onClick={() => setActiveNavMenu(null)} className="flex items-center gap-2 hover:text-[#163A32] hover:translate-x-1 transition-all">
-                          <span>🥨</span> Snacks & Biscuits
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/category/beverages" onClick={() => setActiveNavMenu(null)} className="flex items-center gap-2 hover:text-[#163A32] hover:translate-x-1 transition-all">
-                          <span>☕</span> Beverages & Coffee
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/shop?category=canned" onClick={() => setActiveNavMenu(null)} className="flex items-center gap-2 hover:text-[#163A32] hover:translate-x-1 transition-all">
-                          <span>🥫</span> Canned Food
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/category/instant-noodles" onClick={() => setActiveNavMenu(null)} className="flex items-center gap-2 hover:text-[#163A32] hover:translate-x-1 transition-all">
-                          <span>🍜</span> Instant Food
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/shop?q=spreads" onClick={() => setActiveNavMenu(null)} className="flex items-center gap-2 hover:text-[#163A32] hover:translate-x-1 transition-all">
-                          <span>🍯</span> Sauces & Spreads
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/shop?q=personal-care" onClick={() => setActiveNavMenu(null)} className="flex items-center gap-2 hover:text-[#163A32] hover:translate-x-1 transition-all">
-                          <span>🧴</span> Personal Care
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/shop?q=household" onClick={() => setActiveNavMenu(null)} className="flex items-center gap-2 hover:text-[#163A32] hover:translate-x-1 transition-all">
-                          <span>🧻</span> Household Essentials
-                        </Link>
-                      </li>
+                      {displayCategories.slice(0, 8).map((cat) => (
+                        <li key={cat._id || cat.slug}>
+                          <Link 
+                            href={`/category/${cat.slug}`} 
+                            onClick={() => setActiveNavMenu(null)} 
+                            className="flex items-center gap-2 hover:text-[#163A32] hover:translate-x-1 transition-all group"
+                          >
+                            {cat.image ? (
+                              <img src={cat.image} alt={cat.name} className="w-4 h-4 rounded-xs object-cover" />
+                            ) : (
+                              <span>{cat.icon || '🏷️'}</span>
+                            )}
+                            <span className="truncate">{cat.name}</span>
+                          </Link>
+                        </li>
+                      ))}
                     </ul>
                     <Link 
                       href="/shop" 
-                      onClick={() => setActiveNavMenu(null)}
+                      onClick={() => setActiveNavMenu(null)} 
                       className="inline-flex items-center gap-1 text-xs font-black text-[#163A32] hover:text-[#6B8F71] transition-colors pt-1"
                     >
-                      View All Categories →
+                      View All Categories ({displayCategories.length}) →
                     </Link>
                   </div>
 
