@@ -55,7 +55,7 @@ const getHomePageData = cache(async () => {
     Banner.find({ isActive: true, isSideOffer: { $ne: true }, isMiddleBanner: { $ne: true } }).sort({ order: 1 }).lean(),
     Banner.findOne({ isActive: true, isSideOffer: true }).sort({ updatedAt: -1 }).lean(),
     Banner.findOne({ isActive: true, isMiddleBanner: true }).sort({ updatedAt: -1 }).lean(),
-    Category.find({}).limit(8).lean(),
+    Category.find({}).sort({ createdAt: -1 }).limit(8).lean(),
     Product.find({}).sort({ numReviews: -1 }).limit(8).lean(),
     Product.find({ isFeatured: true }).limit(8).lean(),
     Product.find({ discountPrice: { $gt: 0 } }).limit(12).lean(),
