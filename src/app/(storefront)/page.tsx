@@ -45,8 +45,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Revalidate cache every 30 seconds for blazing fast page loads while keeping admin updates fresh
-export const revalidate = 30;
+export const dynamic = "force-dynamic";
 
 const cleanProduct = (p: any) => ({
   _id: p._id?.toString(),
