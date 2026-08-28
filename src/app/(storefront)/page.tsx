@@ -48,30 +48,73 @@ export const metadata: Metadata = {
 // Revalidate cache every 30 seconds for blazing fast page loads while keeping admin updates fresh
 export const revalidate = 30;
 
+const cleanProduct = (p: any) => ({
+  _id: p._id?.toString(),
+  name: p.name || "",
+  slug: p.slug || "",
+  price: p.price || 0,
+  discountPrice: p.discountPrice || 0,
+  images: Array.isArray(p.images) && p.images.length > 0 ? [p.images[0]] : [],
+  rating: p.rating || 0,
+  numReviews: p.numReviews || 0,
+  stock: p.stock ?? 10,
+  soldCount: p.soldCount || 0,
+  isFeatured: Boolean(p.isFeatured),
+  shortDescription: (p.shortDescription || "").substring(0, 160),
+});
+
+const cleanBanner = (b: any) => {
+  if (!b) return null;
+  return {
+    _id: b._id?.toString(),
+    title: b.title || "",
+    imageUrl: b.imageUrl || "",
+    videoUrl: b.videoUrl || "",
+    mediaType: b.mediaType || "image",
+    subtitle: b.subtitle || "",
+    badgeText: b.badgeText || "",
+    buttonText: b.buttonText || "",
+    overlayOpacity: b.overlayOpacity ?? 40,
+    linkUrl: b.linkUrl || "/shop",
+    isActive: b.isActive ?? true,
+    isSideOffer: Boolean(b.isSideOffer),
+    isMiddleBanner: Boolean(b.isMiddleBanner),
+  };
+};
+
+const cleanCategory = (c: any) => ({
+  _id: c._id?.toString(),
+  name: c.name || "",
+  slug: c.slug || "",
+  image: c.image || "",
+});
+
 const getHomePageData = cache(async () => {
   try {
     await connectToDatabase();
+
+    const productFields = "_id name slug price discountPrice images rating numReviews stock soldCount isFeatured shortDescription";
 
     const [banners, sideBanner, middleBanner, categories, topSelling, featured, offers, newArrivals] = await Promise.all([
       Banner.find({ isActive: true, isSideOffer: { $ne: true }, isMiddleBanner: { $ne: true } }).sort({ order: 1 }).lean(),
       Banner.findOne({ isActive: true, isSideOffer: true }).sort({ updatedAt: -1 }).lean(),
       Banner.findOne({ isActive: true, isMiddleBanner: true }).sort({ updatedAt: -1 }).lean(),
-      Category.find({}).sort({ createdAt: -1 }).limit(8).lean(),
-      Product.find({}).sort({ numReviews: -1 }).limit(8).lean(),
-      Product.find({ isFeatured: true }).limit(8).lean(),
-      Product.find({ discountPrice: { $gt: 0 } }).limit(12).lean(),
-      Product.find({}).sort({ createdAt: -1 }).limit(8).lean()
+      Category.find({}).select("name slug image").sort({ createdAt: -1 }).limit(8).lean(),
+      Product.find({}).select(productFields).sort({ numReviews: -1 }).limit(8).lean(),
+      Product.find({ isFeatured: true }).select(productFields).limit(8).lean(),
+      Product.find({ discountPrice: { $gt: 0 } }).select(productFields).limit(12).lean(),
+      Product.find({}).select(productFields).sort({ createdAt: -1 }).limit(8).lean()
     ]);
 
     return {
-      banners: JSON.parse(JSON.stringify(banners || [])),
-      sideBanner: sideBanner ? JSON.parse(JSON.stringify(sideBanner)) : null,
-      middleBanner: middleBanner ? JSON.parse(JSON.stringify(middleBanner)) : null,
-      categories: JSON.parse(JSON.stringify(categories || [])),
-      topSelling: JSON.parse(JSON.stringify(topSelling || [])),
-      featured: JSON.parse(JSON.stringify(featured || [])),
-      offers: JSON.parse(JSON.stringify(offers || [])),
-      newArrivals: JSON.parse(JSON.stringify(newArrivals || [])),
+      banners: (banners || []).map(cleanBanner).filter(Boolean) as any[],
+      sideBanner: cleanBanner(sideBanner) as any,
+      middleBanner: cleanBanner(middleBanner) as any,
+      categories: (categories || []).map(cleanCategory),
+      topSelling: (topSelling || []).map(cleanProduct),
+      featured: (featured || []).map(cleanProduct),
+      offers: (offers || []).map(cleanProduct),
+      newArrivals: (newArrivals || []).map(cleanProduct),
     };
   } catch (error) {
     console.error("Error fetching homepage data:", error);
