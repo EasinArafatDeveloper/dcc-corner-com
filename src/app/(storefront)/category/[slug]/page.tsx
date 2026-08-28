@@ -12,27 +12,32 @@ import { cache } from "react";
 export const revalidate = 60;
 
 const getCategoryData = cache(async (rawSlug: string) => {
-  await connectToDatabase();
-  const slug = decodeURIComponent(rawSlug).trim();
-  
-  // Case-insensitive match on slug
-  const category = await Category.findOne({ 
-    slug: { $regex: new RegExp(`^${slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') } 
-  }).lean();
-  
-  if (!category) return null;
+  try {
+    await connectToDatabase();
+    const slug = decodeURIComponent(rawSlug).trim();
+    
+    // Case-insensitive match on slug
+    const category = await Category.findOne({ 
+      slug: { $regex: new RegExp(`^${slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') } 
+    }).lean();
+    
+    if (!category) return null;
 
-  const products = await Product.find({
-    $or: [
-      { category: category._id },
-      { category: category._id.toString() }
-    ]
-  }).sort({ createdAt: -1 }).lean();
+    const products = await Product.find({
+      $or: [
+        { category: category._id },
+        { category: category._id.toString() }
+      ]
+    }).sort({ createdAt: -1 }).lean();
 
-  return {
-    category: JSON.parse(JSON.stringify(category)),
-    products: JSON.parse(JSON.stringify(products)),
-  };
+    return {
+      category: JSON.parse(JSON.stringify(category)),
+      products: JSON.parse(JSON.stringify(products)),
+    };
+  } catch (error) {
+    console.error(`Failed to fetch category data for ${rawSlug}:`, error);
+    return null;
+  }
 });
 
 import { Metadata } from 'next';

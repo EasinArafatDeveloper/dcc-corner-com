@@ -49,29 +49,43 @@ export const metadata: Metadata = {
 export const revalidate = 30;
 
 const getHomePageData = cache(async () => {
-  await connectToDatabase();
+  try {
+    await connectToDatabase();
 
-  const [banners, sideBanner, middleBanner, categories, topSelling, featured, offers, newArrivals] = await Promise.all([
-    Banner.find({ isActive: true, isSideOffer: { $ne: true }, isMiddleBanner: { $ne: true } }).sort({ order: 1 }).lean(),
-    Banner.findOne({ isActive: true, isSideOffer: true }).sort({ updatedAt: -1 }).lean(),
-    Banner.findOne({ isActive: true, isMiddleBanner: true }).sort({ updatedAt: -1 }).lean(),
-    Category.find({}).sort({ createdAt: -1 }).limit(8).lean(),
-    Product.find({}).sort({ numReviews: -1 }).limit(8).lean(),
-    Product.find({ isFeatured: true }).limit(8).lean(),
-    Product.find({ discountPrice: { $gt: 0 } }).limit(12).lean(),
-    Product.find({}).sort({ createdAt: -1 }).limit(8).lean()
-  ]);
+    const [banners, sideBanner, middleBanner, categories, topSelling, featured, offers, newArrivals] = await Promise.all([
+      Banner.find({ isActive: true, isSideOffer: { $ne: true }, isMiddleBanner: { $ne: true } }).sort({ order: 1 }).lean(),
+      Banner.findOne({ isActive: true, isSideOffer: true }).sort({ updatedAt: -1 }).lean(),
+      Banner.findOne({ isActive: true, isMiddleBanner: true }).sort({ updatedAt: -1 }).lean(),
+      Category.find({}).sort({ createdAt: -1 }).limit(8).lean(),
+      Product.find({}).sort({ numReviews: -1 }).limit(8).lean(),
+      Product.find({ isFeatured: true }).limit(8).lean(),
+      Product.find({ discountPrice: { $gt: 0 } }).limit(12).lean(),
+      Product.find({}).sort({ createdAt: -1 }).limit(8).lean()
+    ]);
 
-  return {
-    banners: JSON.parse(JSON.stringify(banners)),
-    sideBanner: sideBanner ? JSON.parse(JSON.stringify(sideBanner)) : null,
-    middleBanner: middleBanner ? JSON.parse(JSON.stringify(middleBanner)) : null,
-    categories: JSON.parse(JSON.stringify(categories)),
-    topSelling: JSON.parse(JSON.stringify(topSelling)),
-    featured: JSON.parse(JSON.stringify(featured)),
-    offers: JSON.parse(JSON.stringify(offers)),
-    newArrivals: JSON.parse(JSON.stringify(newArrivals)),
-  };
+    return {
+      banners: JSON.parse(JSON.stringify(banners || [])),
+      sideBanner: sideBanner ? JSON.parse(JSON.stringify(sideBanner)) : null,
+      middleBanner: middleBanner ? JSON.parse(JSON.stringify(middleBanner)) : null,
+      categories: JSON.parse(JSON.stringify(categories || [])),
+      topSelling: JSON.parse(JSON.stringify(topSelling || [])),
+      featured: JSON.parse(JSON.stringify(featured || [])),
+      offers: JSON.parse(JSON.stringify(offers || [])),
+      newArrivals: JSON.parse(JSON.stringify(newArrivals || [])),
+    };
+  } catch (error) {
+    console.error("Error fetching homepage data:", error);
+    return {
+      banners: [],
+      sideBanner: null,
+      middleBanner: null,
+      categories: [],
+      topSelling: [],
+      featured: [],
+      offers: [],
+      newArrivals: [],
+    };
+  }
 });
 
 // Reusable Product Grid Component

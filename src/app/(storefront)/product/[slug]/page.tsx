@@ -14,9 +14,14 @@ import { cache } from "react";
 export const revalidate = 60;
 
 const getProductData = cache(async (slug: string) => {
-  await connectToDatabase();
-  const product = await Product.findOne({ slug }).populate('category').lean();
-  return product ? JSON.parse(JSON.stringify(product)) : null;
+  try {
+    await connectToDatabase();
+    const product = await Product.findOne({ slug }).populate('category').lean();
+    return product ? JSON.parse(JSON.stringify(product)) : null;
+  } catch (error) {
+    console.error(`Failed to fetch product data for ${slug}:`, error);
+    return null;
+  }
 });
 
 import { Metadata } from 'next';
